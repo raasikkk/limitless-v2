@@ -115,3 +115,11 @@ export const register = async (req,res) => {
     res.status(500).send(error)
   }
 }
+
+export const logout = async (req,res) => {
+  res.cookies('token', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expiresIn: new Date(0)
+  }).send()
+}
