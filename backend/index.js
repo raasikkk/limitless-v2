@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import passport from "passport";
 
 import { authRoute } from "./routes/authRoute.js";
 import { llmRouter } from "./routes/llmRouter.js";
@@ -16,12 +17,13 @@ const corsOptions = {
   origin: [`${process.env.FRONTEND_BASE_URL}`],
   credentials: true,
 };
-
 app.use(cors(corsOptions));
+app.use(passport.initialize());
 
-app.use("/api", authRoute);
-app.use("/api", llmRouter);
+app.use("/", authRoute);
 
 const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => console.log("Server is 200 running"));
 
 app.listen(PORT, () => console.log("Server is 200 running"));
