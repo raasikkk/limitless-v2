@@ -39,7 +39,10 @@ export const llmSuggestions = async (req, res) => {
     });
 
     const responseArray = response.text.split("\n");
-    responseArray.pop();
+
+    if (responseArray[responseArray.length - 1] == "") {
+      responseArray.pop();
+    }
 
     res.status(200).send({ response: responseArray });
   } catch (error) {
