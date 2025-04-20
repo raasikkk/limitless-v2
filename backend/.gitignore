@@ -1,4 +1,14 @@
+<<<<<<< HEAD
 .env
 .node_modules
 .idea
 .vscode
+=======
+node_modules
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log
+>>>>>>> 5b38b7bf7b260ff2fd30460158cbc15ade3e8d1e
