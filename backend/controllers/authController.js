@@ -116,6 +116,28 @@ export const register = async (req,res) => {
   }
 }
 
+export const isLogged = async (req,res) => {
+  try {
+
+    const token = req.cookies.token;
+
+    if (!token) return res.status(401).json({
+      isLogged: false
+    })
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    res.json({
+      user: decoded,
+      isLogged: true
+    });
+    
+  } catch (error) {
+    console.log('Error at isLogged:', error);
+    res.status(500).send(error)
+  }
+}
+
 export const logout = async (req,res) => {
   res.cookies('token', '', {
     httpOnly: true,
