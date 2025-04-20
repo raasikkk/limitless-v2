@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 app.use(passport.initialize());
 
 
-app.use('/api', authRoute);
+app.use('/', authRoute);
 
 const PORT = process.env.PORT || 8080
 
