@@ -5,21 +5,23 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { authRoute } from "./routes/authRoute.js";
+import { llmRouter } from "./routes/llmRouter.js";
 
 const app = express();
 
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 
 const corsOptions = {
   origin: [`${process.env.FRONTEND_BASE_URL}`],
-  credentials: true
-}
+  credentials: true,
+};
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
-app.use('/api', authRoute);
+app.use("/api", authRoute);
+app.use("/api", llmRouter);
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, ()=> console.log('Server is 200 running'))
+app.listen(PORT, () => console.log("Server is 200 running"));
