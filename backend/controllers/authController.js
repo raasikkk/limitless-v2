@@ -36,7 +36,7 @@ export const login = async (req,res) => {
     const token = jwt.sign(payload, JWT_SECRET);
 
     const sevenDays = 7 * 24 * 60 * 60 * 1000;
-    res.cookies('token', token, {
+    res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: sevenDays
@@ -100,7 +100,7 @@ export const register = async (req,res) => {
     const token = jwt.sign(payload, JWT_SECRET);
 
     const sevenDays = 7 * 24 * 60 * 60 * 1000;
-    res.cookies('token', token, {
+    res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: sevenDays
@@ -139,7 +139,7 @@ export const isLogged = async (req,res) => {
 }
 
 export const logout = async (req,res) => {
-  res.cookies('token', '', {
+  res.cookie('token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     expiresIn: new Date(0)
