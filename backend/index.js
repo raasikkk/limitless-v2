@@ -6,6 +6,7 @@ import cors from "cors";
 import passport from "passport";
 
 import { authRoute } from "./routes/authRoute.js";
+import { userRoute } from "./routes/userRoute.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(passport.initialize());
 
 
 app.use('/', authRoute);
+app.use('/api', userRoute);
 
 const PORT = process.env.PORT || 8080
 
