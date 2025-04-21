@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useWindowSize } from "./hooks/useWindowSize";
 import Sidebar from './components/Sidebar';
 import MobileNavbar from "./components/MobileNavbar";
+import Footer from "./components/Footer";
 
 const Layout = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -41,10 +42,10 @@ const Layout = () => {
       />
 
       <main className={`
-        pt-16 lg:pt-0 min-h-screen
+        pt-16 sm:pt-0 min-h-screen
         ${isMobile ? '' : `
-          ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16'}
-          ${isTablet ? (isSidebarOpen ? 'md:ml-64' : 'md:ml-16') : ''}
+          ${isSidebarOpen ? 'lg:ml-64' : 'sm:ml-16'}
+          ${isTablet ? (isSidebarOpen ? 'md:ml-64' : 'sm:ml-16') : ''}
         `}
       `}>
         <div className="p-4 md:p-6">
@@ -60,6 +61,7 @@ const Layout = () => {
       )}
 
       {/* Footer */}
+      <Footer />
     </div>
   );
 };
