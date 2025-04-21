@@ -65,9 +65,19 @@ export const editUserAvatar = async (req,res) => {
       })
     }
 
+    const publicId = `avatars/user_${user.rows[0].id}_avatar`;
+
+    if (user.rows[0].avatar !== null) {
+      await cloudinary.uploader.destroy(publicId);
+    }
+
     await cloudinary.uploader.upload(
       req.file.path,
-      {folder: 'avatars'},
+      {
+        folder: 'avatars',
+        public_id: publicId,
+        overwrite: true
+      },
       async (err, res) => {
         if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
 
