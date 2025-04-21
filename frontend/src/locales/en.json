@@ -1,0 +1,24 @@
+{
+    "signin": "Sign in",
+    "register": "Register",
+    "search": "Search here...",
+    "create": "Create",
+    "home": "Home",
+    "competitions": "Competitions",
+    "profile": "Profile",
+    "settings": "Settings",
+    "welcome": "Welcome",
+    "Level up": "Level up with the Limitless community",
+    "Grow your skills": "Grow your skills by competing in our exciting competitions. Discover a huge community of grinders. Discover a huge repository of community-published models, data & code for your next project.",
+    "motivational_phrase": "You're on a roll! Jump back in, or start something new.",
+    "register_google": "Register with Google",
+    "register_email": "Register with Email",
+
+    "who_is_on": "Who's on Limitless?",
+    "learners": "Learners",
+    "learners_description": "Dive into Limitless courses, competitions & forums",
+    "developers": "Developers",
+    "developers_description": "Leverage Limitless models, notebooks & datasets",
+    "researchers": "Researchers",
+    "researchers_description": "Advance ML with our pre-trained model hub & competitions" 
+  }
