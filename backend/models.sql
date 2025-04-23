@@ -23,7 +23,7 @@ CREATE TABLE competitions (
   description TEXT NOT NULL,
   cover TEXT,
   category_id INT,
-  private BOOLEAN DEFAULT FALSE,
+  private BOOLEAN DEFAULT FALSE NOT NULL,
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

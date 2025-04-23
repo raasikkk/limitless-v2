@@ -1,5 +1,33 @@
 import { db } from "../db.js";
 
+export const getCompetitions = async (req,res) => {
+  try {
+    
+    const competitions = await db.query("SELECT * FROM competitions WHERE private = FALSE");
+
+    res.json(competitions.rows)
+
+  } catch (error) {
+    console.log('Error at getCompetition:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const getCompetitionById = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+
+    const competition = await db.query("SELECT * FROM competitions WHERE private = FALSE AND id = $1", [id]);
+
+    res.json(competition.rows[0])
+    
+  } catch (error) {
+    console.log('Error at getCompetition:', error);
+    res.status(500).send(error)
+  }
+}
+
 export const createCompetition = async (req,res) => {
   try {
 
