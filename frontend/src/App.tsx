@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import Signin from "./pages/auth/Signin";
 import Register from "./pages/auth/Register";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Competitions from "./pages/Competitions";
 
 function App() {
   const { i18n } = useTranslation();
@@ -20,6 +22,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}/>
           <Route path="/profile/:id" element={<Profile />}/>
+          <Route path="/settings" element={<Settings />}/>
+          <Route path="/competitions" element={<Competitions />}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/register" element={<Register />} />

@@ -1,4 +1,4 @@
-import { CalendarDays, Search, Settings } from "lucide-react"
+import { CalendarDays, Settings } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
 
@@ -9,34 +9,13 @@ const Profile = () => {
     
   return (
     <>
-        <div className="flex items-center justify-between gap-5">
-        <form 
-          className="relative w-full " //sm:w-4/5
-        >
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-                type="text"
-                className="pl-10 p-3 w-full border rounded-full outline-none"
-                placeholder={t('search')}
-            />
-        </form>
-
-        <div className="hidden sm:block rounded-full size-14 aspect-square border">
-            <img 
-                src="/ava.jpg"
-                className="rounded-full size-14 aspect-square border" 
-                alt="ava" 
-            />
-        </div>
-      </div>
-
       <div className="mt-5 w-full flex justify-between items-center">
-        <Link to="/" className="p-2 px-3 md:px-4 bg-black text-white font-semibold rounded-xl">
-            View Information
+        <Link to="/" className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black text-white font-semibold rounded-full">
+            {t("view_info")}
         </Link>
-        <Link to="/" className="p-2 px-3 md:px-4 border border-black font-semibold rounded-xl flex items-center gap-2">
+        <Link to="/" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
             <Settings /> 
-            Settings
+            {t("settings")}
         </Link>
       </div>
 
@@ -60,13 +39,16 @@ const Profile = () => {
 
         <div className="mt-5 ">
             <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-2xl">About</h2>
+                <div></div>
                 <div className="flex items-center gap-2">
-                    <button className="p-2 px-4 bg-black text-white font-medium rounded-full">Follow</button>
-                    <button className="p-2 px-4 border border-black text-black font-medium rounded-full">Contact</button>
+                    <button className="p-2 px-4 bg-black text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
+                    <button className="p-2 px-4 border text-black text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
             </div>
-            <p>No bio yet...</p>
+            <div className="flex items-center justify-between">
+                <h2 className="font-semibold text-xl md:text-2xl">{t("about")}</h2>
+            </div>
+            <p>{t("no_bio_yet")}</p>
         </div>
     </>
   )

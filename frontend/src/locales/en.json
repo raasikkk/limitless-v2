@@ -27,5 +27,11 @@
     "researchers": "Researchers",
     "researchers_description": "Advance ML with our pre-trained model hub & competitions",
 
-    "have_an_account": "Already have an account?"
+    "have_an_account": "Already have an account?",
+
+    "view_info": "View Information",
+    "about": "About",
+    "follow": "Follow",
+    "contact": "Contact",
+    "no_bio_yet": "No bio yet..."
   }
