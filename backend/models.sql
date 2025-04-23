@@ -18,16 +18,18 @@ CREATE TABLE categories (
 CREATE TABLE competitions (
   id SERIAL PRIMARY KEY,
   user_id INT,
+  winner_id INT,
   title VARCHAR(100) NOT NULL,
   description TEXT NOT NULL,
-  cover TEXT NOT NULL,
+  cover TEXT,
   category_id INT,
   private BOOLEAN DEFAULT FALSE,
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+  FOREIGN KEY (winner_id) REFERENCES users(id)
 )
 
 CREATE TABLE participants (
