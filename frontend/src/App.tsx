@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { useEffect } from "react";
 import Signin from "./pages/auth/Signin";
 import Register from "./pages/auth/Register";
+import Profile from "./pages/Profile";
 
 function App() {
   const { i18n } = useTranslation();
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}/>
+          <Route path="/profile/:id" element={<Profile />}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/register" element={<Register />} />

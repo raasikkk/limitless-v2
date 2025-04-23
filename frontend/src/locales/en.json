@@ -8,11 +8,16 @@
     "profile": "Profile",
     "settings": "Settings",
     "welcome": "Welcome",
+    "email": "Email",
+    "password": "Password",
+    "full_name": "Full Name",
     "Level up": "Level up with the Limitless community",
     "Grow your skills": "Grow your skills by competing in our exciting competitions. Discover a huge community of grinders. Discover a huge repository of community-published models, data & code for your next project.",
     "motivational_phrase": "You're on a roll! Jump back in, or start something new.",
     "register_google": "Register with Google",
     "register_email": "Register with Email",
+    "signin_google": "Sign in with Google",
+    "sigin_email": "Sign in with Email",
 
     "who_is_on": "Who's on Limitless?",
     "learners": "Learners",
@@ -20,5 +25,7 @@
     "developers": "Developers",
     "developers_description": "Leverage Limitless models, notebooks & datasets",
     "researchers": "Researchers",
-    "researchers_description": "Advance ML with our pre-trained model hub & competitions" 
+    "researchers_description": "Advance ML with our pre-trained model hub & competitions",
+
+    "have_an_account": "Already have an account?"
   }

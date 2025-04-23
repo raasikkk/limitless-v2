@@ -44,7 +44,7 @@ const Home = () => {
 
         {
           isLoggedin ? (
-            <div className="rounded-full size-14 aspect-square border">
+            <div className="hidden sm:block rounded-full size-14 aspect-square border">
               <img 
                 src="/ava.jpg"
                 className="rounded-full size-14 aspect-square border" 
@@ -101,7 +101,7 @@ const Home = () => {
       ) : (
         <div className="pt-10 flex flex-wrap lg:flex-nowrap justify-between gap-3">
           <div className="pt-5 lg:pt-20 w-full lg:w-1/2 flex flex-col gap-3">
-            <LanguageSwitcher />
+            {/* <LanguageSwitcher /> */}
             <h1 className="font-bold text-4xl md:text-5xl">{t('Level up')}</h1>
             <p className="lg:w-2/3">{t("Grow your skills")}</p>
 
