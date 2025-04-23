@@ -8,6 +8,7 @@ import passport from "passport";
 import { authRoute } from "./routes/authRoute.js";
 import { userRoute } from "./routes/userRoute.js";
 import { followerRoute } from "./routes/followerRoute.js";
+import { llmRouter } from "./routes/llmRouter.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(passport.initialize());
 app.use('/', authRoute);
 app.use('/api', userRoute);
 app.use('/api', followerRoute);
+app.use(llmRouter);
 
 const PORT = process.env.PORT || 8080
 
