@@ -22,7 +22,16 @@ export const llmSuggestions = async (req, res) => {
 
     res.status(200).send({ response: responseArray });
   } catch (error) {
-    console.log(`Error at occured at route '/llm/suggestions': ${error}`);
+    console.log(`Error occured at route '/llm/suggestions': ${error}`);
     res.status(500).send({ error_message: error });
   }
 };
+
+export const llmAnswerGrading = async (req, res) => {
+  try {
+    const { img_url, text_content } = req.body;
+  } catch (error) {
+    console.log(`Error occured at route '/llm/grading': ${error}`);
+    res.status(500).send({ error_message: error });
+  }
+}
