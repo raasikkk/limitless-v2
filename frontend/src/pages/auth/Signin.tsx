@@ -37,13 +37,13 @@ const Signin = () => {
                         {/* LOGO */}
                         <span className="text-2xl font-bold text-primaryColor">Limitless</span>
                     </div>
-                    <h2 className="text-2xl font-semibold text-gray-800">Sign in with Email</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800">{t('sigin_email')}</h2>
                 </div>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                            EMAIL
+                            {t("email")}
                         </label>
                         <input
                             type="email"
@@ -58,7 +58,7 @@ const Signin = () => {
 
                     <div className="relative w-full">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                            PASSWORD
+                            {t("password")}
                         </label>
                         <input
                             type={showPassword ? "text" : "password"}
@@ -100,7 +100,7 @@ const Signin = () => {
                         className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
-                        <span>{t("register_google")}</span>
+                        <span>{t("signin_google")}</span>
                     </Link>
 
                     <p className="text-center ">Don't have an account? <Link to="/auth/register" className="text-primaryColor hover:underline">Register Here</Link></p>

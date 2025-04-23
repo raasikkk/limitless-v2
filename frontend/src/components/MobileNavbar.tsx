@@ -12,7 +12,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
   const { t } = useTranslation()
 
 
-  const isLoggedin = false
+  const isLoggedin = true
 
   return (
     <nav className="sm:hidden max-h-16 fixed w-full top-0 z-40 bg-white text-black p-4 
