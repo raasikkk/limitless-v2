@@ -21,6 +21,7 @@ CREATE TABLE competitions (
   winner_id INT,
   title VARCHAR(100) NOT NULL,
   description TEXT NOT NULL,
+  rules TEXT,
   cover TEXT,
   category_id INT,
   private BOOLEAN DEFAULT FALSE NOT NULL,

@@ -40,27 +40,106 @@ export const createCompetition = async (req,res) => {
       })
     }
 
-    let cover = null;
-    if (req.file) {
-      await cloudinary.uploader.upload(req.file.path, {
-        folder: 'competitions',
-      },
-      async (err, res) => {
-        if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
-
-        return cover = res?.secure_url;
-      })
-    }
-
-    await db.query("INSERT INTO competitions (user_id, title, description, category_id, private, start_date, end_date, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [userId, title, description, categoryId, isPrivate, startDate, endDate, cover]);
-
-
+    await db.query("INSERT INTO competitions (user_id, title, description, category_id, private, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7)", [userId, title, description, categoryId, isPrivate, startDate, endDate]);
     res.json({
       message: "Succesfully created."
     })
 
   } catch (error) {
     console.log('Error at createCompetition:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const editDescription = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+    const {description} = req.body;
+
+    if (!description) return res.status(400).json({
+      message: "Provide description"
+    });
+
+    await db.query("UPDATE competitions SET description = $1 WHERE id = $2", [description, id]);
+    res.json({
+      message: "Succesfully changed description"
+    })
+    
+  } catch (error) {
+    console.log('Error at editDescription:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const editRules = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+    const {rules} = req.body;
+
+    if (!rules) return res.status(400).json({
+      message: "Provide rules"
+    });
+
+    await db.query("UPDATE competitions SET rules = $1 WHERE id = $2", [rules, id]);
+    res.json({
+      message: "Succesfully changed rules"
+    })
+    
+  } catch (error) {
+    console.log('Error at editRules:', error);
+    res.status(500).send(error)
+  }
+}
+
+
+export const uploadCoverForCompetition = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({
+        message: "No image provided!"
+      })
+    }
+
+    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [id]);
+
+    if (competition.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Incorrect id or competition doesn't exist"
+      })
+    }
+
+    const publicId = `covers/competition_${id}_cover`;
+    if (competition.rows[0].cover !== null) {
+      await cloudinary.uploader.destroy(publicId);
+    }
+
+    await cloudinary.uploader.upload(
+      req.file.path,
+      {
+        folder: 'competitions',
+        public_id: publicId,
+        overwrite: true
+      },
+      async (err, res) => {
+        if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
+
+
+        await db.query("UPDATE competitions SET cover = $1 WHERE id = $2", [res?.secure_url, id])
+      }
+    )
+
+    res.json({
+      message: 'Succesfully updated.'
+    })
+    
+  } catch (error) {
+    console.log('Error at uploadCoverForCompetition:', error);
     res.status(500).send(error)
   }
 }
