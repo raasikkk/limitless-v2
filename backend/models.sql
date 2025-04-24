@@ -64,3 +64,14 @@ CREATE TABLE followers (
   UNIQUE (user_id, follower_id),
   CHECK (user_id <> follower_id)
 );
+
+CREATE TABLE votes (
+  id SERIAL PRIMARY KEY,
+  user_id INT,
+  submission_id INT,
+  vote_type BOOLEAN NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  comment VARCHAR(200),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (submission_id) REFERENCES submissions(id)
+)
