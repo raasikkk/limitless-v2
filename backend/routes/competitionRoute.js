@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { createCompetition, getCategories, getCompetitionById, getCompetitions, getParticipants, joinCompetition, quitCompetition } from "../controllers/competitionController.js";
 import { checkAuth } from "../middleware/checkAuth.js";
-
+import { uploadImage } from "../middleware/uploadImage.js";
 
 export const competitionRoute = Router();
 
 
-competitionRoute.post('/competitions', checkAuth, createCompetition);
+competitionRoute.post('/competitions', checkAuth, uploadImage.single('cover'), createCompetition);
 competitionRoute.get('/competitions', getCompetitions);
 competitionRoute.get('/competitions/:id', getCompetitionById);
 

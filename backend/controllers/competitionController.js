@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const getCompetitions = async (req,res) => {
   try {
@@ -33,13 +34,26 @@ export const createCompetition = async (req,res) => {
 
     const {userId, title, description, categoryId, isPrivate, startDate, endDate} = req.body;
 
-    if (!title || !description || !categoryId || !startDate || !endDate) {
+    if (!title || !description || !categoryId || !startDate || !endDate || !isPrivate) {
       return res.status(400).json({
         message: "Fill all the fields."
       })
     }
 
-    await db.query("INSERT INTO competitions (user_id, title, description, category_id, private, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7)", [userId, title, description, categoryId, isPrivate, startDate, endDate]);
+    let cover = null;
+    if (req.file) {
+      await cloudinary.uploader.upload(req.file.path, {
+        folder: 'competitions',
+      },
+      async (err, res) => {
+        if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
+
+        return cover = res?.secure_url;
+      })
+    }
+
+    await db.query("INSERT INTO competitions (user_id, title, description, category_id, private, start_date, end_date, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [userId, title, description, categoryId, isPrivate, startDate, endDate, cover]);
+
 
     res.json({
       message: "Succesfully created."
