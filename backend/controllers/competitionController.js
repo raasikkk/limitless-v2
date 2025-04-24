@@ -51,6 +51,27 @@ export const createCompetition = async (req,res) => {
   }
 }
 
+export const editTitle = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+    const {title} = req.body;
+
+    if (!title) return res.status(400).json({
+      message: "Provide title"
+    });
+
+    await db.query("UPDATE competitions SET title = $1 WHERE id = $2", [title, id]);
+    res.json({
+      message: "Succesfully changed title"
+    })
+    
+  } catch (error) {
+    console.log('Error at editTitle:', error);
+    res.status(500).send(error)
+  }
+}
+
 export const editDescription = async (req,res) => {
   try {
 
