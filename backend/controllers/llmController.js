@@ -30,8 +30,15 @@ export const llmSuggestions = async (req, res) => {
 export const llmAnswerGrading = async (req, res) => {
   try {
     const { img_url, text_content } = req.body;
+
+    if (!img_url && !text_content) {
+      console.log(`The user has sent no data to handle`);
+      res.status(400).send({
+        error_message: "The user has provided no data to handle"
+      });
+    }
   } catch (error) {
     console.log(`Error occured at route '/llm/grading': ${error}`);
     res.status(500).send({ error_message: error });
   }
-}
+};
