@@ -67,7 +67,22 @@ export const getSubmissions = async (req,res) => {
       })
     }
 
-    const submissions = await db.query("SELECT submissions.*, users.username, users.avatar FROM submissions JOIN users ON submissions.participant_id = users.id WHERE competition_id = $1", [competitionId]);
+    const submissions = await db.query(`
+      SELECT 
+        s.*, 
+        u.username, 
+        u.avatar,
+        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) AS likes,
+        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) AS dislikes,
+        COALESCE(SUM(CASE WHEN v.vote_type THEN 1 ELSE -1 END), 0) AS score
+      FROM submissions s
+      JOIN users u ON s.participant_id = u.id
+      LEFT JOIN votes v ON s.id = v.submission_id
+      WHERE s.competition_id = $1
+      GROUP BY s.id, u.username, u.avatar
+      ORDER BY score DESC
+    `, [competitionId]);
+    
     res.json(submissions.rows);
     
   } catch (error) {
