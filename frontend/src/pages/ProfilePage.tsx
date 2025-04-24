@@ -10,9 +10,9 @@ const ProfilePage = () => {
   return (
     <>
       <div className="mt-5 w-full flex justify-between items-center">
-        <Link to="/" className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black text-white font-semibold rounded-full">
+        <button className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black dark:bg-[#1E293B] text-white font-semibold rounded-full">
             {t("view_info")}
-        </Link>
+        </button>
         <Link to="/settings" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
             <Settings /> 
             {t("settings")}
@@ -37,11 +37,11 @@ const ProfilePage = () => {
             </div>
         </div>
 
-        <div className="mt-5 ">
+        <div className="mt-5 text-black dark:text-white">
             <div className="flex items-center justify-between">
                 <div></div>
                 <div className="flex items-center gap-2">
-                    <button className="p-2 px-4 bg-black text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
+                    <button className="p-2 px-4 bg-black dark:bg-[#1E293B] text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
                     <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
             </div>

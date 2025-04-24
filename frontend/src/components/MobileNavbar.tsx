@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Profile from './Profile';
 
 interface MobileNavbarProps {
   toggleSidebar: () => void;
@@ -29,12 +30,8 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
 
       {
         isLoggedin ? (
-          <div className="rounded-full size-14 aspect-square border">
-            <img 
-              src="/ava.jpg"
-              className="rounded-full size-14 aspect-square border" 
-              alt="ava" 
-            />
+          <div className="rounded-full ">
+            <Profile />
           </div>
         ) : (
           <div className="flex items-center text-center gap-3">

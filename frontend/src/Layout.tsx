@@ -5,7 +5,6 @@ import Sidebar from './components/Sidebar';
 import MobileNavbar from "./components/MobileNavbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
-// import Profile from "./components/Profile";
 
 const Layout = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -58,8 +57,6 @@ const Layout = () => {
         `}
       `}>
         <div className="p-4 md:p-6">
-          {/* <Profile /> */}
-
           <SearchBar />
           <Outlet />
         </div>
