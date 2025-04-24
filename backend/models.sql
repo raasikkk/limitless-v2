@@ -18,16 +18,41 @@ CREATE TABLE categories (
 CREATE TABLE competitions (
   id SERIAL PRIMARY KEY,
   user_id INT,
+  winner_id INT,
   title VARCHAR(100) NOT NULL,
   description TEXT NOT NULL,
-  cover TEXT NOT NULL,
+  rules TEXT,
+  cover TEXT,
   category_id INT,
-  private BOOLEAN DEFAULT FALSE,
+  private BOOLEAN DEFAULT FALSE NOT NULL,
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+  FOREIGN KEY (winner_id) REFERENCES users(id)
+)
+
+CREATE TABLE participants (
+  id SERIAL PRIMARY KEY,
+  competition_id INT,
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (competition_id) REFERENCES competitions(id),
+  UNIQUE (competition_id, user_id)
+)
+
+CREATE TABLE submissions (
+  id SERIAL PRIMARY KEY,
+  participant_id INT,
+  competition_id INT,
+  submited_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  explanation TEXT,
+  image TEXT,
+  file TEXT,
+  score INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (participant_id) REFERENCES users(id),
+  FOREIGN KEY (competition_id) REFERENCES competitions(id)
 )
 
 CREATE TABLE followers (
@@ -39,3 +64,14 @@ CREATE TABLE followers (
   UNIQUE (user_id, follower_id),
   CHECK (user_id <> follower_id)
 );
+
+CREATE TABLE votes (
+  id SERIAL PRIMARY KEY,
+  user_id INT,
+  submission_id INT,
+  vote_type BOOLEAN NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  comment VARCHAR(200),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (submission_id) REFERENCES submissions(id)
+)

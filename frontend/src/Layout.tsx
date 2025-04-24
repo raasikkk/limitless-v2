@@ -4,6 +4,7 @@ import { useWindowSize } from "./hooks/useWindowSize";
 import Sidebar from './components/Sidebar';
 import MobileNavbar from "./components/MobileNavbar";
 import Footer from "./components/Footer";
+import SearchBar from "./components/SearchBar";
 
 const Layout = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -49,6 +50,7 @@ const Layout = () => {
         `}
       `}>
         <div className="p-4 md:p-6">
+          <SearchBar />
           <Outlet />
         </div>
       </main>

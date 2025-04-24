@@ -38,13 +38,13 @@ const Register = () => {
                         {/* LOGO */}
                         <span className="text-2xl font-bold text-primaryColor">Limitless</span>
                     </div>
-                    <h2 className="text-2xl font-semibold text-gray-800">Register with Email</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800">{t("register_email")}</h2>
                 </div>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                            EMAIL
+                            {t("email")}
                         </label>
                         <input
                             type="email"
@@ -59,7 +59,7 @@ const Register = () => {
 
                     <div className="relative w-full">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                            PASSWORD
+                            {t("password")}
                         </label>
                         <input
                             type={showPassword ? "text" : "password"}
@@ -86,7 +86,7 @@ const Register = () => {
 
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                            FULL NAME
+                            {t("full_name")}
                         </label>
                         <input
                             type="text"
@@ -120,7 +120,7 @@ const Register = () => {
                         <span>{t("register_google")}</span>
                     </Link>
 
-                    <p className="text-center ">Already have an account? <Link to="/auth/signin" className="text-primaryColor hover:underline">Sign in Here</Link></p>
+                    <p className="text-center ">{t("have_an_account")} <Link to="/auth/signin" className="text-primaryColor hover:underline">Sign in Here</Link></p>
                 </form>
             </div>
         </div>
