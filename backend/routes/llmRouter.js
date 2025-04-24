@@ -8,4 +8,4 @@ import { checkAuth } from "../middleware/checkAuth.js";
 export const llmRouter = Router();
 
 llmRouter.get("/llm/suggestions", checkAuth, llmSuggestions);
-llmRouter.get("/llm/grading", llmAnswerGrading);
+llmRouter.get("/llm/grading", checkAuth, llmAnswerGrading);
