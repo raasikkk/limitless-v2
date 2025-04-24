@@ -2,7 +2,7 @@ import { CalendarDays, Settings } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
 
-const Profile = () => {
+const ProfilePage = () => {
     const { t } = useTranslation()
     const { id } = useParams()
     console.log(id);
@@ -13,7 +13,7 @@ const Profile = () => {
         <Link to="/" className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black text-white font-semibold rounded-full">
             {t("view_info")}
         </Link>
-        <Link to="/" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
+        <Link to="/settings" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
             <Settings /> 
             {t("settings")}
         </Link>
@@ -27,9 +27,9 @@ const Profile = () => {
                     alt="ava" 
                 />
                 <div className="space-y-2 lg:space-y-3 text-center md:text-left">
-                    <p className="text-xs sm:text-sm lg:text-base text-gray-600">zhankeldiulyrasultop1@gmail.com</p>
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">Rasul Zhankeldyuly</h2>
-                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 flex flex-col sm:flex-row items-center gap-2">
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">zhankeldiulyrasultop1@gmail.com</p>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">Rasul Zhankeldyuly</h2>
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white flex flex-col sm:flex-row items-center gap-2">
                         <CalendarDays className="hidden sm:inline-block" />
                         Joined a year ago · last seen in the past day
                     </p>
@@ -42,7 +42,7 @@ const Profile = () => {
                 <div></div>
                 <div className="flex items-center gap-2">
                     <button className="p-2 px-4 bg-black text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
-                    <button className="p-2 px-4 border text-black text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
+                    <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
             </div>
             <div className="flex items-center justify-between">
@@ -54,4 +54,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfilePage

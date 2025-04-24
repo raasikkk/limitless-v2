@@ -5,11 +5,19 @@ import Sidebar from './components/Sidebar';
 import MobileNavbar from "./components/MobileNavbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
+// import Profile from "./components/Profile";
 
 const Layout = () => {
   const { isMobile, isTablet } = useWindowSize();
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const colorTheme = localStorage.getItem("theme")
+
+  useEffect(() => {
+    if (colorTheme) {
+      document.body.classList.add(colorTheme);
+    }
+  }, [])
 
   useEffect(() => {
     if (isMobile || isTablet) {
@@ -29,7 +37,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white dark:bg-darkColor"> 
       <MobileNavbar 
         toggleSidebar={toggleSidebar} 
         isSidebarOpen={isMobile ? isMobileMenuOpen : isSidebarOpen}
@@ -50,6 +58,8 @@ const Layout = () => {
         `}
       `}>
         <div className="p-4 md:p-6">
+          {/* <Profile /> */}
+
           <SearchBar />
           <Outlet />
         </div>
