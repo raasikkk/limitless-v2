@@ -6,7 +6,10 @@ import cors from "cors";
 import passport from "passport";
 
 import { authRoute } from "./routes/authRoute.js";
+import { userRoute } from "./routes/userRoute.js";
+import { followerRoute } from "./routes/followerRoute.js";
 import { llmRouter } from "./routes/llmRouter.js";
+import { categoryRoute } from "./routes/categoryRoute.js";
 
 const app = express();
 
@@ -15,15 +18,18 @@ app.use(cookieParser());
 
 const corsOptions = {
   origin: [`${process.env.FRONTEND_BASE_URL}`],
-  credentials: true,
+  credentials: true
 };
 app.use(cors(corsOptions));
 app.use(passport.initialize());
 
-app.use("/", authRoute);
 
-const PORT = process.env.PORT || 8080;
+app.use('/', authRoute);
+app.use('/api', userRoute);
+app.use('/api', followerRoute);
+app.use('/api', categoryRoute);
+app.use(llmRouter);
 
-app.listen(PORT, () => console.log("Server is 200 running"));
+const PORT = process.env.PORT || 8080
 
-app.listen(PORT, () => console.log("Server is 200 running"));
+app.listen(PORT, ()=> console.log('Server is 200 running'))
