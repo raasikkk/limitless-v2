@@ -29,7 +29,7 @@ const Home = () => {
 
   const isLoggedin = false
   return (
-    <>
+    <div className="text-black dark:text-white ">
       {isLoggedin ? (
         <div className="pt-10 flex flex-wrap lg:flex-nowrap justify-between gap-3">
           <div className="pt-10 lg:pt-20 w-full lg:w-1/2 flex flex-col gap-3">
@@ -108,7 +108,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
