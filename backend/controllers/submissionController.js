@@ -69,17 +69,19 @@ export const getSubmissions = async (req,res) => {
 
     const submissions = await db.query(`
       SELECT 
-        s.*, 
-        u.username, 
-        u.avatar,
-        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) AS upvote,
-        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) AS downvote
+      s.*, 
+      u.username, 
+      u.avatar,
+      COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) AS likes,
+      COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) AS dislikes
       FROM submissions s
       JOIN users u ON s.participant_id = u.id
       LEFT JOIN votes v ON s.id = v.submission_id
       WHERE s.competition_id = $1
       GROUP BY s.id, u.username, u.avatar
-      ORDER BY s.score DESC
+      ORDER BY 
+        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) - 
+        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) DESC;
     `, [competitionId]);
 
     res.json(submissions.rows);
@@ -200,3 +202,54 @@ export const deleteSubmission = async (req, res) => {
   }
 }
 
+export const vote = async (req,res) => {
+  try {
+    const {userId, submissionId, voteType, comment,competitionId} = req.body;
+    const date = new Date();
+
+    if (req.user.id === userId) return res.status(400).json({
+      message: "You cannot vote yourself"
+    });
+
+    const checkIsParticipant = await db.query("SELECT * FROM participants WHERE user_id = $1 AND competition_id = $2", [userId, competitionId]);
+
+    if (checkIsParticipant.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Cannot find the participant"
+      })
+    }
+
+
+    const checkSubmission = await db.query("SELECT * FROM submissions WHERE id = $1", [submissionId]);
+
+    if (checkSubmission.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Incorrect id or submission doesn't exist"
+      })
+    }
+
+    const checkVote = await db.query("SELECT * FROM votes WHERE submission_id = $1 AND user_id = $2 AND DATE(created_at) = DATE($3)", [submissionId, userId, date]);
+
+    if (checkVote.rows.length > 0) {
+      const existingVote = checkVote.rows[0];
+
+      if (existingVote.vote_type === voteType) {
+        return res.status(400).json({ message: "You already voted this way today" });
+      }
+      await db.query(
+        "UPDATE votes SET vote_type = $1 WHERE id = $2",
+        [voteType, existingVote.id]
+      );
+
+      return res.json({ message: "Vote updated" });
+    }
+
+    await db.query("INSERT INTO votes (user_id, submission_id, vote_type, comment) VALUES ($1, $2, $3, $4)", [userId, submissionId, voteType, comment])
+    res.json({
+      message: "Succesfully voted"
+    })
+  } catch (error) {
+    console.log('Error at upvote:', error);
+    res.status(500).send(error)
+  }
+}
