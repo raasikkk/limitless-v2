@@ -1,3 +1,4 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CalendarDays, Settings } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
@@ -45,10 +46,25 @@ const ProfilePage = () => {
                     <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
             </div>
-            <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-xl md:text-2xl">{t("about")}</h2>
-            </div>
-            <p>{t("no_bio_yet")}</p>
+            <Tabs defaultValue="about" className="mt-3 w-full">
+                <TabsList className="w-full mb-2 justify-start border-b rounded-none h-auto p-0 bg-transparent">
+                    <TabsTrigger 
+                        value="about"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >{t("about")}</TabsTrigger>
+                    <TabsTrigger 
+                        value="follower"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >Followers (0)</TabsTrigger>
+                    <TabsTrigger 
+                        value="following"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >Following (0)</TabsTrigger>
+                </TabsList>
+                <TabsContent value="about">{t("no_bio_yet")}.</TabsContent>
+                <TabsContent value="follower">0 Followers</TabsContent>
+                <TabsContent value="following">0 Following</TabsContent>
+            </Tabs>
         </div>
     </>
   )
