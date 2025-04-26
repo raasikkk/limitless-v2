@@ -30,8 +30,6 @@ function App() {
           <Route path="/categories/:category_id" element={<CompetitionCategorie />}/>
           <Route path="/competitions/:id" element={<Competition />}/>
           <Route path="/create" element={<CreatePage/>}/>
-          <Route path="/competitions/:categorie" element={<CompetitionCategorie />}/>
-          <Route path="/competitions/:categorie/:id" element={<Competition />}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/register" element={<Register />} />
