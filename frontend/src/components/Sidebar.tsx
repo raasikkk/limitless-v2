@@ -47,7 +47,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
       <nav className="p-2">
         <ul className="space-y-2 pt-3">
             <Link
-                to="/"
+                to="/create"
                 className={`${!isSidebarOpen ? "p-1" : "p-1.5 px-4"} border-2 drop-shadow-md flex items-center max-w-36 gap-2 text-primaryColor rounded-full hover:scale-105 transition`}
             >
                 <Plus color="#20beff" size={35} strokeWidth={2.25} />
