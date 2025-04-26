@@ -8,7 +8,7 @@ const CreatePage = () => {
   const [title, setTitle] = useState('Competition Title');
   const [description, setDescription] = useState("Describe the competition you're organizing. Include details like the theme or topic, who can participate, the format (online or offline), key dates, judging criteria, and any prizes. Be as detailed as possible to help participants understand what to expect.")
   const [isPrivate, setIsPrivate] = useState(false);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState<null|string>(null);
   const [create, setCreate] = useState(false);
 
   return (
@@ -95,11 +95,11 @@ const CreatePage = () => {
               {t('createCompetition.form.categoryLabel')}
             </small>
             <select className="border-2 border-300-zinc block p-2 rounded-md outline-none">
-              <option>{t('createCompetition.form.categoryOptions.select')}</option>
-              <option>{t('createCompetition.form.categoryOptions.programming')}</option>
-              <option>{t('createCompetition.form.categoryOptions.languages')}</option>
-              <option>{t('createCompetition.form.categoryOptions.hobby')}</option>
-              <option>{t('createCompetition.form.categoryOptions.creative')}</option>
+              <option onClick={()=>setCategory(null)}>{t('createCompetition.form.categoryOptions.select')}</option>
+              <option onClick={()=>setCategory('programming')}>{t('createCompetition.form.categoryOptions.programming')}</option>
+              <option onClick={()=>setCategory('languages')}>{t('createCompetition.form.categoryOptions.languages')}</option>
+              <option onClick={()=>setCategory('hobby')}>{t('createCompetition.form.categoryOptions.hobby')}</option>
+              <option onClick={()=>setCategory('creative')}>{t('createCompetition.form.categoryOptions.creative')}</option>
             </select>
           </div>
         </div>
