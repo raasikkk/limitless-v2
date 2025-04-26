@@ -6,9 +6,11 @@ import { useEffect } from "react";
 import Signin from "./pages/auth/Signin";
 import Register from "./pages/auth/Register";
 import Settings from "./pages/Settings";
-import Competitions from "./pages/Competitions";
+import Competitions from "./pages/competition/Competitions";
 import ProfilePage from "./pages/ProfilePage";
 import CreatePage from "./pages/CreatePage";
+import CompetitionCategorie from "./pages/competition/CompetitionCategorie";
+import Competition from "./pages/competition/Competition";
 
 function App() {
   const { i18n } = useTranslation();
@@ -26,6 +28,8 @@ function App() {
           <Route path="/settings" element={<Settings />}/>
           <Route path="/competitions" element={<Competitions />}/>
           <Route path="/create" element={<CreatePage/>}/>
+          <Route path="/competitions/:categorie" element={<CompetitionCategorie />}/>
+          <Route path="/competitions/:categorie/:id" element={<Competition />}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/register" element={<Register />} />
