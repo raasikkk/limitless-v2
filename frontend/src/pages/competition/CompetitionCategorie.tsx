@@ -18,7 +18,7 @@ const CompetitionCategorie = () => {
         <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
         {example.map((item) => (
           <Link
-            to={`/competitions/${categorie}/${item.id}`}
+            to={`/competitions/${item.id}`}
             key={item.id}
             className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl"
           >
