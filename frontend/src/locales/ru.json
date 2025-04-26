@@ -33,8 +33,35 @@
     "about": "О вас",
     "follow": "Подписаться",
     "contact": "Написать",
-    "no_bio_yet": "Пока пусто..."
+    "no_bio_yet": "Пока пусто...",
 
-
+    "createCompetition": {
+      "modal": {
+        "title": "Вы уверены?",
+        "descriptionVisible": "Вы создадите соревнование, которое будет видно всем.",
+        "descriptionNotVisible": "Вы создадите соревнование, которое не будет видно всем.",
+        "yes": "Да",
+        "no": "Нет"
+      },
+      "pageTitle": "Создайте свое соревнование",
+      "form": {
+        "titleLabel": "Название:",
+        "descriptionLabel": "Описание:",
+        "privacyLabel": "Конфиденциальность:",
+        "privacyOptions": {
+          "private": "Приватное",
+          "public": "Публичное"
+        },
+        "categoryLabel": "Категория:",
+        "categoryOptions": {
+          "select": "Выбрать",
+          "programming": "Программирование",
+          "languages": "Языки",
+          "hobby": "Хобби",
+          "creative": "Творчество"
+        },
+        "createButton": "Создать"
+      }
+    }
 
   }
