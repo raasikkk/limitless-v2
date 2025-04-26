@@ -8,6 +8,7 @@ import Register from "./pages/auth/Register";
 import Settings from "./pages/Settings";
 import Competitions from "./pages/Competitions";
 import ProfilePage from "./pages/ProfilePage";
+import CreatePage from "./pages/CreatePage";
 
 function App() {
   const { i18n } = useTranslation();
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile/:id" element={<ProfilePage />}/>
           <Route path="/settings" element={<Settings />}/>
           <Route path="/competitions" element={<Competitions />}/>
+          <Route path="/create" element={<CreatePage/>}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/register" element={<Register />} />

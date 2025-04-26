@@ -33,5 +33,34 @@
     "about": "About",
     "follow": "Follow",
     "contact": "Contact",
-    "no_bio_yet": "No bio yet..."
+    "no_bio_yet": "No bio yet...",
+
+    "createCompetition": {
+      "modal": {
+        "title": "Are you sure?",
+        "descriptionVisible": "You will create competition that's visible for everyone.",
+        "descriptionNotVisible": "You will create competition that's not visible for everyone.",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "pageTitle": "Create your competition",
+      "form": {
+        "titleLabel": "Title :",
+        "descriptionLabel": "Description :",
+        "privacyLabel": "Privacy :",
+        "privacyOptions": {
+          "private": "Private",
+          "public": "Public"
+        },
+        "categoryLabel": "Category :",
+        "categoryOptions": {
+          "select": "Select",
+          "programming": "Programming",
+          "languages": "Languages",
+          "hobby": "Hobby",
+          "creative": "Creative"
+        },
+        "createButton": "Create"
+      }
+    }
   }

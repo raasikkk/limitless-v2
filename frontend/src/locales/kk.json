@@ -33,7 +33,34 @@
   "about": "Сіз туралы",
   "follow": "Тіркелу",
   "contact": "Хабарласу",
-  "no_bio_yet": "Ештеңе жоқ..."
+  "no_bio_yet": "Ештеңе жоқ...",
 
-
+  "createCompetition": {
+    "modal": {
+      "title": "Сенімдісіз бе?",
+      "descriptionVisible": "Сіз барлық адамдар көре алатын жарыс жасайсыз.",
+      "descriptionNotVisible": "Сіз барлық адамдар көре алмайтын жарыс жасайсыз.",
+      "yes": "Иә",
+      "no": "Жоқ"
+    },
+    "pageTitle": "Өзіңіздің жарысыңызды жасаңыз",
+    "form": {
+      "titleLabel": "Атауы:",
+      "descriptionLabel": "Сипаттама:",
+      "privacyLabel": "Құпиялылық:",
+      "privacyOptions": {
+        "private": "Жабық",
+        "public": "Ашық"
+      },
+      "categoryLabel": "Санат:",
+      "categoryOptions": {
+        "select": "Таңдау",
+        "programming": "Бағдарламалау",
+        "languages": "Тілдер",
+        "hobby": "Хобби",
+        "creative": "Шығармашылық"
+      },
+      "createButton": "Жасау"
+    }
+  }
 }
