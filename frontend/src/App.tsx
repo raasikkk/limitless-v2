@@ -30,10 +30,7 @@ function App() {
           <Route path="/settings" element={<Settings />}/>
           <Route path="/competitions" element={<Competitions />}/>
           <Route path="/categories/:category_id" element={<CompetitionCategorie />}/>
-          <Route path="/competitions/:id" element={<Competition />}>
-            <Route path="/competitions/:id/main" element={<CompetitionMain/>}/>
-            <Route path="/competitions/:id/submissions" element={<CompetitionSubmissions/>}/>
-          </Route>
+          <Route path="/competitions/:id" element={<Competition />}/>
           <Route path="/create" element={<CreatePage/>}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
