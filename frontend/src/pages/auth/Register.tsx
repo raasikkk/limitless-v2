@@ -100,7 +100,7 @@ const Register = () => {
                         <p className="mt-1 text-sm text-gray-500">Will be displayed on your profile</p>
                     </div>
 
-                    <div className="flex justify-between items-center mt-8">
+                    <div className="flex justify-between items-center mt-8 dark:text-black">
                         <Link to="/" className="px-4 py-2 flex items-center gap-1 text-sm font-semibold hover:underline">
                             <ArrowLeft size={17} /> Back
                         </Link>
@@ -114,13 +114,13 @@ const Register = () => {
 
                     <Link
                         to="/"
-                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold"
+                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
                         <span>{t("register_google")}</span>
                     </Link>
 
-                    <p className="text-center ">{t("have_an_account")} <Link to="/auth/signin" className="text-primaryColor hover:underline">Sign in Here</Link></p>
+                    <p className="text-center text-black">{t("have_an_account")} <Link to="/auth/signin" className="text-primaryColor hover:underline">Sign in Here</Link></p>
                 </form>
             </div>
         </div>

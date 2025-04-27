@@ -106,7 +106,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
   ];
 
   return (
-    <div className="p-1 mb-1 bg-slate-50 space-x-2 z-50">
+    <div className="p-1 mb-1 rounded-md bg-slate-50 dark:bg-[#1E293B] space-x-2 z-50">
       {Options.map((option, index) => (
         <Toggle
           key={index}

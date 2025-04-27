@@ -83,7 +83,7 @@ const Signin = () => {
                         <p className="mt-1 text-sm text-gray-500">Minimum of 7 characters</p>
                     </div>
 
-                    <div className="flex justify-between items-center mt-8">
+                    <div className="flex justify-between items-center mt-8 text-black">
                         <Link to="/" className="px-4 py-2 flex items-center gap-1 text-sm font-semibold hover:underline">
                             <ArrowLeft size={17} /> Back
                         </Link>
@@ -97,13 +97,13 @@ const Signin = () => {
 
                     <Link
                         to="/"
-                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold"
+                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
                         <span>{t("signin_google")}</span>
                     </Link>
 
-                    <p className="text-center ">Don't have an account? <Link to="/auth/register" className="text-primaryColor hover:underline">Register Here</Link></p>
+                    <p className="text-center text-black">Don't have an account? <Link to="/auth/register" className="text-primaryColor hover:underline">Register Here</Link></p>
                 </form>
             </div>
         </div>
