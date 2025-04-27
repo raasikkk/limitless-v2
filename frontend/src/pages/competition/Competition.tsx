@@ -6,17 +6,26 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CompetitionLeaderboard from "./CompetitionLeaderboard";
+import EditImage from "@/components/EditImage";
 
 const Competition = () => {
   const {t} = useTranslation();
   const [isParticipant, setIsParticipant] = useState(false);
-  const [cover, setCover] = useState<File|null>(null);
+  const [isCoverEdit, setIsCoverEdit] = useState(false);
+  const [cover, setCover] = useState<File|null|string>(null);
   const [canEdit, setCanEdit] = useState(true);
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
 
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
+      {
+        isCoverEdit
+        ?
+        <EditImage image={cover} setIsEdit={setIsCoverEdit} setImage={setCover}/>
+        :
+        ''
+      }
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap-reverse items-center gap-1 md:gap-4">
           <Link to={`/profile/1`}>
@@ -25,7 +34,7 @@ const Competition = () => {
           <span className="text-zinc-600 text-sm ">Created 8 month ago</span>
         </div>
         {
-          !isParticipant
+          isParticipant
           ?
           <button className="text-sm bg-red-500 py-1 px-4 rounded-lg text-white font-semibold hover:opacity-75">
             Quit Competiton
@@ -36,7 +45,6 @@ const Competition = () => {
           </button>
         }
       </div>
-      
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
         <div className="w-full pb-10">
           <div className="flex flex-col-reverse items-end md:items-start justify-between">
@@ -79,11 +87,11 @@ const Competition = () => {
           {
             canEdit
             ?
-            <Pencil color="white" className="absolute right-2 top-2 hover:opacity-50 self-end"/>
+            <Pencil onClick={()=>setIsCoverEdit(true)} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
             :
             ''
           }
-          <img className="mx-auto min-w-72 h-40 rounded-lg bg-black mb-4" src="" alt="Competiton cover"/>
+          <img className="mx-auto min-w-72 max-w-72 object-contain h-40 rounded-lg bg-black mb-4" src={typeof cover === 'string' ? cover : undefined} alt="Competiton cover"/>
         </div>
       </div>
       <Tabs defaultValue="main">
@@ -126,7 +134,7 @@ const Competition = () => {
           </ul>
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions/>
+          <CompetitionSubmissions isParticipant={isParticipant}/>
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard/>
