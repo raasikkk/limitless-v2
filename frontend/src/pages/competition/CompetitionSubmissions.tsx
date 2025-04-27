@@ -1,14 +1,38 @@
+import { useState } from "react";
 import { Link } from "react-router"
-import { ArrowBigDown,ArrowBigUp } from "lucide-react"
+import SubmitPopUp from "@/components/SubmitPopUp";
 
-type Props = {}
+type Props = {
+  isParticipant: boolean
+}
 
-const CompetitionSubmissions = (props: Props) => {
+const CompetitionSubmissions = ({isParticipant}: Props) => {
+  const [isSubmit, setIsSubmit] = useState(false);
+
   return (
     <div className=''>
-      <h2 className="font-semibold text-2xl mb-8">
-        Submissions (0)
-      </h2>
+      {
+        isSubmit
+        ?
+        <SubmitPopUp setIsSubmit={setIsSubmit}/>
+        :
+        ''
+      }
+      
+      <div className="mb-8 flex items-center justify-between">
+        <h2 className="font-semibold text-2xl">
+          Submissions (0)
+        </h2>
+        {
+          isParticipant
+          ?
+          <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
+            Submit
+          </button>
+          :
+          ''
+        }
+      </div>
       <table className="w-full text-xs md:text-base lg:text-lg">
         <tr className='border-2 border-b-none px-4 rounded-b-none text-zinc-500'>
           <th className='font-semibold text-left p-4'>

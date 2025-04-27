@@ -6,16 +6,26 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CompetitionLeaderboard from "./CompetitionLeaderboard";
+import EditImage from "@/components/EditImage";
 
 const Competition = () => {
   const {t} = useTranslation();
-  const [cover, setCover] = useState<File|null>(null);
+  const [isParticipant, setIsParticipant] = useState(false);
+  const [isCoverEdit, setIsCoverEdit] = useState(false);
+  const [cover, setCover] = useState<File|null|string>(null);
   const [canEdit, setCanEdit] = useState(true);
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
 
   return (
-    <div className="mt-10 text-black dark:text-white">
+    <div className="mt-5 text-black dark:text-white pt-10">
+      {
+        isCoverEdit
+        ?
+        <EditImage image={cover} setIsEdit={setIsCoverEdit} setImage={setCover}/>
+        :
+        ''
+      }
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
           <Link to={`/profile/1`}>
@@ -23,9 +33,17 @@ const Competition = () => {
           </Link>
           <span className="text-zinc-600 text-sm ">Created 8 month ago</span>
         </div>
-        <button className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-          Join Competiton
-        </button>
+        {
+          isParticipant
+          ?
+          <button className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+            Quit Competiton
+          </button>
+          :
+          <button className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+            Join Competiton
+          </button>
+        }
       </div>
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
         <div className="w-full pb-0 md:pb-10">
@@ -69,11 +87,11 @@ const Competition = () => {
           {
             canEdit
             ?
-            <Pencil color="white" size={20} className="absolute right-2 top-2 hover:opacity-50 self-end"/>
+            <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
             :
             ''
           }
-          <img className="mx-auto min-w-72 h-40 rounded-lg bg-black mb-4" src="https://res.cloudinary.com/dtsdbjvgg/image/upload/v1745432017/ChatGPT_Image_23_апр._2025_г._23_14_25_lqxo30.png" alt="Competiton cover"/>
+          <img className="mx-auto min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof cover === 'string' ? cover : undefined} alt="Competiton cover"/>
         </div>
       </div>
       <Tabs defaultValue="main">
@@ -116,7 +134,7 @@ const Competition = () => {
           </ul>
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions/>
+          <CompetitionSubmissions isParticipant={isParticipant}/>
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard/>
