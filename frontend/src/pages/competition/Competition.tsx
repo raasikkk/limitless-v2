@@ -9,6 +9,7 @@ import CompetitionLeaderboard from "./CompetitionLeaderboard";
 
 const Competition = () => {
   const {t} = useTranslation();
+  const [isParticipant, setIsParticipant] = useState(false);
   const [cover, setCover] = useState<File|null>(null);
   const [canEdit, setCanEdit] = useState(true);
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
@@ -23,10 +24,19 @@ const Competition = () => {
           </Link>
           <span className="text-zinc-600 text-sm ">Created 8 month ago</span>
         </div>
-        <button className="text-sm bg-black py-1 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-          Join Competiton
-        </button>
+        {
+          !isParticipant
+          ?
+          <button className="text-sm bg-red-500 py-1 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+            Quit Competiton
+          </button>
+          :
+          <button className="text-sm bg-black py-1 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+            Join Competiton
+          </button>
+        }
       </div>
+      
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
         <div className="w-full pb-10">
           <div className="flex flex-col-reverse items-end md:items-start justify-between">
