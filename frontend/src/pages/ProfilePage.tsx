@@ -1,0 +1,73 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { CalendarDays, Settings } from "lucide-react"
+import { useTranslation } from "react-i18next"
+import { Link, useParams } from "react-router-dom"
+
+const ProfilePage = () => {
+    const { t } = useTranslation()
+    const { id } = useParams()
+    console.log(id);
+    
+  return (
+    <>
+      <div className="mt-5 w-full flex justify-between items-center">
+        <button className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black dark:bg-[#1E293B] text-white font-semibold rounded-full">
+            {t("view_info")}
+        </button>
+        <Link to="/settings" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
+            <Settings /> 
+            {t("settings")}
+        </Link>
+      </div>
+
+      <div className="mt-5 p-4 sm:p-8 lg:p-12 xl:p-16 w-full flex flex-col lg:flex-row justify-between gap-8 lg:gap-12 xl:gap-20 border rounded-xl">
+            <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
+                <img 
+                    src="/ava.jpg"
+                    className="rounded-full size-24 sm:size-32 md:size-40 lg:size-48 xl:size-64 border" 
+                    alt="ava" 
+                />
+                <div className="space-y-2 lg:space-y-3 text-center md:text-left">
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">zhankeldiulyrasultop1@gmail.com</p>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">Rasul Zhankeldyuly</h2>
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white flex flex-col sm:flex-row items-center gap-2">
+                        <CalendarDays className="hidden sm:inline-block" />
+                        Joined a year ago · last seen in the past day
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-5 text-black dark:text-white">
+            <div className="flex items-center justify-between">
+                <div></div>
+                <div className="flex items-center gap-2">
+                    <button className="p-2 px-4 bg-black dark:bg-[#1E293B] text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
+                    <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
+                </div>
+            </div>
+            <Tabs defaultValue="about" className="mt-3 w-full">
+                <TabsList className="w-full mb-2 justify-start border-b rounded-none h-auto p-0 bg-transparent">
+                    <TabsTrigger 
+                        value="about"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >{t("about")}</TabsTrigger>
+                    <TabsTrigger 
+                        value="follower"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >Followers (0)</TabsTrigger>
+                    <TabsTrigger 
+                        value="following"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >Following (0)</TabsTrigger>
+                </TabsList>
+                <TabsContent value="about">{t("no_bio_yet")}.</TabsContent>
+                <TabsContent value="follower">0 Followers</TabsContent>
+                <TabsContent value="following">0 Following</TabsContent>
+            </Tabs>
+        </div>
+    </>
+  )
+}
+
+export default ProfilePage

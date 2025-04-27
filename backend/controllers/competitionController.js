@@ -244,10 +244,7 @@ export const getParticipants = async (req,res) => {
   try {
     const { competition_id } = req.params;
 
-    const participants = await db.query(`
-    SELECT users.id, users.avatar, users.username FROM competitions JOIN users ON users.id = competitions.user_id WHERE competitions.id = $1
-    UNION
-    SELECT users.id, users.avatar, users.username FROM participants JOIN users ON users.id = participants.user_id WHERE participants.competition_id = $1`, [competition_id]);
+    const participants = await db.query(`SELECT users.id, users.avatar, users.username FROM participants JOIN users ON users.id = participants.user_id WHERE participants.competition_id = $1`, [competition_id]);
 
     res.json(participants.rows);
   } catch (error) {

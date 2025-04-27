@@ -25,7 +25,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
 
   return (
     <aside className={`
-      fixed top-0 left-0 h-screen z-50 bg-white border-r-2 text-black 
+      fixed top-0 left-0 h-screen z-50 bg-white dark:bg-darkColor border-r-2 text-black dark:text-white
       transition-all duration-100 overflow-hidden
       ${isMobile ? `
         w-64 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -33,7 +33,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
         ${isSidebarOpen ? 'w-64' : 'w-16'}
       `}
     `}>
-      <div className="p-4 border-b border-gray-200 h-16 flex items-center">
+      <div className="p-4 border-b h-16 flex items-center">
           <button
             onClick={toggleSidebar}
             className={`hover:text-gray-600 transition-colors ${
@@ -47,7 +47,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
       <nav className="p-2">
         <ul className="space-y-2 pt-3">
             <Link
-                to="/"
+                to="/create"
                 className={`${!isSidebarOpen ? "p-1" : "p-1.5 px-4"} border-2 drop-shadow-md flex items-center max-w-36 gap-2 text-primaryColor rounded-full hover:scale-105 transition`}
             >
                 <Plus color="#20beff" size={35} strokeWidth={2.25} />
@@ -62,7 +62,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
                 <Link
                     key={item.label}
                     to={item.url}
-                    className={`flex items-center p-3 rounded-lg hover:bg-gray-100
+                    className={`flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-[#1E293B]
                     ${!isSidebarOpen && !isMobile ? 'justify-center' : 'px-4'}`}
                 >
                     {item.icon}
