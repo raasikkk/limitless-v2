@@ -7,7 +7,7 @@ const CompetitionLeaderboard = (props: Props) => {
       <h2 className="font-semibold text-2xl mb-8">
         Leaderboard
       </h2>
-      <table className="w-full text-xs md:text-lg">
+      <table className="w-full text-xs md:text-base lg:text-lg">
         <tr className='border-2 border-b-none px-4 text-zinc-500'>
           <th className='font-semibold text-left p-4'>
             #

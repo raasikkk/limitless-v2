@@ -33,7 +33,7 @@ const CompetitionSubmissions = ({isParticipant}: Props) => {
           ''
         }
       </div>
-      <table className="w-full text-xs md:text-lg">
+      <table className="w-full text-xs md:text-base lg:text-lg">
         <tr className='border-2 border-b-none px-4 rounded-b-none text-zinc-500'>
           <th className='font-semibold text-left p-4'>
             User
