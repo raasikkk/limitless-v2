@@ -8,9 +8,9 @@ type Props = {
 
 const CompetitionMain = ({canEdit}: Props) => {
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
-  const [description, setDescription] = useState('<h2>Day2</h2><p>Lorem, <a href="sd">ipsum dolor sit amet</a> consectetur adipisicing elit. Aliquid optio ullam aperiam, porro quia consequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
+  const [description, setDescription] = useState('<h2>Day 2</h2><p>Lorem, <a href="sd">ipsum dolor sit amet</a> consectetur adipisicing elit. Aliquid optio ullam aperiam, porro quia consequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
   const [isRulesEdit, setIsRulesEdit] = useState(false);
-  const [rules, setRules] = useState('<h2>Day2</h2><p>Lorem, ur adipisicing elitconsequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
+  const [rules, setRules] = useState('<h2>Day 2</h2><p>Lorem, ur adipisicing elitconsequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
 
 
   return (
@@ -22,7 +22,7 @@ const CompetitionMain = ({canEdit}: Props) => {
         {
           canEdit
           ?
-          <Pencil onClick={()=>setIsDescriptionEdit(true)} className="hover:opacity-50"/>
+          <Pencil onClick={()=>setIsDescriptionEdit(true)} size={20} className="hover:opacity-50"/>
           :
           ''
         }
@@ -34,7 +34,7 @@ const CompetitionMain = ({canEdit}: Props) => {
         <>
           <Editor content={description} onChange={setDescription}/>
           <div className="flex items-center justify-end mt-4 gap-2">
-            <button onClick={()=>setIsDescriptionEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200">
+            <button onClick={()=>setIsDescriptionEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-[#1E293B]">
               Cancel
             </button>
             <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
@@ -55,7 +55,7 @@ const CompetitionMain = ({canEdit}: Props) => {
         {
           canEdit
           ?
-          <Pencil onClick={()=>setIsRulesEdit(true)} className="hover:opacity-50"/>
+          <Pencil onClick={()=>setIsRulesEdit(true)} size={20} className="hover:opacity-50"/>
           :
           ''
         }
@@ -67,7 +67,7 @@ const CompetitionMain = ({canEdit}: Props) => {
         <>
           <Editor content={rules} onChange={setRules}/>
           <div className="flex items-center justify-end mt-4 gap-2">
-            <button onClick={()=>setIsRulesEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200">
+            <button onClick={()=>setIsRulesEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-[#1E293B]">
               Cancel
             </button>
             <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">

@@ -17,30 +17,58 @@ const Settings = () => {
 
         <Dialog>
           <DialogTrigger className="p-2 px-4 text-black dark:text-white font-semibold border rounded-full hover:opacity-75">
-            Change email
+            Change profile
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
+          <DialogContent className="sm:max-w-[500px] ">
             <DialogHeader>
-              <DialogTitle>Edit Email</DialogTitle>
+              <DialogTitle>Edit Profile</DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col gap-2 py-4">
-              <label htmlFor="email" className="text-sm font-medium">Email</label>
-              <input 
-                type="text" 
-                id="email"
-                className="p-2 px-3 text-sm font-medium rounded-md bg-transparent border"
-                placeholder="Your email"
-                value={"zhankeldiulyrasultop1@gmail.com"}
-                // onChange={}
-              />
-            </div>
+            <form className="py-4 flex flex-col gap-5">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="username" className="text-sm font-medium">Username</label>
+                <input 
+                  type="text" 
+                  id="username"
+                  className="p-2 px-3 text-sm font-medium rounded-md bg-transparent border"
+                  placeholder="Your username"
+                  value={"rasul"}
+                  // onChange={}
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="text-sm font-medium">Email</label>
+                <input 
+                  type="text" 
+                  id="email"
+                  className="p-2 px-3 text-sm font-medium rounded-md bg-transparent border disabled:opacity-30"
+                  placeholder="Your email"
+                  disabled
+                  value={"zhankeldiulyrasultop1@gmail.com"}
+                  // onChange={}
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="password" className="text-sm font-medium">Password</label>
+                <input 
+                  type="text" 
+                  id="password"
+                  className="p-2 px-3 text-sm font-medium rounded-md bg-transparent border"
+                  placeholder="Your password"
+                  value={"zhankeldiulyrasultop1@gmail.com"}
+                  // onChange={}
+                />
+              </div>
+            </form>
+            
 
             <div className="flex justify-end gap-3 text-sm font-medium">
               <DialogClose asChild>
                 <button className="border p-2 px-3 rounded-md">Cancel</button>
               </DialogClose>
               <button
-                className="p-2 px-3 bg-white text-black rounded-md"
+                className="p-2 px-3 bg-darkColor dark:bg-white text-white dark:text-black rounded-md"
                 // onClick={} 
               >Save Changes</button>
             </div>
