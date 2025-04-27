@@ -11,6 +11,8 @@ import ProfilePage from "./pages/ProfilePage";
 import CreatePage from "./pages/CreatePage";
 import CompetitionCategorie from "./pages/competition/CompetitionCategorie";
 import Competition from "./pages/competition/Competition";
+import CompetitionMain from "./pages/competition/CompetitionMain";
+import CompetitionSubmissions from "./pages/competition/CompetitionSubmissions";
 
 function App() {
   const { i18n } = useTranslation();
@@ -28,7 +30,10 @@ function App() {
           <Route path="/settings" element={<Settings />}/>
           <Route path="/competitions" element={<Competitions />}/>
           <Route path="/categories/:category_id" element={<CompetitionCategorie />}/>
-          <Route path="/competitions/:id" element={<Competition />}/>
+          <Route path="/competitions/:id" element={<Competition />}>
+            <Route path="/competitions/:id/main" element={<CompetitionMain/>}/>
+            <Route path="/competitions/:id/submissions" element={<CompetitionSubmissions/>}/>
+          </Route>
           <Route path="/create" element={<CreatePage/>}/>
           <Route path="/competitions/:categorie" element={<CompetitionCategorie />}/>
           <Route path="/competitions/:categorie/:id" element={<Competition />}/>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Editor from "./editor/Editor";
+import Editor from "../components/editor/Editor";
 import { useTranslation } from "react-i18next";
 
 const CreatePage = () => {
