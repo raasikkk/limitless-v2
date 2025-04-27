@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Editor from "./editor/Editor";
+import Editor from "../components/editor/Editor";
 import { useTranslation } from "react-i18next";
 
 const CreatePage = () => {
@@ -55,7 +55,7 @@ const CreatePage = () => {
           onChange={(e) => setTitle(e.target.value)}
           value={title}
           type="text"
-          className="w-full text-lg font-medium py-4 px-6 outline-none border bg-white dark:bg-[#1E293B] rounded-md"
+          className="w-full text-lg font-medium py-4 px-6 rounded-md outline-none border border-zinc-300 bg-white dark:bg-[#1E293B] rounded-md"
         />
       </label>
 

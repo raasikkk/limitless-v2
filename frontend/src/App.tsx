@@ -11,6 +11,8 @@ import ProfilePage from "./pages/ProfilePage";
 import CreatePage from "./pages/CreatePage";
 import CompetitionCategorie from "./pages/competition/CompetitionCategorie";
 import Competition from "./pages/competition/Competition";
+import CompetitionMain from "./pages/competition/CompetitionMain";
+import CompetitionSubmissions from "./pages/competition/CompetitionSubmissions";
 
 function App() {
   const { i18n } = useTranslation();
