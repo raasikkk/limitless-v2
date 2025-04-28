@@ -3,6 +3,7 @@ import { Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Profile from './Profile';
+import { useAppSelector } from '@/hooks/hooks';
 
 interface MobileNavbarProps {
   toggleSidebar: () => void;
@@ -13,7 +14,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
   const { t } = useTranslation()
 
 
-  const isLoggedin = true
+  const {isLogged} = useAppSelector((state)=>state.user);
 
   return (
     <nav className="sm:hidden max-h-16 fixed w-full top-0 z-40 bg-white dark:bg-darkSecondary text-black dark:text-white p-4 
@@ -29,7 +30,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
       </div>
 
       {
-        isLoggedin ? (
+        isLogged ? (
           <div className="rounded-full ">
             <Profile />
           </div>

@@ -2,11 +2,12 @@ import { Search } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 import Profile from "./Profile"
+import { useAppSelector } from "@/hooks/hooks"
 
 const SearchBar = () => {
-    const { t } = useTranslation()
-
-    const isLoggedin = true
+  const { t } = useTranslation()
+  const {isLogged} = useAppSelector((state)=>state.user)
+  
   return (
     <div className="flex items-center justify-between gap-5">
         <form 
@@ -21,7 +22,7 @@ const SearchBar = () => {
         </form>
 
         {
-          isLoggedin ? (
+          isLogged ? (
             <div className="hidden sm:block">
               <Profile />
             </div>
