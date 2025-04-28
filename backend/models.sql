@@ -6,7 +6,8 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   bio TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  google_id TEXT UNIQUE
+  google_id TEXT UNIQUE,
+  llm_use_at TIMESTAMP
 )
 
 CREATE TABLE categories (

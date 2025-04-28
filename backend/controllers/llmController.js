@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 import { db } from "../db.js";
+import { llmGradingEligibility } from "../middleware/checkFeatureEligibility.js";
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ export const llmSuggestions = async (req, res) => {
 
 export const llmAnswerGrading = async (req, res) => {
   try {
-    const { competition_id } = req.params
+    const { competition_id } = req.params;
     const { img_url, text_content } = req.body;
 
     if (!img_url && !text_content) {
@@ -93,10 +94,12 @@ export const llmAnswerGrading = async (req, res) => {
             data: base64ImageData,
           },
         },
-        { text: `Do not greet the user, 
+        {
+          text: `Do not greet the user, 
             this prompt is supposed to have a description for the image containing an answer
             for the following question
-            ${text_content}` },
+            ${text_content}`,
+        },
       ],
     });
 
@@ -110,5 +113,19 @@ export const llmAnswerGrading = async (req, res) => {
 };
 
 export const llmGradingParticipants = async (req, res) => {
+  try {
+    // const { user_id } = req.body;
 
-}
+    // const test = llmGradingEligibility(user_id);
+
+    res.status(200).send({
+      // llmGradingEligibility: test,
+      hello: "hello",
+    });
+  } catch (error) {
+    console.log(`Error occured at llmGradingParticipants(): ${error}`);
+    return res.status(500).send({
+      error_message: error,
+    });
+  }
+};
