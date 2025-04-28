@@ -62,7 +62,15 @@
       "submitted": "Отправлено",
       "submit": "Отправить",
       "check": "Проверить",
-      "score": "Оценка"
+      "score": "Оценка",
+      "explanation": "Объяснение",
+      "comments": "Комментарии",
+      "comment_optional": "Комментарий (необязательно)",
+      "upvote": "Голос за",
+      "downvote": "Голос против",
+      "upvoted": "Проголосовали за",
+      "downvoted": "Проголосовали против",
+      "share_thoughts": "Поделитесь мыслями..."
     },
 
     "createCompetition": {

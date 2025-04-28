@@ -62,7 +62,15 @@
       "submitted": "Submitted",
       "submit": "Submit",
       "check": "Check",
-      "score": "Score"
+      "score": "Score",
+      "explanation": "Explanation",
+      "comments": "Comments",
+      "comment_optional": "Comment: (Optional)",
+      "upvote": "Upvote",
+      "downvote": "Downvote",
+      "upvoted": "Upvoted",
+      "downvoted": "Downvoted",
+      "share_thoughts": "Share your thoughts..."
     },
 
     "createCompetition": {
