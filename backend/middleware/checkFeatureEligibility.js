@@ -16,8 +16,6 @@ export const llmGradingEligibility = async (req, res, next) => {
       [user_id]
     );
 
-    console.log(result);
-
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }

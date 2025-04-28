@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import { db } from "../db.js";
 import { llmGradingEligibility } from "../middleware/checkFeatureEligibility.js";
 
@@ -114,13 +114,52 @@ export const llmAnswerGrading = async (req, res) => {
 
 export const llmGradingParticipants = async (req, res) => {
   try {
-    // const { user_id } = req.body;
+    const { competition_id } = req.body;
 
-    // const test = llmGradingEligibility(user_id);
+    const promptContext = await db.query(
+      "SELECT description, rules FROM competitions WHERE id=$1",
+      [competition_id]
+    );
+
+    const submissions_id = await db.query(
+      "SELECT id, participant_id, explanation, image FROM submissions WHERE competition_id=$1",
+      [competition_id]
+    );
+
+    console.log(submissions_id);
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: `A user on our platform submitted a submission for a competition.
+        Your task is to rate this submission with a boolean value:
+        - true for upvote
+        - false for downvote
+        Please respond with only the boolean value, without any additional text or formatting.\n
+        Description: ${promptContext.rows[0].description}
+        Rules: ${promptContext.rows[0].rules}\n
+        Submission:`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              vote: {
+                type: Type.BOOLEAN,
+                description: "true or false",
+              },
+            },
+            required: ["vote"],
+          },
+        },
+      },
+    });
+
+    const content = JSON.parse(response.candidates[0].content.parts[0].text);
 
     res.status(200).send({
-      // llmGradingEligibility: test,
-      hello: "hello",
+      content,
     });
   } catch (error) {
     console.log(`Error occured at llmGradingParticipants(): ${error}`);

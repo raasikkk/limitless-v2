@@ -11,4 +11,4 @@ export const llmRouter = Router();
 
 llmRouter.get("/llm/suggestions", checkAuth, llmSuggestions);
 llmRouter.get("/llm/grading", checkAuth, llmAnswerGrading);
-llmRouter.get("/llm/testing", llmGradingEligibility, llmGradingParticipants);
+llmRouter.get("/llm/testing", llmGradingParticipants);
