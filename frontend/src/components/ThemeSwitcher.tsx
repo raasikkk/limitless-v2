@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ThemeSwitcher = () => {
+    const { t } = useTranslation()
     const [dark, setDark] = useState(() => {
         return localStorage.getItem('theme') === 'dark';
     });
@@ -23,9 +25,9 @@ const ThemeSwitcher = () => {
     return (
         <div className="mt-5 space-y-4">
             <div className="space-y-2">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Theme</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t("settingsPage.theme")}</h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Toggle the dark mode by choosing Limitless UI theme below
+                    {t("settingsPage.theme_title")}
                 </p>
             </div>
             
@@ -39,7 +41,7 @@ const ThemeSwitcher = () => {
                     }
                 >
                     <Sun className="w-4 h-4" />
-                    Light
+                    {t("settingsPage.light")}
                 </button>
                 
                 <button
@@ -51,7 +53,7 @@ const ThemeSwitcher = () => {
                     }
                 >
                     <Moon className="w-4 h-4" />
-                    Dark
+                    {t("settingsPage.dark")}
                 </button>
             </div>
         </div>

@@ -47,7 +47,7 @@ const EditImage = ({setIsEdit, setImage, image}: Props) => {
           <button 
             type="button"
             onClick={() => setIsEdit(false)}
-            className='p-2 hover:bg-gray-100 dark:hover:bg-[#1E293B] rounded-full transition-colors'
+            className='p-2 hover:bg-gray-100 dark:hover:bg-darkSecondary rounded-full transition-colors'
           >
             <X size={24} />
           </button>
