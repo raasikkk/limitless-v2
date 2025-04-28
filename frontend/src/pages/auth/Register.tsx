@@ -52,7 +52,7 @@ const Register = () => {
                             id="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            placeholder="Enter your email address"
+                            placeholder={t("auth.enter_email")}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
@@ -67,7 +67,7 @@ const Register = () => {
                             id="password"
                             value={formData.password}
                             onChange={handleInputChange}
-                            placeholder="Enter password"
+                            placeholder={t("auth.enter_password")}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                         <div
@@ -81,7 +81,7 @@ const Register = () => {
                                 <img src="/eye-visible.svg" alt="Show Password" />
                             )}
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">Minimum of 7 characters</p>
+                        <p className="mt-1 text-sm text-gray-500">{t("auth.min_7_char")}</p>
                     </div>
 
                     <div>
@@ -94,21 +94,21 @@ const Register = () => {
                             id="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            placeholder="Enter your full name"
+                            placeholder={t("auth.enter_full_name")}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
-                        <p className="mt-1 text-sm text-gray-500">Will be displayed on your profile</p>
+                        <p className="mt-1 text-sm text-gray-500">{t("auth.display_profile")}</p>
                     </div>
 
                     <div className="flex justify-between items-center mt-8 dark:text-black">
                         <Link to="/" className="px-4 py-2 flex items-center gap-1 text-sm font-semibold hover:underline">
-                            <ArrowLeft size={17} /> Back
+                            <ArrowLeft size={17} /> {t("auth.back")}
                         </Link>
                         <button
                             type="submit"
                             className="px-6 py-2 font-semibold bg-primaryColor text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                         >
-                            Next
+                            {t("auth.next")}
                         </button>
                     </div>
 
@@ -120,7 +120,7 @@ const Register = () => {
                         <span>{t("register_google")}</span>
                     </Link>
 
-                    <p className="text-center text-black">{t("have_an_account")} <Link to="/auth/signin" className="text-primaryColor hover:underline">Sign in Here</Link></p>
+                    <p className="text-center text-black">{t("have_an_account")} <Link to="/auth/signin" className="text-primaryColor hover:underline">{t("auth.sign_in_here")}</Link></p>
                 </form>
             </div>
         </div>

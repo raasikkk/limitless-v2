@@ -51,7 +51,7 @@ const Signin = () => {
                             id="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            placeholder="Enter your email address"
+                            placeholder={t("auth.enter_email")}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
@@ -66,7 +66,7 @@ const Signin = () => {
                             id="password"
                             value={formData.password}
                             onChange={handleInputChange}
-                            placeholder="Enter password"
+                            placeholder={t("auth.enter_password")}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                         <div
@@ -80,18 +80,18 @@ const Signin = () => {
                                 <img src="/eye-visible.svg" alt="Show Password" />
                             )}
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">Minimum of 7 characters</p>
+                        <p className="mt-1 text-sm text-gray-500">{t("auth.min_7_char")}</p>
                     </div>
 
                     <div className="flex justify-between items-center mt-8 text-black">
                         <Link to="/" className="px-4 py-2 flex items-center gap-1 text-sm font-semibold hover:underline">
-                            <ArrowLeft size={17} /> Back
+                            <ArrowLeft size={17} /> {t("auth.back")}
                         </Link>
                         <button
                             type="submit"
                             className="px-6 py-2 font-semibold bg-primaryColor text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                         >
-                            Next
+                            {t("auth.next")}
                         </button>
                     </div>
 
@@ -103,7 +103,7 @@ const Signin = () => {
                         <span>{t("signin_google")}</span>
                     </Link>
 
-                    <p className="text-center text-black">Don't have an account? <Link to="/auth/register" className="text-primaryColor hover:underline">Register Here</Link></p>
+                    <p className="text-center text-black">{t("dont_have_account")} <Link to="/auth/register" className="text-primaryColor hover:underline">{t("auth.register_here")}</Link></p>
                 </form>
             </div>
         </div>

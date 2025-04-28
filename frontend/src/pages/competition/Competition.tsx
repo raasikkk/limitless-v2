@@ -37,11 +37,11 @@ const Competition = () => {
           isParticipant
           ?
           <button className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-            Quit Competiton
+            {t("competition.quit")}
           </button>
           :
           <button className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-            Join Competiton
+            {t("competition.join")}
           </button>
         }
       </div>
@@ -60,19 +60,19 @@ const Competition = () => {
                   onChange={(e) =>setTitle(e.target.value)}
                   value={title}
                   type="text"
-                  className="w-full text-sm md:text-xl font-bold mb-3 p-4 outline-none border border-zinc-300 bg-white dark:bg-[#1E293B] rounded-md"
+                  className="w-full text-sm md:text-xl font-bold mb-3 p-4 outline-none border border-zinc-300 bg-white dark:bg-darkSecondary rounded-md"
                 />
                 <div className="flex items-center justify-end mt-4 gap-2">
-                  <button onClick={()=>setIsTitleEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-[#1E293B]">
-                    Cancel
+                  <button onClick={()=>setIsTitleEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+                    {t("cancel")}
                   </button>
                   <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
-                    Save
+                    {t("save_changes")}
                   </button>
                 </div>
               </label>
               :
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3">{title}</h1>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{title}</h1>
             }
             {
               canEdit
@@ -97,13 +97,13 @@ const Competition = () => {
       <Tabs defaultValue="main">
         <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-10">
           <TabsTrigger value="main" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-            Main
+            {t("competition.main")}
           </TabsTrigger>
           <TabsTrigger value="submissions" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-            Submissions
+            {t("competition.submissions")}
           </TabsTrigger>
           <TabsTrigger value="leaderboard" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-            Leaderboard
+           {t("competition.leaderboard")}
           </TabsTrigger>
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
@@ -112,7 +112,7 @@ const Competition = () => {
             <li className="flex items-center gap-4 justify-between">
               <div>
                 <h3 className="font-semibold">
-                  Competition host
+                  {t("competition.host")}
                 </h3>
                 <p className="text-sm">
                   rasul
@@ -124,11 +124,11 @@ const Competition = () => {
             </li>
             <li>
               <h3 className="font-semibold mb-1">
-                Participation
+                {t("competition.participation")}
               </h3>
               <div className="text-sm">
-                <p>Participants 0</p>
-                <p>Submissions 0</p>
+                <p>{t("competition.participants")} 0</p>
+                <p>{t("competition.submissions")} 0</p>
               </div>
             </li>
           </ul>

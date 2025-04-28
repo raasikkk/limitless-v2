@@ -11,7 +11,7 @@ const ProfilePage = () => {
   return (
     <>
       <div className="mt-5 w-full flex justify-between items-center">
-        <button className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black dark:bg-[#1E293B] text-white font-semibold rounded-full">
+        <button className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black dark:bg-darkSecondary text-white font-semibold rounded-full">
             {t("view_info")}
         </button>
         <Link to="/settings" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
@@ -42,7 +42,7 @@ const ProfilePage = () => {
             <div className="flex items-center justify-between">
                 <div></div>
                 <div className="flex items-center gap-2">
-                    <button className="p-2 px-4 bg-black dark:bg-[#1E293B] text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
+                    <button className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
                     <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
             </div>
@@ -55,15 +55,15 @@ const ProfilePage = () => {
                     <TabsTrigger 
                         value="follower"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >Followers (0)</TabsTrigger>
+                    >{t("followers")} (0)</TabsTrigger>
                     <TabsTrigger 
                         value="following"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >Following (0)</TabsTrigger>
+                    >{t("following")} (0)</TabsTrigger>
                 </TabsList>
                 <TabsContent value="about">{t("no_bio_yet")}.</TabsContent>
-                <TabsContent value="follower">0 Followers</TabsContent>
-                <TabsContent value="following">0 Following</TabsContent>
+                <TabsContent value="follower">0 {t("followers")}</TabsContent>
+                <TabsContent value="following">0 {t("following")}</TabsContent>
             </Tabs>
         </div>
     </>

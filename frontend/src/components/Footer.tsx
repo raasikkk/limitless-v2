@@ -1,5 +1,8 @@
+import { useTranslation } from "react-i18next"
 
 const Footer = () => {
+  const { t } = useTranslation()
+
   return (
     <footer className="">
       <center>
@@ -9,7 +12,7 @@ const Footer = () => {
           <a href="#" className="hover:underline">
               Limitless
           </a>
-          . All Rights Reserved.
+          . {t('rights')}
           </span>
       </center>
     </footer>

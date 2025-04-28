@@ -1,15 +1,16 @@
 import { useTranslation } from 'react-i18next';
 
 const LanguageSwitcher = () => {
+  const { t } = useTranslation()
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   return (
     <div className="mt-5 space-y-4">
       <div className="space-y-2">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Language</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t("settingsPage.language")}</h2>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Set your desired language
+          {t("settingsPage.language_title")}
         </p>
       </div>
 

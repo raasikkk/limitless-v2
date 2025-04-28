@@ -50,7 +50,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
                 to="/create"
                 className={`${!isSidebarOpen ? "p-1" : "p-1.5 px-4"} border-2 drop-shadow-md flex items-center max-w-36 gap-2 text-primaryColor rounded-full hover:scale-105 transition`}
             >
-                <Plus color="#20beff" size={35} strokeWidth={2.25} />
+                <Plus className='text-primaryColor' size={35} strokeWidth={2.25} />
                 <span 
                     className={`text-lg font-semibold ${!isSidebarOpen ? 'hidden' : 'block'}`}
                 >
@@ -62,7 +62,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
                 <Link
                     key={item.label}
                     to={item.url}
-                    className={`flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-[#1E293B]
+                    className={`flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-darkSecondary
                     ${!isSidebarOpen && !isMobile ? 'justify-center' : 'px-4'}`}
                 >
                     {item.icon}

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router"
 import SubmitPopUp from "@/components/SubmitPopUp";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isParticipant: boolean
 }
 
 const CompetitionSubmissions = ({isParticipant}: Props) => {
+  const { t } = useTranslation()
   const [isSubmit, setIsSubmit] = useState(false);
 
   return (
@@ -21,13 +23,13 @@ const CompetitionSubmissions = ({isParticipant}: Props) => {
       
       <div className="mb-8 flex items-center justify-between">
         <h2 className="font-semibold text-2xl">
-          Submissions (0)
+          {t("competition.submissions")} (0)
         </h2>
         {
           isParticipant
           ?
           <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
-            Submit
+            {t("competition.submit")}
           </button>
           :
           ''
@@ -36,13 +38,13 @@ const CompetitionSubmissions = ({isParticipant}: Props) => {
       <table className="w-full text-xs md:text-base lg:text-lg">
         <tr className='border-2 border-b-none px-4 rounded-b-none text-zinc-500'>
           <th className='font-semibold text-left p-4'>
-            User
+            {t("competition.user")}
           </th>
           <th className='font-semibold text-center w-1/3'>
-            Submission
+            {t("competition.submissions")}
           </th>
           <th className='text-right p-4'>
-            Submited
+            {t("competition.submitted")}
           </th>
         </tr>
         <tr className='border-l-2 border-r-2 border-b-2'>
@@ -57,7 +59,7 @@ const CompetitionSubmissions = ({isParticipant}: Props) => {
           </td>
           <td className='font-semibold text-center'>
             <Link to={`/submissions/1`} className="text-primaryColor hover:underline">
-              Check
+              {t("competition.check")}
             </Link>
           </td>
           <td className="text-right p-4">

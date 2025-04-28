@@ -55,7 +55,7 @@ const CreatePage = () => {
           onChange={(e) => setTitle(e.target.value)}
           value={title}
           type="text"
-          className="w-full text-lg font-medium py-4 px-6 rounded-md outline-none border border-zinc-300 bg-white dark:bg-[#1E293B] rounded-md"
+          className="w-full text-lg font-medium py-4 px-6 outline-none border border-zinc-300 bg-white dark:bg-darkColor rounded-md"
         />
       </label>
 
@@ -94,7 +94,7 @@ const CreatePage = () => {
             <small className="uppercase text-zinc-500 font-semibold text-xs">
               {t('createCompetition.form.categoryLabel')}
             </small>
-            <select className="border-2 border-300-zinc block p-2 rounded-md outline-none bg-white dark:bg-[#1E293B]">
+            <select className="border-2 border-300-zinc block p-2 rounded-md outline-none bg-white dark:bg-darkSecondary">
               <option onClick={()=>setCategory(null)}>{t('createCompetition.form.categoryOptions.select')}</option>
               <option onClick={()=>setCategory('programming')}>{t('createCompetition.form.categoryOptions.programming')}</option>
               <option onClick={()=>setCategory('languages')}>{t('createCompetition.form.categoryOptions.languages')}</option>
@@ -107,7 +107,7 @@ const CreatePage = () => {
         <button
           type="button"
           onClick={() => setCreate(true)}
-          className="p-2 w-full md:w-72 px-6 bg-black dark:bg-[#1E293B] text-white rounded-md duration-500 hover:opacity-75"
+          className="p-2 w-full md:w-72 px-6 bg-black dark:bg-darkSecondary text-white rounded-md duration-500 hover:opacity-75"
         >
           {t('createCompetition.form.createButton')}
         </button>
