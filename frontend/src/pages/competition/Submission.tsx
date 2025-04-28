@@ -23,22 +23,21 @@ const Submission = () => {
           <span className="text-zinc-600 text-sm ">Submited 8 month ago</span>
         </div>
         <EllipsisVertical className="xs:hidden"/>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center justify-between w-full md:w-fit gap-10">
           <div className="flex items-center gap-1 relative">
             {
               voteType !== null
               ?
               <Vote voteType={voteType} setVoteType={setVoteType}/>
               :
-              <>
-                <button onClick={()=>setVoteType(true)} className="py-1 pl-2 pr-6 bg-primaryColor rounded-3xl text-white font-medium flex items-center gap-2">
-                  <ChevronUp/> Upvote
-                </button>
-                <button onClick={()=>setVoteType(false)} className="py-1 pl-2 pr-6 border border-zinc-500 rounded-3xl font-medium flex items-center gap-2">
-                  <ChevronDown/> Downvote
-                </button>
-              </>
+              ''
             }
+            <button onClick={()=>setVoteType(true)} className="py-1 pl-2 pr-6 bg-primaryColor rounded-3xl text-white font-medium flex items-center gap-2">
+              <ChevronUp/> Upvote
+            </button>
+            <button onClick={()=>setVoteType(false)} className="py-1 pl-2 pr-6 border border-zinc-500 rounded-3xl font-medium flex items-center gap-2">
+              <ChevronDown/> Downvote
+            </button>
           </div>
           <EllipsisVertical className="hidden xs:block"/>
         </div>

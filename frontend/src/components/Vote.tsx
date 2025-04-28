@@ -16,7 +16,7 @@ const Vote = ({voteType, setVoteType}: Props) => {
   }
 
   return (
-    <div className="absolute right-0 top-0 w-96 bg-white border border-zinc-300 rounded-lg p-4 flex flex-col gap-2">
+    <div className="absolute right-0 md:right-0 top-0 md:w-96 bg-white border border-zinc-300 rounded-lg p-4 flex flex-col gap-2">
       <div>
         <small className="uppercase text-zinc-500 font-semibold text-xs">
           Comment: (Not necessary)
@@ -36,11 +36,11 @@ const Vote = ({voteType, setVoteType}: Props) => {
           voteType
           ?
           <button className="rounded-3xl p-1 px-6 bg-green-500 text-white hover:opacity-75">
-            Submit upvote
+            Upvote
           </button>
           :
           <button className="rounded-3xl p-1 px-6 bg-red-500 text-white hover:opacity-75">
-            Submit downvote
+            Downvote
           </button>
         }
         <button onClick={()=>setVoteType(null)} className="rounded-3xl p-1 px-6 hover:bg-zinc-200">
