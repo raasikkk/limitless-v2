@@ -58,7 +58,7 @@ const CompetitionSubmissions = ({isParticipant}: Props) => {
             </Link>
           </td>
           <td className='font-semibold text-center'>
-            <Link to={`/submissions/1`} className="text-primaryColor hover:underline">
+            <Link to={`submission/1`} className="text-primaryColor hover:underline">
               {t("competition.check")}
             </Link>
           </td>

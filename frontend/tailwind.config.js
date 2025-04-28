@@ -8,6 +8,9 @@
   ],
   theme: {
   	extend: {
+      screens: {
+        xs: '375px'
+      },
   		colors: {
   			primaryColor: '#3b82f6',
   			darkColor: '#1C1D20',

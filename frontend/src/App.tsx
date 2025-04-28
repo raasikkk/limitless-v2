@@ -13,6 +13,7 @@ import CompetitionCategorie from "./pages/competition/CompetitionCategorie";
 import Competition from "./pages/competition/Competition";
 import CompetitionMain from "./pages/competition/CompetitionMain";
 import CompetitionSubmissions from "./pages/competition/CompetitionSubmissions";
+import Submission from "./pages/competition/Submission";
 
 function App() {
   const { i18n } = useTranslation();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/competitions" element={<Competitions />}/>
           <Route path="/categories/:category_id" element={<CompetitionCategorie />}/>
           <Route path="/competitions/:id" element={<Competition />}/>
+          <Route path="/competitions/:id/submission/:submissionId" element={<Submission />}/>
           <Route path="/create" element={<CreatePage/>}/>
         </Route>
         <Route path="/auth/signin" element={<Signin />} />
