@@ -62,7 +62,15 @@
       "submitted": "Жіберілді",
       "submit": "Жіберу",
       "check": "Тексеру",
-      "score": "Ұпай"
+      "score": "Ұпай",
+      "explanation": "Түсіндірме",
+      "comments": "Пікірлер",
+      "comment_optional": "Пікір (міндетті емес)",
+      "upvote": "Қолдау",
+      "downvote": "Қарсылық",
+      "upvoted": "Қолдады",
+      "downvoted": "Қарсы шықты",
+      "share_thoughts": "Пікіріңізді білдіріңіз..."
     },
 
   "createCompetition": {

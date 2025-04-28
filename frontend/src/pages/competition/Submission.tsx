@@ -20,11 +20,11 @@ const Submission = () => {
           <Link to={`/profile/1`}>
             <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src="/ava.jpg" />
           </Link>
-          <span className="text-zinc-600 text-sm ">Submited 8 month ago</span>
+          <span className="text-zinc-600 text-sm ">Submitted 8 month ago</span>
         </div>
         <EllipsisVertical className="xs:hidden"/>
         <div className="flex items-center justify-between w-full md:w-fit gap-10">
-          <div className="flex items-center gap-1 relative">
+          <div className="flex items-center gap-2 relative">
             {
               voteType !== null
               ?
@@ -32,11 +32,11 @@ const Submission = () => {
               :
               ''
             }
-            <button onClick={()=>setVoteType(true)} className="py-1 pl-2 pr-6 bg-primaryColor rounded-3xl text-white font-medium flex items-center gap-2">
-              <ChevronUp/> Upvote
+            <button onClick={()=>setVoteType(true)} className="p-2 px-4 bg-primaryColor rounded-3xl text-white font-medium flex justify-center items-center gap-2">
+              <ChevronUp/> {t("competition.upvote")}
             </button>
-            <button onClick={()=>setVoteType(false)} className="py-1 pl-2 pr-6 border border-zinc-500 rounded-3xl font-medium flex items-center gap-2">
-              <ChevronDown/> Downvote
+            <button onClick={()=>setVoteType(false)} className="p-2 px-4 border border-zinc-500 rounded-3xl font-medium flex justify-center items-center gap-2">
+              <ChevronDown/> {t("competition.downvote")}
             </button>
           </div>
           <EllipsisVertical className="hidden xs:block"/>
@@ -48,10 +48,10 @@ const Submission = () => {
       <Tabs defaultValue="main">
         <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-10">
           <TabsTrigger value="main" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-            Explanation
+            {t("competition.explanation")}
           </TabsTrigger>
           <TabsTrigger value="comments" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-            Comments (0)
+            {t("competition.comments")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="main">
@@ -82,35 +82,60 @@ const Submission = () => {
             </div>
           }
         </TabsContent>
-        <TabsContent value="comments">
-          <h2 className="font-semibold text-2xl mb-10">
-            Comments
+        <TabsContent value="comments" className="bg-white dark:bg-darkColor rounded-xl">
+          <h2 className="font-semibold text-2xl mb-6 text-gray-800 dark:text-gray-200">
+            {t("competition.comments")}
           </h2>
-          <ul className="px-4 flex flex-col gap-4">
-            <li>
-              <Link to={`/profile/1`} className="flex items-center gap-2 md:gap-4 hover:underline mb-4">
-                
-                <img className="w-12 h-12 p-1 border-2 border-green-500 rounded-full" src="/ava.jpg" />
-                <h3 className='font-semibold'>
-                  rasul
-                </h3>
-                <p className="text-green-500 flex items-center font-bold">Upvoted <ChevronUp/></p>
+          <ul className="flex flex-col gap-6">
+            <li className="bg-gray-50 dark:bg-darkSecondary p-4 rounded-lg transition-all hover:shadow-md dark:hover:bg-primaryColor/10">
+              <Link 
+                to={`/profile/1`} 
+                className="flex items-center gap-3 mb-4 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-primaryColor/5 transition-colors"
+              >
+                <div className="relative">
+                  <img 
+                    className="w-12 h-12 p-1 border-2 border-green-500 rounded-full dark:border-green-400/80" 
+                    src="/ava.jpg" 
+                    alt="User avatar"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className='font-semibold text-gray-800 dark:text-gray-100'>
+                    rasul
+                  </h3>
+                </div>
+                <p className="text-green-500 dark:text-green-400 flex items-center font-medium gap-1">
+                  {t("competition.upvoted")} <ChevronUp className="w-5 h-5" />
+                </p>
               </Link>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet corporis debitis ab cum, nesciunt doloremque molestiae tempora natus. Odio nihil sint qui, in hic alias natus harum nobis facere at.
+              <p className="text-gray-600 dark:text-gray-300 pl-2 leading-relaxed">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet corporis debitis ab cum...
               </p>
             </li>
-            <li>
-              <Link to={`/profile/1`} className="flex items-center gap-2 md:gap-4 hover:underline mb-4">
-                
-                <img className="w-12 h-12 p-1 border-2 border-red-500 rounded-full" src="/ava.jpg" />
-                <h3 className='font-semibold'>
-                  rasul
-                </h3>
-                <p className="text-red-500 flex items-center font-bold">Downvoted <ChevronDown/></p>
+
+            <li className="bg-gray-50 dark:bg-darkSecondary p-4 rounded-lg transition-all hover:shadow-md dark:hover:bg-primaryColor/10">
+              <Link 
+                to={`/profile/1`} 
+                className="flex items-center gap-3 mb-4 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-primaryColor/5 transition-colors"
+              >
+                <div className="relative">
+                  <img 
+                    className="w-12 h-12 p-1 border-2 border-red-500 rounded-full dark:border-red-400/80" 
+                    src="/ava.jpg" 
+                    alt="User avatar"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className='font-semibold text-gray-800 dark:text-gray-100'>
+                    rasul
+                  </h3>
+                </div>
+                <p className="text-red-500 dark:text-red-400 flex items-center font-medium gap-1">
+                  {t("competition.downvoted")} <ChevronDown className="w-5 h-5" />
+                </p>
               </Link>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet corporis debitis ab cum, nesciunt doloremque molestiae tempora natus. Odio nihil sint qui, in hic alias natus harum nobis facere at.
+              <p className="text-gray-600 dark:text-gray-300 pl-2 leading-relaxed">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet corporis debitis ab cum...
               </p>
             </li>
           </ul>
