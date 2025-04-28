@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import Layout from "./Layout"
 import Home from "./pages/Home"
 import { useTranslation } from "react-i18next"
@@ -13,7 +13,7 @@ import CompetitionCategorie from "./pages/competition/CompetitionCategorie";
 import Competition from "./pages/competition/Competition";
 import Submission from "./pages/competition/Submission";
 import axios from "axios";
-import { useAppDispatch } from "./hooks/hooks";
+import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
 
 
@@ -22,6 +22,8 @@ axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useAppDispatch();
   const { i18n } = useTranslation();
+  
+  const {isLogged} = useAppSelector((state)=>state.user);
 
   useEffect(()=>{
     dispatch(fetchUserIsLogged());
@@ -44,8 +46,8 @@ function App() {
           <Route path="/competitions/:id/submission/:submissionId" element={<Submission />}/>
           <Route path="/create" element={<CreatePage/>}/>
         </Route>
-        <Route path="/auth/signin" element={<Signin />} />
-        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/signin" element={isLogged ? <Navigate to={'/'}/> : <Signin />} />
+        <Route path="/auth/register" element={isLogged ? <Navigate to={'/'}/> : <Register />} />
       </Routes>
     </BrowserRouter>
   )

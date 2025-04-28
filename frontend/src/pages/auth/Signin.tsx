@@ -2,8 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Signin = () => {
+
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -24,9 +26,18 @@ const Signin = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log('Form data:', formData);
+    const handleSubmit = async () => {
+        try {
+          
+          await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/login`, {
+            userData: formData.email,
+            password: formData.password
+          })
+
+
+        } catch (error) {
+          console.log(error);
+        }
     };
 
     return (
