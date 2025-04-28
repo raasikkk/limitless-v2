@@ -1,6 +1,6 @@
 import { IUser } from "@/types";
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+// import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
@@ -13,7 +13,7 @@ export const fetchUserIsLogged = createAsyncThunk<isLoggedResponse>(
   'user/isLogged',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get<isLoggedResponse>(`${import.meta.env.VITE_BACKEND_BASE_URL}/isAuth`);
+      const res = await axios.get<isLoggedResponse>(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/isLogged`);
       console.log(res.data);
 
       return res.data;
@@ -46,13 +46,13 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchUserIsLogged.fulfilled, (state, action) => {
+        
         state.isLoading = false;
         state.user = action.payload.user || null;
         state.isLogged = action.payload.isLogged;
       })
       .addCase(fetchUserIsLogged.rejected, (state) => {
         state.isLoading = false;
-
       })
   },
 })

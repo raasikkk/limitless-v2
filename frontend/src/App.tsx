@@ -11,12 +11,21 @@ import ProfilePage from "./pages/ProfilePage";
 import CreatePage from "./pages/CreatePage";
 import CompetitionCategorie from "./pages/competition/CompetitionCategorie";
 import Competition from "./pages/competition/Competition";
-import CompetitionMain from "./pages/competition/CompetitionMain";
-import CompetitionSubmissions from "./pages/competition/CompetitionSubmissions";
 import Submission from "./pages/competition/Submission";
+import axios from "axios";
+import { useAppDispatch } from "./hooks/hooks";
+import { fetchUserIsLogged } from "./features/userSlice/userSlice";
+
+
+axios.defaults.withCredentials = true;
 
 function App() {
+  const dispatch = useAppDispatch();
   const { i18n } = useTranslation();
+
+  useEffect(()=>{
+    dispatch(fetchUserIsLogged());
+  },[])
 
   useEffect(() => {
     document.documentElement.lang = i18n.language
