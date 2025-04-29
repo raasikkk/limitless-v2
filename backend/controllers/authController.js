@@ -39,7 +39,8 @@ export const login = async (req,res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: sevenDays
+      maxAge: sevenDays,
+      sameSite: 'none'
     });
 
     res.json({
@@ -103,7 +104,8 @@ export const register = async (req,res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: sevenDays
+      maxAge: sevenDays,
+      sameSite: 'none'
     });
     
     res.json({
@@ -142,6 +144,7 @@ export const logout = async (req,res) => {
   res.cookie('token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    expiresIn: new Date(0)
+    expiresIn: new Date(0),
+    sameSite: 'none'
   }).send()
 }

@@ -30,7 +30,8 @@ GooglePassport.authenticate('google',{
   res.cookie('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: sevenDays
+    maxAge: sevenDays,
+    sameSite: 'none'
   });
   res.redirect(`${process.env.FRONTEND_BASE_URL}`)
 })
