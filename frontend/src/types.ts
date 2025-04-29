@@ -13,7 +13,7 @@ export interface ICategory {
   cover: string
 }
 
-export interface ICompetition {
+export interface ICompetition extends IUser {
   id: number | string,
   user_id: string | number,
   cover: string,

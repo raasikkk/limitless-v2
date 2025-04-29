@@ -10,6 +10,7 @@ import EditImage from "@/components/EditImage";
 import { useAppSelector } from "@/hooks/hooks";
 import axios from "axios";
 import { ICompetition } from "@/types";
+import { formatDistanceToNow } from "date-fns";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -21,7 +22,10 @@ const Competition = () => {
   const [description, setDescription] = useState('');
   const [rules, setRules] = useState('');
   const [cover, setCover] = useState<File|null|string>(null);
-  const [canEdit, setCanEdit] = useState(true);
+  const [creatorId, setCreatorId] = useState<string | number>('');
+  const [creatorUsername, setCreatorUsername] = useState<string>('');
+  const [creatorAvatar, setCreatorAvatar] = useState<string>('');
+  const [createdAt, setCreatedAt] = useState<Date>();
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
 
@@ -30,7 +34,10 @@ const Competition = () => {
       const competition:ICompetition = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`)).data;
       setTitle(competition.title);
       setCover(competition.cover);
-      setCanEdit(competition.user_id == user?.id);
+      setCreatorId(competition.user_id);
+      setCreatorUsername(competition.username);
+      setCreatorAvatar(competition.avatar);
+      setCreatedAt(competition.created_at);
       setDescription(competition.description);
       setRules(competition.rules);
     } catch (error) {
@@ -53,10 +60,10 @@ const Competition = () => {
       }
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
-          <Link to={`/profile/1`}>
-            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src="/ava.jpg" />
+          <Link to={`/profile/${creatorId}`}>
+            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={creatorAvatar} />
           </Link>
-          <span className="text-zinc-600 text-sm ">Created 8 month ago</span>
+          <span className="text-zinc-600 text-sm ">Created {createdAt ? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : ''}</span>
         </div>
         {
           isParticipant
@@ -100,7 +107,7 @@ const Competition = () => {
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{title}</h1>
             }
             {
-              canEdit
+              creatorId == user?.id
               ?
               <Pencil onClick={()=>setIsTitleEdit(true)} size={20} className="mb-2 hover:opacity-50 self-end"/>
               :
@@ -110,7 +117,7 @@ const Competition = () => {
         </div>
         <div className="relative">
           {
-            canEdit
+            creatorId == user?.id
             ?
             <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
             :
@@ -135,7 +142,7 @@ const Competition = () => {
           <CompetitionMain 
           rules={rules} setRules={setRules}
           description={description} setDescription={setDescription} 
-          canEdit={canEdit}/>
+          canEdit={creatorId == user?.id}/>
           <ul className="w-full md:w-1/4 flex flex-col gap-4">
             <li className="flex items-center gap-4 justify-between">
               <div>
@@ -143,11 +150,11 @@ const Competition = () => {
                   {t("competition.host")}
                 </h3>
                 <p className="text-sm">
-                  rasul
+                  {creatorUsername}
                 </p>
               </div>
-              <Link to={`/profile/1`}>
-                <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src="/ava.jpg" />
+              <Link to={`/profile/${creatorId}`}>
+                <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={creatorAvatar} />
               </Link>
             </li>
             <li>
