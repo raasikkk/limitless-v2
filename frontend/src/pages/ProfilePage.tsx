@@ -9,13 +9,17 @@ import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
 
+interface IFollower extends IUser {
+  follower_id: string
+}
+
 const ProfilePage = () => {
     const { t } = useTranslation();
     const { id } = useParams();
     const {user} = useAppSelector((state)=>state.user);
     const [userData,setUserData] = useState<null|IUser>(null);
-    const [followers, setFollowers] = useState<IUser[]>([]);
-    const [following, setFollowing] = useState<IUser[]>([]);
+    const [followers, setFollowers] = useState<IFollower[]>([]);
+    const [following, setFollowing] = useState<IFollower[]>([]);
     const [isEdit, setIsEdit] = useState(false);
     const [bio, setBio] = useState<string>(userData?.bio||t('no_bio_yet'));
     const [isBioEdit, setIsBioEdit] = useState(false);
@@ -32,7 +36,7 @@ const ProfilePage = () => {
 
     const handleUserFollowers = async () => {
       try {
-        const followersData:IUser[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/followers/${id}`)).data;
+        const followersData:IFollower[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/followers/${id}`)).data;
         setFollowers(followersData)
       } catch (error) {
         console.log(error);
@@ -40,7 +44,7 @@ const ProfilePage = () => {
     }
     const handleUserFollowing = async () => {
       try {
-        const followingData:IUser[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/following/${id}`)).data;
+        const followingData:IFollower[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/following/${id}`)).data;
         setFollowing(followingData);
       } catch (error) {
         console.log(error);
@@ -133,7 +137,7 @@ const ProfilePage = () => {
                 <div></div>
                 <div className="flex items-center gap-2">
                     {
-                      following.some(mate => mate.id == user?.id)
+                      following.some(mate => mate?.follower_id == user?.id)
                       ?
                       <button onClick={handleUnfollow} className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">{t("unfollow")}</button>
                       :
