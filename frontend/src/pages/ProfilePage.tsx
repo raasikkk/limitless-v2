@@ -8,19 +8,17 @@ import { Link, useParams } from "react-router-dom"
 import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
-import { fakePeople } from "@/constants/example"
 
 const ProfilePage = () => {
     const { t } = useTranslation();
     const { id } = useParams();
     const {user} = useAppSelector((state)=>state.user);
     const [userData,setUserData] = useState<null|IUser>(null);
-    const [followers, setFollowers] = useState<null|IUser>(null);
-    const [following, setFollowing] = useState<null|IUser>(null);
+    const [followers, setFollowers] = useState<IUser[]>([]);
+    const [following, setFollowing] = useState<IUser[]>([]);
     const [isEdit, setIsEdit] = useState(false);
     const [bio, setBio] = useState<string>(userData?.bio||t('no_bio_yet'));
     const [isBioEdit, setIsBioEdit] = useState(false);
-    console.log(followers, following);
     
     
     const hanldeUserData = async () => {
@@ -34,16 +32,16 @@ const ProfilePage = () => {
 
     const handleUserFollowers = async () => {
       try {
-        const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/followers/${id}`)).data;
-        setFollowers(user)
+        const followersData:IUser[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/followers/${id}`)).data;
+        setFollowers(followersData)
       } catch (error) {
         console.log(error);
       }
     }
     const handleUserFollowing = async () => {
       try {
-        const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/following/${id}`)).data;
-        setFollowing(user);
+        const followingData:IUser[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/following/${id}`)).data;
+        setFollowing(followingData);
       } catch (error) {
         console.log(error);
       }
@@ -166,10 +164,13 @@ const ProfilePage = () => {
                 </TabsContent>
                 <TabsContent value="follower">
                   <div className="mt-5">
-                    <h2 className="text-2xl font-bold">{t("followers")} (0)</h2>
+                    <h2 className="text-2xl font-bold">{t("followers")} ({followers.length})</h2>
 
                     <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
-                      {fakePeople.map((item) => (
+                      {
+                      followers?.length > 0
+                      ?
+                      followers.map((item) => (
                         <Link
                           to={`/profile/${item.id}`} 
                           key={item.id}
@@ -184,16 +185,22 @@ const ProfilePage = () => {
                             {item.username}
                           </span>
                         </Link>
-                      ))}
+                        ))
+                        :
+                        ''
+                      }
                     </div>
                   </div>
                 </TabsContent>
                 <TabsContent value="following">
                   <div className="mt-5">
-                      <h2 className="text-2xl font-bold">{t("following")} (0)</h2>
+                      <h2 className="text-2xl font-bold">{t("following")} (following.length)</h2>
 
                       <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
-                        {fakePeople.map((item) => (
+                        {
+                        following.length > 0
+                        ?
+                        following.map((item) => (
                           <Link
                             to={`/profile/${item.id}`} 
                             key={item.id}
@@ -208,7 +215,10 @@ const ProfilePage = () => {
                               {item.username}
                             </span>
                           </Link>
-                        ))}
+                          ))
+                          :
+                          ''
+                        }
                       </div>
                     </div>
                 </TabsContent>

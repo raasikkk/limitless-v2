@@ -23,13 +23,13 @@ CREATE TABLE competitions (
   description TEXT NOT NULL,
   rules TEXT,
   cover TEXT,
-  category_id INT,
+  category INTEGER,
   private BOOLEAN DEFAULT FALSE NOT NULL,
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+  FOREIGN KEY (category) REFERENCES categories(id) ON DELETE SET NULL,
   FOREIGN KEY (winner_id) REFERENCES users(id)
 )
 
