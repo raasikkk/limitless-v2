@@ -16,8 +16,6 @@ const CreatePage = () => {
   const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
   
-  console.log(title, description, category);
-  
 
   const navigate = useNavigate();
 
@@ -56,7 +54,7 @@ const CreatePage = () => {
         startDate: oneDayAhead, 
         endDate: oneWeekAhead
       })
-
+      console.log(competition.data.id);
       return navigate(`/competitions/${competition.data.id}`)
       
     } catch (error) {
