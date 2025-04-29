@@ -12,7 +12,7 @@ const CreatePage = () => {
   const [title, setTitle] = useState('Competition Title');
   const [description, setDescription] = useState("Describe the competition you're organizing. Include details like the theme or topic, who can participate, the format (online or offline), key dates, judging criteria, and any prizes. Be as detailed as possible to help participants understand what to expect.")
   const [isPrivate, setIsPrivate] = useState(false);
-  const [category, setCategory] = useState<null|number>(null);
+  const [category, setCategory] = useState<string|number>('');
   const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
   
@@ -148,9 +148,9 @@ const CreatePage = () => {
               {t('createCompetition.form.categoryLabel')}
             </small>
             <select 
-            onChange={(e)=>setCategory(parseInt(e.target.value))}
+            onChange={(e)=>setCategory(e.target.value)}
             className="border-2 border-300-zinc block p-2 rounded-md outline-none bg-white dark:bg-darkSecondary">
-              <option>{t('createCompetition.form.categoryOptions.select')}</option>
+              <option value={''}>{t('createCompetition.form.categoryOptions.select')}</option>
               {
                 categories?.map(category => {
                   return <option value={category.id}>{category.name}</option>
