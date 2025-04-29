@@ -5,28 +5,30 @@ import { Link } from "react-router-dom";
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
+        confirmPassword: '',
         name: ''
     });
     
     const { t } = useTranslation();
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+    const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [id]: value
-        }));
+        setFormData(prev => ({ ...prev, [id]: value }));
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            alert(t("auth.passwords_mismatch"));
+            return;
+        }
         console.log('Form data:', formData);
     };
 
@@ -57,33 +59,6 @@ const Register = () => {
                         />
                     </div>
 
-                    <div className="relative w-full">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                            {t("password")}
-                        </label>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            required
-                            id="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            placeholder={t("auth.enter_password")}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        <div
-                            // type="button"
-                            onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 flex items-center pr-3"
-                        >
-                            {showPassword ? (
-                                <img src="/eye-invisible.svg" alt="Hide Password" />
-                            ) : (
-                                <img src="/eye-visible.svg" alt="Show Password" />
-                            )}
-                        </div>
-                        <p className="mt-1 text-sm text-gray-500">{t("auth.min_7_char")}</p>
-                    </div>
-
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                             {t("full_name")}
@@ -98,6 +73,58 @@ const Register = () => {
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                         <p className="mt-1 text-sm text-gray-500">{t("auth.display_profile")}</p>
+                    </div>
+
+                    <div className="relative w-full">
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                            {t("password")}
+                        </label>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            required
+                            id="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            placeholder={t("auth.enter_password")}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        <div
+                            onClick={togglePasswordVisibility}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3"
+                        >
+                            {showPassword ? (
+                                <img src="/eye-invisible.svg" alt="Hide Password" />
+                            ) : (
+                                <img src="/eye-visible.svg" alt="Show Password" />
+                            )}
+                        </div>
+                        <p className="mt-1 text-sm text-gray-500">{t("auth.min_7_char")}</p>
+                    </div>
+
+                    <div className="relative w-full">
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                            {t("auth.confirm_password")}
+                        </label>
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            required
+                            id="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleInputChange}
+                            placeholder={t("auth.enter_confirm_password")}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        <div
+                            onClick={toggleConfirmPasswordVisibility}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3"
+                        >
+                            {showConfirmPassword ? (
+                                <img src="/eye-invisible.svg" alt="Hide Password" />
+                            ) : (
+                                <img src="/eye-visible.svg" alt="Show Password" />
+                            )}
+                        </div>
+                        <p className="mt-1 text-sm text-gray-500">{t("auth.confirm_password_hint")}</p>
                     </div>
 
                     <div className="flex justify-between items-center mt-8 dark:text-black">
