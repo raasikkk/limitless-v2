@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,13 +24,19 @@ const Register = () => {
         setFormData(prev => ({ ...prev, [id]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit =  async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert(t("auth.passwords_mismatch"));
             return;
         }
-        console.log('Form data:', formData);
+        try {
+
+          await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/register`, {email: formData.email, username: formData.name, password: formData.password, repPassword: formData.confirmPassword});
+          window.location.reload();
+        } catch (error) {
+          console.log(error);
+        }
     };
 
     return (
