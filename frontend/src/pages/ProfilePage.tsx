@@ -1,12 +1,29 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { IUser } from "@/types"
+import axios from "axios"
 import { CalendarDays, Settings } from "lucide-react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
+import { formatDistanceToNow } from 'date-fns';
 
 const ProfilePage = () => {
-    const { t } = useTranslation()
-    const { id } = useParams()
-    console.log(id);
+    const { t } = useTranslation();
+    const { id } = useParams();
+    const [userData,setUserData] = useState<null|IUser>(null);
+    
+    const hanldeUserData = async () => {
+      try {
+        const user:IUser = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`);
+        setUserData(user)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    useEffect(()=>{
+      hanldeUserData();
+    },[])
     
   return (
     <>
@@ -23,16 +40,16 @@ const ProfilePage = () => {
       <div className="mt-5 p-4 sm:p-8 lg:p-12 xl:p-16 w-full flex flex-col lg:flex-row justify-between gap-8 lg:gap-12 xl:gap-20 border rounded-xl">
             <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
                 <img 
-                    src="/ava.jpg"
+                    src={userData?.avatar}
                     className="rounded-full size-24 sm:size-32 md:size-40 lg:size-48 xl:size-64 border" 
                     alt="ava" 
                 />
                 <div className="space-y-2 lg:space-y-3 text-center md:text-left">
-                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">zhankeldiulyrasultop1@gmail.com</p>
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">Rasul Zhankeldyuly</h2>
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">{userData?.email}</p>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">{userData?.username}</h2>
                     <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white flex flex-col sm:flex-row items-center gap-2">
                         <CalendarDays className="hidden sm:inline-block" />
-                        Joined a year ago · last seen in the past day
+                        Joined {formatDistanceToNow(new Date(userData?.created_at), { addSuffix: true })}
                     </p>
                 </div>
             </div>
