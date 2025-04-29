@@ -30,7 +30,7 @@ const Competition = () => {
       const competition:ICompetition = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`)).data;
       setTitle(competition.title);
       setCover(competition.cover);
-      setCanEdit(competition.user_id === user?.id);
+      setCanEdit(competition.user_id == user?.id);
       setDescription(competition.description);
       setRules(competition.rules);
     } catch (error) {
