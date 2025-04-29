@@ -33,7 +33,7 @@ export const llmSuggestions = async (req, res) => {
 
 export const llmGradingParticipants = async (req, res) => {
   try {
-    const { competition_id } = req.body;
+    const { competition_id } = req.params;
 
     const promptContext = await db.query(
       "SELECT description, rules FROM competitions WHERE id=$1",
