@@ -51,7 +51,7 @@ const CreatePage = () => {
         userId: user?.id,
         title, 
         description, 
-        category: category, 
+        category, 
         isPrivate, 
         startDate: oneDayAhead, 
         endDate: oneWeekAhead
@@ -147,11 +147,13 @@ const CreatePage = () => {
             <small className="uppercase text-zinc-500 font-semibold text-xs">
               {t('createCompetition.form.categoryLabel')}
             </small>
-            <select className="border-2 border-300-zinc block p-2 rounded-md outline-none bg-white dark:bg-darkSecondary">
-              <option onClick={()=>setCategory(null)}>{t('createCompetition.form.categoryOptions.select')}</option>
+            <select 
+            onChange={(e)=>setCategory(parseInt(e.target.value))}
+            className="border-2 border-300-zinc block p-2 rounded-md outline-none bg-white dark:bg-darkSecondary">
+              <option>{t('createCompetition.form.categoryOptions.select')}</option>
               {
                 categories?.map(category => {
-                  return <option onClick={()=>setCategory(category.id)}>{category.name}</option>
+                  return <option value={category.id}>{category.name}</option>
                 })
               }
             </select>
