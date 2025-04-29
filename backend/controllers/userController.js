@@ -18,6 +18,23 @@ export const getUserByUsername = async (req,res) => {
     res.status(500).send(error)
   }
 }
+export const getUserByUserId = async (req,res) => {
+  try {
+    const {id} = req.params;
+
+    const user = await db.query("SELECT id, email, username, avatar, bio, created_at FROM users WHERE id = $1", [id]);
+    if (user.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Incorrect id or user doesn't exist"
+      })
+    }
+
+    res.json(user.rows[0]);
+  } catch (error) {
+    console.log('Error at getUserById:', error);
+    res.status(500).send(error)
+  }
+}
 
 export const editUserById = async (req,res) => {
   try {
