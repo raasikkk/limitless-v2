@@ -1,12 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { IUser } from "@/types"
 import axios from "axios"
-import { CalendarDays, Settings } from "lucide-react"
+import { CalendarDays, Pencil, Settings } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
 import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from "@/hooks/hooks"
+import Editor from "@/components/editor/Editor"
 
 const ProfilePage = () => {
     const { t } = useTranslation();
@@ -15,6 +16,9 @@ const ProfilePage = () => {
     const [userData,setUserData] = useState<null|IUser>(null);
     const [followers, setFollowers] = useState<null|IUser>(null);
     const [following, setFollowing] = useState<null|IUser>(null);
+    const [isEdit, setIsEdit] = useState(false);
+    const [bio, setBio] = useState<string>(userData?.bio||'');
+    const [isBioEdit, setIsBioEdit] = useState(false);
     console.log(followers, following);
     
     
@@ -87,7 +91,15 @@ const ProfilePage = () => {
             {
               user?.id == id
               ?
-              ''
+              <button onClick={()=>setIsEdit(prev=>!prev)} className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">
+                {
+                  isEdit
+                  ?
+                  t("cancel")
+                  :
+                  t("settingsPage.edit_profile")
+                }
+                </button>
               :
               <div className="flex items-center justify-between">
                 <div></div>
@@ -113,10 +125,39 @@ const ProfilePage = () => {
                     >{t("following")} (0)</TabsTrigger>
                 </TabsList>
                 <TabsContent value="about">
+                  <div className="flex items-center justify-between my-4">
+                    <h2 className="font-semibold text-2xl">
+                      {t("about")}
+                    </h2>
+                    {
+                      isEdit
+                      ?
+                      <Pencil onClick={()=>setIsBioEdit(true)} size={20} className="hover:opacity-50"/>
+                      :
+                      ''
+                    }
+                  </div>
                   {
                     userData?.bio 
                     ?
-                    userData?.bio
+                      isBioEdit && isEdit
+                        ?
+                        <>
+                          <Editor content={bio} onChange={setBio}/>
+                          <div className="flex items-center justify-end mt-4 gap-2">
+                            <button onClick={()=>setIsBioEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+                              {t("cancel")}
+                            </button>
+                            <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+                              {t("save_changes")}
+                            </button>
+                          </div>
+                        </>
+                        :
+                        <div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: bio}}>
+                          {/* Rich text editor */}
+                        </div>
+                      
                     :
                     t("no_bio_yet")
                   }

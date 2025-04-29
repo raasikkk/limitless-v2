@@ -3,6 +3,6 @@ export interface IUser {
   username: string,
   email: string,
   avatar: string,
-  bio: string,
+  bio: string|null,
   created_at: Date
 }
