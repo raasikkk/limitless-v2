@@ -6,10 +6,12 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
 import { formatDistanceToNow } from 'date-fns';
+import { useAppSelector } from "@/hooks/hooks"
 
 const ProfilePage = () => {
     const { t } = useTranslation();
     const { id } = useParams();
+    const {user} = useAppSelector((state)=>state.user);
     const [userData,setUserData] = useState<null|IUser>(null);
     console.log(userData);
     
@@ -60,13 +62,19 @@ const ProfilePage = () => {
         </div>
 
         <div className="mt-5 text-black dark:text-white">
-            <div className="flex items-center justify-between">
+            {
+              user?.id == id
+              ?
+              ''
+              :
+              <div className="flex items-center justify-between">
                 <div></div>
                 <div className="flex items-center gap-2">
                     <button className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
                     <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
-            </div>
+              </div>
+            }
             <Tabs defaultValue="about" className="mt-3 w-full">
                 <TabsList className="w-full mb-2 justify-start border-b rounded-none h-auto p-0 bg-transparent">
                     <TabsTrigger 
