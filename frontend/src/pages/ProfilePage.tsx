@@ -47,6 +47,29 @@ const ProfilePage = () => {
       }
     }
 
+    const handleFollow = async () => {
+      try {
+        await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/follow`, {
+          follower_id: user?.id,
+          user_id: id
+        })
+
+        handleUserFollowers();
+        handleUserFollowing();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const handleUnfollow = async () => {
+      try {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/unfollow/${id}/${user?.id}`)
+        handleUserFollowers();
+        handleUserFollowing();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
 
     useEffect(()=>{
       hanldeUserData();
@@ -109,7 +132,13 @@ const ProfilePage = () => {
               <div className="flex items-center justify-between">
                 <div></div>
                 <div className="flex items-center gap-2">
-                    <button className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
+                    {
+                      following.some(mate => mate.id == user?.id)
+                      ?
+                      <button onClick={handleUnfollow} className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">{t("unfollow")}</button>
+                      :
+                      <button onClick={handleFollow} className="p-2 px-4 bg-primaryColor text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
+                    }
                     <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
                 </div>
               </div>
