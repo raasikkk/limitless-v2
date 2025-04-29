@@ -16,7 +16,7 @@ export const login = async (req,res) => {
       })
     }
 
-    const checkUser = await db.query("SELECT * FROM users WHERE username = $1 OR email = $1", [userData]);
+    const checkUser = await db.query("SELECT id, email, username, avatar, bio, created_at FROM users WHERE username = $1 OR email = $1", [userData]);
 
     if (checkUser.rows.length <= 0) {
       return res.status(401).json({
@@ -95,7 +95,7 @@ export const register = async (req,res) => {
     const genSalt = await bcryptjs.genSalt();
     const hashPassword = await bcryptjs.hash(password, genSalt);
 
-    const newUser = await db.query("INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING *", [email, username, hashPassword]);
+    const newUser = await db.query("INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id, email, username, avatar, bio, created_at", [email, username, hashPassword]);
 
     const payload = newUser.rows[0];
     const token = jwt.sign(payload, JWT_SECRET);
