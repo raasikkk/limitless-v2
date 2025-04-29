@@ -27,7 +27,7 @@ const Competition = () => {
 
   const fetchCompetition = async () => {
     try {
-      const competition:ICompetition = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`);
+      const competition:ICompetition = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`)).data;
       setTitle(competition.title);
       setCover(competition.cover);
       setCanEdit(competition.user_id === user?.id);
