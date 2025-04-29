@@ -46,8 +46,9 @@ const CreatePage = () => {
 
       const competition = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions`, {
         userId: user?.id,
-        title, description, 
-        categoryId: category, 
+        title, 
+        description, 
+        category: category, 
         isPrivate, 
         startDate: oneDayAhead, 
         endDate: oneWeekAhead
