@@ -16,7 +16,7 @@ export const login = async (req,res) => {
       })
     }
 
-    const checkUser = await db.query("SELECT id, email, username, avatar, bio, created_at FROM users WHERE username = $1 OR email = $1", [userData]);
+    const checkUser = await db.query("SELECT * FROM users WHERE username = $1 OR email = $1", [userData]);
 
     if (checkUser.rows.length <= 0) {
       return res.status(401).json({
