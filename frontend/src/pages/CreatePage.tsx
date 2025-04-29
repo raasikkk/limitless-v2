@@ -147,7 +147,7 @@ const CreatePage = () => {
               <option onClick={()=>setCategory(null)}>{t('createCompetition.form.categoryOptions.select')}</option>
               {
                 categories?.map(category => {
-                  return <option onClick={()=>setCategory(category.id)}>{t('createCompetition.form.categoryOptions.select')}</option>
+                  return <option onClick={()=>setCategory(category.id)}>{category.name}</option>
                 })
               }
             </select>
