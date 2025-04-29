@@ -15,6 +15,9 @@ const CreatePage = () => {
   const [category, setCategory] = useState<null|number>(null);
   const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
+  
+  console.log(title, description, category);
+  
 
   const navigate = useNavigate();
 
@@ -26,8 +29,8 @@ const CreatePage = () => {
   oneWeekAhead.setDate(today.getDate() + 7);
   
   const getCategories = async () => {
+    console.log(title, description, category);
     try {
-
       const categories = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/categories`)).data;
       setCategories(categories);
       
