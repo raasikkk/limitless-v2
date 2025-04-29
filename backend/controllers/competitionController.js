@@ -34,7 +34,7 @@ export const createCompetition = async (req,res) => {
 
     const {userId, title, description, category, isPrivate, startDate, endDate} = req.body;
 
-    if (!title || !description || !category || !startDate || !endDate ) {
+    if (!title || !description || !startDate || !endDate ) {
       return res.status(400).json({
         message: "Fill all the fields."
       })
@@ -168,7 +168,7 @@ export const uploadCoverForCompetition = async (req,res) => {
 export const getCategories = async (req,res) => {
   try {
 
-    const categories = await db.query("SELECT cover, name FROM categories");
+    const categories = await db.query("SELECT id, cover, name FROM categories");
 
     res.json(categories.rows);
 
