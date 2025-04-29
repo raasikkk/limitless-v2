@@ -37,7 +37,7 @@ const Profile = () => {
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 {/* </DropdownMenuGroup> */}
-                    <DropdownMenuItem onClick={()=>logout} className="flex items-center gap-2">
+                    <DropdownMenuItem onClick={logout} className="flex items-center gap-2">
                       <LogOut />
                       Log out
                       <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
