@@ -40,9 +40,10 @@ export const createCompetition = async (req,res) => {
       })
     }
 
-    await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *", [userId, title, description, category, isPrivate, startDate, endDate]);
+    const competition = await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *", [userId, title, description, category, isPrivate, startDate, endDate]);
     res.json({
-      message: "Succesfully created."
+      message: "Succesfully created.",
+      id: competition.rows[0].id
     })
 
   } catch (error) {
