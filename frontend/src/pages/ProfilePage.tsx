@@ -16,7 +16,7 @@ const ProfilePage = () => {
     
     const hanldeUserData = async () => {
       try {
-        const user:IUser = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`);
+        const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`)).data;
         setUserData(user)
       } catch (error) {
         console.log(error);
