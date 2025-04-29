@@ -1,20 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Editor from "../components/editor/Editor";
 import { useTranslation } from "react-i18next";
+import { ICategory } from "@/types";
+import axios from "axios";
+import { useAppSelector } from "@/hooks/hooks";
+import { useNavigate } from "react-router";
 
 const CreatePage = () => {
   const {t} = useTranslation();
-
+  const {user} = useAppSelector((state)=>state.user);
   const [title, setTitle] = useState('Competition Title');
   const [description, setDescription] = useState("Describe the competition you're organizing. Include details like the theme or topic, who can participate, the format (online or offline), key dates, judging criteria, and any prizes. Be as detailed as possible to help participants understand what to expect.")
   const [isPrivate, setIsPrivate] = useState(false);
-  const [category, setCategory] = useState<null|string>(null);
+  const [category, setCategory] = useState<null|number>(null);
+  const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
-  console.log(category);
+
+  const navigate = useNavigate();
+
+  const today = new Date();
+
+  const oneDayAhead = new Date(today);
+  oneDayAhead.setDate(today.getDate() + 1);
+  const oneWeekAhead = new Date(today);
+  oneWeekAhead.setDate(today.getDate() + 7);
   
+  const getCategories = async () => {
+    try {
+
+      const categories = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/categories`)).data;
+      setCategories(categories);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(()=> {
+    getCategories();
+  },[])
+  
+  const handleCreate = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+
+      const competition = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions`, {
+        userId: user?.id,
+        title, description, 
+        categoryId: category, 
+        isPrivate, 
+        startDate: oneDayAhead, 
+        endDate: oneWeekAhead
+      })
+
+      return navigate(`/competitions/:${competition.data.id}`)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-    <form className="pt-10">
+    <form onSubmit={handleCreate} className="pt-10">
       {create ? (
         <div className="bg-black bg-opacity-15 fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
           <div className="bg-white px-16 py-10 rounded-md w-80 sm:w-96">
@@ -98,10 +145,11 @@ const CreatePage = () => {
             </small>
             <select className="border-2 border-300-zinc block p-2 rounded-md outline-none bg-white dark:bg-darkSecondary">
               <option onClick={()=>setCategory(null)}>{t('createCompetition.form.categoryOptions.select')}</option>
-              <option onClick={()=>setCategory('programming')}>{t('createCompetition.form.categoryOptions.programming')}</option>
-              <option onClick={()=>setCategory('languages')}>{t('createCompetition.form.categoryOptions.languages')}</option>
-              <option onClick={()=>setCategory('hobby')}>{t('createCompetition.form.categoryOptions.hobby')}</option>
-              <option onClick={()=>setCategory('creative')}>{t('createCompetition.form.categoryOptions.creative')}</option>
+              {
+                categories?.map(category => {
+                  return <option onClick={()=>setCategory(category.id)}>{t('createCompetition.form.categoryOptions.select')}</option>
+                })
+              }
             </select>
           </div>
         </div>
