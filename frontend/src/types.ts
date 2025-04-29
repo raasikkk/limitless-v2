@@ -25,3 +25,11 @@ export interface ICompetition extends IUser {
   winner_id: number | string | null,
   created_at: Date
 }
+
+export interface ISubmissions {
+  id: number | string,
+  username: string,
+  avatar: string,
+  user_id: string | number,
+  submited_date: Date
+}

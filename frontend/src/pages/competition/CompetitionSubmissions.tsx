@@ -1,15 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router"
 import SubmitPopUp from "@/components/SubmitPopUp";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { ISubmissions } from "@/types";
+import { formatDistanceToNow } from "date-fns";
 
 type Props = {
-  isParticipant: boolean
+  isParticipant: boolean,
+  competitionId: number | string
 }
 
-const CompetitionSubmissions = ({isParticipant}: Props) => {
+const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
   const { t } = useTranslation()
   const [isSubmit, setIsSubmit] = useState(false);
+  const [submissions, setSubmissions] = useState<ISubmissions[]>([]);
+
+  const fetchSubmissions = async () => {
+    try {
+
+      const submissionsData:ISubmissions[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/submissions/${competitionId}`)).data;
+      setSubmissions(submissionsData)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(()=> {
+    fetchSubmissions()
+  },[competitionId])
 
   return (
     <div className=''>
@@ -47,26 +66,30 @@ const CompetitionSubmissions = ({isParticipant}: Props) => {
             {t("competition.submitted")}
           </th>
         </tr>
-        <tr className='border-l-2 border-r-2 border-b-2'>
-          <td className="p-4">
-            <Link to={`/profile/1`} className="flex items-center gap-2 md:gap-4 hover:underline">
-              
-              <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src="/ava.jpg" />
-              <h3 className='font-semibold'>
-                rasul
-              </h3>
-            </Link>
-          </td>
-          <td className='font-semibold text-center'>
-            <Link to={`submission/1`} className="text-primaryColor hover:underline">
-              {t("competition.check")}
-            </Link>
-          </td>
-          <td className="text-right p-4">
-            2 hours ago
-          </td>
-        </tr>
-        
+        {
+          submissions.map(submission => {
+            return <tr className='border-l-2 border-r-2 border-b-2'>
+                    <td className="p-4">
+                      <Link to={`/profile/${submission.user_id}`} className="flex items-center gap-2 md:gap-4 hover:underline">
+                        
+                        <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission.avatar} />
+                        <h3 className='font-semibold'>
+                          {submission.username}
+                        </h3>
+                      </Link>
+                    </td>
+                    <td className='font-semibold text-center'>
+                      <Link to={`submission/${submission.id}`} className="text-primaryColor hover:underline">
+                        {t("competition.check")}
+                      </Link>
+                    </td>
+                    <td className="text-right p-4">
+                      {submission.submited_date ? formatDistanceToNow(new Date(submission.submited_date), { addSuffix: true }) : ''}
+                    </td>
+                  </tr>
+          })
+        }
+
       </table>
     </div>
   )

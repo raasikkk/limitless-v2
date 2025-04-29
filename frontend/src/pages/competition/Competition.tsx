@@ -169,7 +169,7 @@ const Competition = () => {
           </ul>
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions isParticipant={isParticipant}/>
+          <CompetitionSubmissions competitionId={id!} isParticipant={isParticipant}/>
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard/>
