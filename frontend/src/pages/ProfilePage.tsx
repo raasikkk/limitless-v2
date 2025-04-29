@@ -8,6 +8,7 @@ import { Link, useParams } from "react-router-dom"
 import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
+import { fakePeople } from "@/constants/example"
 
 const ProfilePage = () => {
     const { t } = useTranslation();
@@ -53,7 +54,8 @@ const ProfilePage = () => {
       hanldeUserData();
       handleUserFollowers();
       handleUserFollowing();
-    },[])
+    },[id])
+
     
   return (
     <>
@@ -162,8 +164,54 @@ const ProfilePage = () => {
                       </div>
                   }
                 </TabsContent>
-                <TabsContent value="follower">0 {t("followers")}</TabsContent>
-                <TabsContent value="following">0 {t("following")}</TabsContent>
+                <TabsContent value="follower">
+                  <div className="mt-5">
+                    <h2 className="text-2xl font-bold">{t("followers")} (0)</h2>
+
+                    <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
+                      {fakePeople.map((item) => (
+                        <Link
+                          to={`/profile/${item.id}`} 
+                          key={item.id}
+                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0"
+                        >
+                          <img 
+                            src={item.avatar} 
+                            className="size-8 lg:size-10 rounded-full flex-shrink-0" 
+                            alt={item.username} 
+                          />
+                          <span className="text-xs sm:text-sm font-medium truncate">
+                            {item.username}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="following">
+                  <div className="mt-5">
+                      <h2 className="text-2xl font-bold">{t("following")} (0)</h2>
+
+                      <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
+                        {fakePeople.map((item) => (
+                          <Link
+                            to={`/profile/${item.id}`} 
+                            key={item.id}
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0"
+                          >
+                            <img 
+                              src={item.avatar} 
+                              className="size-8 lg:size-10 rounded-full flex-shrink-0" 
+                              alt={item.username} 
+                            />
+                            <span className="text-xs sm:text-sm font-medium truncate">
+                              {item.username}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                </TabsContent>
             </Tabs>
         </div>
     </>
