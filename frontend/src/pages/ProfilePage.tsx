@@ -58,9 +58,22 @@ const ProfilePage = () => {
   return (
     <>
       <div className="mt-5 w-full flex justify-between items-center">
-        <button className="p-2 px-3 md:px-4 text-sm text-center md:text-base bg-black dark:bg-darkSecondary text-white font-semibold rounded-full">
-            {t("view_info")}
-        </button>
+        {
+          user?.id == id
+          ?
+          <button onClick={()=>setIsEdit(prev=>!prev)} className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">
+            {
+              isEdit
+              ?
+              t("cancel")
+              :
+              t("settingsPage.edit_profile")
+            }
+          </button>
+          :
+          ''
+        }
+        
         <Link to="/settings" className="p-2 px-3 md:px-4 text-sm md:text-base font-semibold rounded-xl flex items-center gap-2">
             <Settings /> 
             {t("settings")}
@@ -91,15 +104,7 @@ const ProfilePage = () => {
             {
               user?.id == id
               ?
-              <button onClick={()=>setIsEdit(prev=>!prev)} className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">
-                {
-                  isEdit
-                  ?
-                  t("cancel")
-                  :
-                  t("settingsPage.edit_profile")
-                }
-                </button>
+              ''
               :
               <div className="flex items-center justify-between">
                 <div></div>
@@ -138,28 +143,23 @@ const ProfilePage = () => {
                     }
                   </div>
                   {
-                    userData?.bio 
-                    ?
-                      isBioEdit && isEdit
-                        ?
-                        <>
-                          <Editor content={bio} onChange={setBio}/>
-                          <div className="flex items-center justify-end mt-4 gap-2">
-                            <button onClick={()=>setIsBioEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
-                              {t("cancel")}
-                            </button>
-                            <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
-                              {t("save_changes")}
-                            </button>
-                          </div>
-                        </>
-                        :
-                        <div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: bio}}>
-                          {/* Rich text editor */}
+                    isBioEdit && isEdit
+                      ?
+                      <>
+                        <Editor content={bio} onChange={setBio}/>
+                        <div className="flex items-center justify-end mt-4 gap-2">
+                          <button onClick={()=>setIsBioEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+                            {t("cancel")}
+                          </button>
+                          <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+                            {t("save_changes")}
+                          </button>
                         </div>
-                      
-                    :
-                    t("no_bio_yet")
+                      </>
+                      :
+                      <div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: bio}}>
+                        {/* Rich text editor */}
+                      </div>
                   }
                 </TabsContent>
                 <TabsContent value="follower">0 {t("followers")}</TabsContent>
