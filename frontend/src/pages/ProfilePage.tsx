@@ -137,7 +137,7 @@ const ProfilePage = () => {
                 <div></div>
                 <div className="flex items-center gap-2">
                     {
-                      following.some(mate => mate?.follower_id == user?.id)
+                      followers.some(mate => mate?.follower_id == user?.id)
                       ?
                       <button onClick={handleUnfollow} className="p-2 px-4 bg-black dark:bg-darkSecondary text-white text-sm md:text-base font-medium rounded-full">{t("unfollow")}</button>
                       :
