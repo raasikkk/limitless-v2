@@ -34,7 +34,7 @@ export const createCompetition = async (req,res) => {
 
     const {userId, title, description, category, isPrivate, startDate, endDate} = req.body;
 
-    if (!title || !description || !category || !startDate || !endDate || !isPrivate) {
+    if (!title || !description || !category || !startDate || !endDate ) {
       return res.status(400).json({
         message: "Fill all the fields."
       })
