@@ -147,7 +147,7 @@ const Register = () => {
                     </div>
 
                     <Link
-                        to="/"
+                        to={`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/google`}
                         className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
