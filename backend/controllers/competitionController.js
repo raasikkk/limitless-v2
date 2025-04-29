@@ -19,7 +19,7 @@ export const getCompetitionById = async (req,res) => {
 
     const {id} = req.params;
 
-    const competition = await db.query("SELECT * FROM competitions WHERE private = FALSE AND id = $1", [id]);
+    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [id]);
 
     res.json(competition.rows[0])
     
