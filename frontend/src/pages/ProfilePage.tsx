@@ -11,6 +11,8 @@ const ProfilePage = () => {
     const { t } = useTranslation();
     const { id } = useParams();
     const [userData,setUserData] = useState<null|IUser>(null);
+    console.log(userData);
+    
     
     const hanldeUserData = async () => {
       try {
@@ -80,7 +82,15 @@ const ProfilePage = () => {
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
                     >{t("following")} (0)</TabsTrigger>
                 </TabsList>
-                <TabsContent value="about">{t("no_bio_yet")}.</TabsContent>
+                <TabsContent value="about">
+                  {
+                    userData?.bio 
+                    ?
+                    userData?.bio
+                    :
+                    t("no_bio_yet")
+                  }
+                </TabsContent>
                 <TabsContent value="follower">0 {t("followers")}</TabsContent>
                 <TabsContent value="following">0 {t("following")}</TabsContent>
             </Tabs>
