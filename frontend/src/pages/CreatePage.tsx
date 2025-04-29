@@ -57,7 +57,7 @@ const CreatePage = () => {
         endDate: oneWeekAhead
       })
 
-      return navigate(`/competitions/:${competition.data.id}`)
+      return navigate(`/competitions/${competition.data.id}`)
       
     } catch (error) {
       console.log(error);

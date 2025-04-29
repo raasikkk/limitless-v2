@@ -7,15 +7,27 @@ import { Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CompetitionLeaderboard from "./CompetitionLeaderboard";
 import EditImage from "@/components/EditImage";
+import { useAppSelector } from "@/hooks/hooks";
 
 const Competition = () => {
   const {t} = useTranslation();
+  const {user} = useAppSelector((state)=>state.user);
+
   const [isParticipant] = useState(false);
   const [isCoverEdit, setIsCoverEdit] = useState(false);
   const [cover, setCover] = useState<File|null|string>(null);
   const [canEdit] = useState(true);
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
+
+  const fetchCompetition = async () => {
+    try {
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
