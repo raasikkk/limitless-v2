@@ -1,12 +1,20 @@
-import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, Eye, EyeClosed } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Signin = () => {
+    const colorTheme = localStorage.getItem("theme")
+    
+    useEffect(() => {
+        if (colorTheme) {
+            document.body.classList.add(colorTheme);
+        }
+    }, [])
 
     const [showPassword, setShowPassword] = useState(false);
+    
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -42,19 +50,19 @@ const Signin = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50">
-            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+        <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-darkColor">
+            <div className="w-full max-w-md p-8 bg-white dark:bg-darkSecondary dark:border-2 rounded-lg shadow-md">
                 <div className="mb-8 text-center">
                     <div className="mb-4">
                         {/* LOGO */}
                         <span className="text-2xl font-bold text-primaryColor">Limitless</span>
                     </div>
-                    <h2 className="text-2xl font-semibold text-gray-800">{t('sigin_email')}</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">{t('sigin_email')}</h2>
                 </div>
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="email_or_username" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="email_or_username" className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                             {t("auth.email_or_username")}
                         </label>
                         <input
@@ -64,12 +72,12 @@ const Signin = () => {
                             value={formData.email}
                             onChange={handleInputChange}
                             placeholder={t("auth.enter_login")}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 border border-gray-300 bg-white dark:bg-darkSecondary rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
 
                     <div className="relative w-full">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                             {t("password")}
                         </label>
                         <input
@@ -79,7 +87,7 @@ const Signin = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                             placeholder={t("auth.enter_password")}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 border border-gray-300 bg-white dark:bg-darkSecondary rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                         <div
                             // type="button"
@@ -87,15 +95,15 @@ const Signin = () => {
                             className="absolute inset-y-0 right-0 flex items-center pr-3"
                         >
                             {showPassword ? (
-                                <img src="/eye-invisible.svg" alt="Hide Password" />
+                                <EyeClosed />
                             ) : (
-                                <img src="/eye-visible.svg" alt="Show Password" />
+                                <Eye />
                             )}
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">{t("auth.min_7_char")}</p>
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t("auth.min_7_char")}</p>
                     </div>
 
-                    <div className="flex justify-between items-center mt-8 text-black">
+                    <div className="flex justify-between items-center mt-8 text-black dark:text-white">
                         <Link to="/" className="px-4 py-2 flex items-center gap-1 text-sm font-semibold hover:underline">
                             <ArrowLeft size={17} /> {t("auth.back")}
                         </Link>
@@ -109,13 +117,13 @@ const Signin = () => {
 
                     <Link
                         to="/"
-                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black"
+                        className="p-2 px-4 flex items-center justify-center gap-2 border dark:border-gray-700 rounded-full font-semibold text-black dark:text-white"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
                         <span>{t("signin_google")}</span>
                     </Link>
 
-                    <p className="text-center text-black">{t("dont_have_account")} <Link to="/auth/register" className="text-primaryColor hover:underline">{t("auth.register_here")}</Link></p>
+                    <p className="text-center text-black dark:text-white">{t("dont_have_account")} <Link to="/auth/register" className="text-primaryColor hover:underline">{t("auth.register_here")}</Link></p>
                 </form>
             </div>
         </div>
