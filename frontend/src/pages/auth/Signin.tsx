@@ -34,14 +34,15 @@ const Signin = () => {
         }));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
         try {
           
           await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/login`, {
             userData: formData.email,
             password: formData.password
           })
-
+          window.location.reload();
 
         } catch (error) {
           console.log(error);
