@@ -1,10 +1,6 @@
 import jwt from "jsonwebtoken";
 import { db } from "../db.js";
 
-const JWT_SECRET = process.env.JWT_SECRET
-  ? process.env.JWT_SECRET
-  : "best_secret_2025";
-
 export const llmGradingEligibility = async (req, res, next) => {
   try {
     const token = req.cookies.token;
@@ -36,10 +32,9 @@ export const llmGradingEligibility = async (req, res, next) => {
     const twentyFourHours = 24 * 60 * 60 * 1000;
 
     if (timeDifference >= twentyFourHours) {
-      await client.query(
-        "UPDATE users SET llmgrading_last_use = NOW() WHERE id = $1",
-        [user_id]
-      );
+      await db.query("UPDATE users SET llm_use_at = NOW() WHERE id = $1", [
+        user_id,
+      ]);
       req.canUseLlmGrading = true;
       return next();
     } else {

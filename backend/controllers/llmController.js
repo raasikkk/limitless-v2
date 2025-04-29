@@ -46,31 +46,33 @@ export const llmGradingParticipants = async (req, res) => {
     );
 
     let content;
-    let result = [];
+    let promises = [];
 
     for (let i = 0; i < submission.rows.length; i++) {
       if (!submission.rows[i].image && submission.rows[i].explanation) {
-        content = await noImageGrading(
+        content = noImageGrading(
           promptContext.rows[0].description,
           promptContext.rows[0].rules,
           submission.rows[i].id,
           submission.rows[i].explanation
         );
 
-        result.push(content);
+        promises.push(content);
+        continue;
       }
       if (!submission.rows[i].explanation && submission.rows[i].image) {
-        content = await noTextGrading(
+        content = noTextGrading(
           promptContext.rows[0].description,
           promptContext.rows[0].rules,
           submission.rows[i].id,
           submission.rows[i].image
         );
 
-        result.push(content);
+        promises.push(content);
+        continue;
       }
       if (submission.rows[i].explanation && submission.rows[i].image) {
-        content = await grading(
+        content = grading(
           promptContext.rows[0].description,
           promptContext.rows[0].rules,
           submission.rows[i].id,
@@ -78,7 +80,8 @@ export const llmGradingParticipants = async (req, res) => {
           submission.rows[i].image
         );
 
-        result.push(content);
+        promises.push(content);
+        continue;
       }
       if (!submission.rows[i].explanation && !submission.rows[i].image) {
         return res.status(400).send({
@@ -87,7 +90,10 @@ export const llmGradingParticipants = async (req, res) => {
       }
     }
 
+    const result = await Promise.all(promises);
+
     console.log(result);
+    console.log(result.length);
 
     res.status(200).send({
       result,
