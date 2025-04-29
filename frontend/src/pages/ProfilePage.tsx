@@ -17,7 +17,7 @@ const ProfilePage = () => {
     const [followers, setFollowers] = useState<null|IUser>(null);
     const [following, setFollowing] = useState<null|IUser>(null);
     const [isEdit, setIsEdit] = useState(false);
-    const [bio, setBio] = useState<string>(userData?.bio||'');
+    const [bio, setBio] = useState<string>(userData?.bio||t('no_bio_yet'));
     const [isBioEdit, setIsBioEdit] = useState(false);
     console.log(followers, following);
     
