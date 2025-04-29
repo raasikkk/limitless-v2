@@ -3,11 +3,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { LogOut, User } from "lucide-react"
 import { useAppSelector } from "@/hooks/hooks"
+import axios from "axios"
 
 
 const Profile = () => {
     const navigate = useNavigate()
     const {user} = useAppSelector((state)=>state.user);
+
+    const logout = async () => {
+      try {
+        await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/logout`);
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
+    }
     return (
     <>
         <DropdownMenu>
@@ -28,7 +38,7 @@ const Profile = () => {
                     </DropdownMenuItem>
                 {/* </DropdownMenuGroup> */}
                     <DropdownMenuItem className="flex items-center gap-2">
-                      <LogOut />
+                      <LogOut onClick={()=>logout} />
                       Log out
                       <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                     </DropdownMenuItem>
