@@ -123,11 +123,11 @@ const ProfilePage = () => {
                     <TabsTrigger 
                         value="follower"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("followers")} (0)</TabsTrigger>
+                    >{t("followers")} ({followers.length})</TabsTrigger>
                     <TabsTrigger 
                         value="following"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("following")} (0)</TabsTrigger>
+                    >{t("following")} ({following.length})</TabsTrigger>
                 </TabsList>
                 <TabsContent value="about">
                   <div className="flex items-center justify-between my-4">
@@ -194,7 +194,7 @@ const ProfilePage = () => {
                 </TabsContent>
                 <TabsContent value="following">
                   <div className="mt-5">
-                      <h2 className="text-2xl font-bold">{t("following")} (following.length)</h2>
+                      <h2 className="text-2xl font-bold">{t("following")} ({following.length})</h2>
 
                       <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
                         {
