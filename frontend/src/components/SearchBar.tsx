@@ -30,7 +30,7 @@ const SearchBar = () => {
             <div className="hidden sm:flex items-center text-center gap-5">
               <Link
                 to="/auth/signin"
-                className="min-w-24 p-2 px-4 text-black border-2 font-bold rounded-full hover:bg-gray-100"
+                className="min-w-24 p-2 px-4 text-black dark:text-white border-2 font-bold rounded-full hover:bg-gray-100 dark:hover:bg-darkSecondary"
               >
                 {t('signin')}
               </Link>

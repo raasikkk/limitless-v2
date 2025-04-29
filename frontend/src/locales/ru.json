@@ -116,15 +116,18 @@
     },
 
     "auth": {
+      "email_or_username": "Email или имя пользователя",
+      "enter_login": "Введите ваш логин",
       "enter_email": "Введите ваш email",
       "enter_password": "Введите пароль",
+      "repeat_password": "Повторите пароль",
       "enter_full_name": "Введите ваше полное имя",
       "min_7_char": "Минимум 7 символов",
       "display_profile": "Будет отображаться в вашем профиле",
       "back": "Назад",
       "next": "Далее",
-      "sign_in_here": "Войти здесь",
-      "register_here": "Зарегистрироваться здесь"
+      "sign_in_here": "Войти",
+      "register_here": "Зарегистрироваться"
     },
 
     "rights": "Все права защищены."

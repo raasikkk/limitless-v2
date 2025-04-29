@@ -116,15 +116,22 @@
     },
 
     "auth": {
+      "email_or_username": "Email or username",
+      "confirm_password": "Confirm Password",
+      "enter_login": "Enter your login",
       "enter_email": "Enter your email address",
       "enter_password": "Enter password",
+      "repeat_password": "Repeat password",
       "enter_full_name": "Enter your full name",
       "min_7_char": "Minimum of 7 characters",
       "display_profile": "Will be displayed on your profile",
       "back": "Back",
       "next": "Next",
       "sign_in_here": "Sign in Here",
-      "register_here": "Register Here"
+      "register_here": "Register Here",
+      "enter_confirm_password": "Confirm your password",
+      "confirm_password_hint": "Passwords must match",
+      "passwords_mismatch": "Passwords do not match"
     },
 
     "rights": "All Rights Reserved."
