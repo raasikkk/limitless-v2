@@ -95,7 +95,9 @@ export const register = async (req,res) => {
     const genSalt = await bcryptjs.genSalt();
     const hashPassword = await bcryptjs.hash(password, genSalt);
 
-    const newUser = await db.query("INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id, email, username, avatar, bio, created_at", [email, username, hashPassword]);
+    const defaulAvatar = `https://res.cloudinary.com/dtsdbjvgg/image/upload/t_default-avatar/v1745933665/ChatGPT_Image_29_%D0%B0%D0%BF%D1%80._2025_%D0%B3._18_35_39_o3vfxl.png`
+
+    const newUser = await db.query("INSERT INTO users (email, username, password, avatar) VALUES ($1, $2, $3, $4) RETURNING id, email, username, avatar, bio, created_at", [email, username, hashPassword, defaulAvatar]);
 
     const payload = newUser.rows[0];
     const token = jwt.sign(payload, JWT_SECRET);
