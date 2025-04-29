@@ -13,7 +13,9 @@ const ProfilePage = () => {
     const { id } = useParams();
     const {user} = useAppSelector((state)=>state.user);
     const [userData,setUserData] = useState<null|IUser>(null);
-    console.log(userData);
+    const [followers, setFollowers] = useState<null|IUser>(null);
+    const [following, setFollowing] = useState<null|IUser>(null);
+    console.log(followers, following);
     
     
     const hanldeUserData = async () => {
@@ -25,8 +27,28 @@ const ProfilePage = () => {
       }
     }
 
+    const handleUserFollowers = async () => {
+      try {
+        const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/followers/${id}`)).data;
+        setFollowers(user)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const handleUserFollowing = async () => {
+      try {
+        const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/following/${id}`)).data;
+        setFollowing(user);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+
     useEffect(()=>{
       hanldeUserData();
+      handleUserFollowers();
+      handleUserFollowing();
     },[])
     
   return (
