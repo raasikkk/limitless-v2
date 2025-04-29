@@ -37,9 +37,9 @@ const EditImage = ({setIsEdit, setImage, image}: Props) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
+  // const handleSubmit = (event: React.FormEvent) => {
+  //   event.preventDefault();
+  // };
   return (
     <div className='fixed inset-0 bg-black bg-opacity-20 z-30 flex items-center justify-end'>
       <form className='bg-white dark:bg-darkColor h-full max-w-2xl w-full relative z-50 shadow-xl'>

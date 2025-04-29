@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
-type Props = {}
 
-const CompetitionLeaderboard = (props: Props) => {
+const CompetitionLeaderboard = () => {
   const { t } = useTranslation()
 
   return (

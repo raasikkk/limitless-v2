@@ -10,6 +10,8 @@ const CreatePage = () => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [category, setCategory] = useState<null|string>(null);
   const [create, setCreate] = useState(false);
+  console.log(category);
+  
 
   return (
     <form className="pt-10">

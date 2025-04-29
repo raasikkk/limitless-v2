@@ -10,10 +10,10 @@ import EditImage from "@/components/EditImage";
 
 const Competition = () => {
   const {t} = useTranslation();
-  const [isParticipant, setIsParticipant] = useState(false);
+  const [isParticipant] = useState(false);
   const [isCoverEdit, setIsCoverEdit] = useState(false);
   const [cover, setCover] = useState<File|null|string>(null);
-  const [canEdit, setCanEdit] = useState(true);
+  const [canEdit] = useState(true);
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
 

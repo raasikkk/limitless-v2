@@ -10,7 +10,7 @@ const Submission = () => {
   const {t} = useTranslation();
   const [explanation, setExplanation] = useState('<h2>Day 2</h2><p>Lorem, <a href="sd">ipsum dolor sit amet</a> consectetur adipisicing elit. Aliquid optio ullam aperiam, porro quia consequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
   const [isExplanationEdit, setIsExplanationEdit] = useState(false);
-  const [link, setLink] = useState('');
+  const [link] = useState('');
   const [voteType, setVoteType] = useState<null|boolean>(null);
 
   return (

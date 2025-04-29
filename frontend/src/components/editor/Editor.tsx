@@ -6,9 +6,9 @@ import Highlight from "@tiptap/extension-highlight";
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
 
-const extensions = [StarterKit]
+// const extensions = [StarterKit]
 
-const content = '<p>Hello World!</p>'
+// const content = '<p>Hello World!</p>'
 interface Props {
   content: string;
   onChange: (content: string) => void;
