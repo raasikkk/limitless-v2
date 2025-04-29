@@ -4,16 +4,17 @@ import Editor from "@/components/editor/Editor";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  canEdit: boolean
+  canEdit: boolean,
+  description: string,
+  setDescription: (value: string) => void,
+  rules: string,
+  setRules: (value: string) => void,
 }
 
-const CompetitionMain = ({canEdit}: Props) => {
+const CompetitionMain = ({canEdit, description, setDescription, rules, setRules}: Props) => {
   const { t } = useTranslation()
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
-  const [description, setDescription] = useState('<h2>Day 2</h2><p>Lorem, <a href="sd">ipsum dolor sit amet</a> consectetur adipisicing elit. Aliquid optio ullam aperiam, porro quia consequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
   const [isRulesEdit, setIsRulesEdit] = useState(false);
-  const [rules, setRules] = useState('<h2>Day 2</h2><p>Lorem, ur adipisicing elitconsequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
-
 
   return (
     <div className="w-full md:w-3/4 pr-4">

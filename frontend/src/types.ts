@@ -12,3 +12,16 @@ export interface ICategory {
   name: string,
   cover: string
 }
+
+export interface ICompetition {
+  id: number | string,
+  user_id: string | number,
+  cover: string,
+  title: string,
+  description: string,
+  rules: string,
+  start_date: Date,
+  end_date: Date,
+  winner_id: number | string | null,
+  created_at: Date
+}

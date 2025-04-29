@@ -1,33 +1,46 @@
-import { Link } from "react-router"
+import { Link, useParams } from "react-router"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompetitionMain from "./CompetitionMain";
 import CompetitionSubmissions from "./CompetitionSubmissions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CompetitionLeaderboard from "./CompetitionLeaderboard";
 import EditImage from "@/components/EditImage";
 import { useAppSelector } from "@/hooks/hooks";
+import axios from "axios";
+import { ICompetition } from "@/types";
 
 const Competition = () => {
   const {t} = useTranslation();
+  const { id } = useParams();
   const {user} = useAppSelector((state)=>state.user);
 
   const [isParticipant] = useState(false);
   const [isCoverEdit, setIsCoverEdit] = useState(false);
+  const [description, setDescription] = useState('');
+  const [rules, setRules] = useState('');
   const [cover, setCover] = useState<File|null|string>(null);
-  const [canEdit] = useState(true);
+  const [canEdit, setCanEdit] = useState(true);
   const [title, setTitle] = useState('Competition title about winning some type shit about thist');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
 
   const fetchCompetition = async () => {
     try {
-      
-      
+      const competition:ICompetition = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`);
+      setTitle(competition.title);
+      setCover(competition.cover);
+      setCanEdit(competition.user_id === user?.id);
+      setDescription(competition.description);
+      setRules(competition.rules);
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(()=> {
+    fetchCompetition();
+  }, [id])
 
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
@@ -119,7 +132,10 @@ const Competition = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
-          <CompetitionMain canEdit={canEdit}/>
+          <CompetitionMain 
+          rules={rules} setRules={setRules}
+          description={description} setDescription={setDescription} 
+          canEdit={canEdit}/>
           <ul className="w-full md:w-1/4 flex flex-col gap-4">
             <li className="flex items-center gap-4 justify-between">
               <div>
