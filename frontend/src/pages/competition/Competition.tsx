@@ -74,6 +74,21 @@ const Competition = () => {
     }
   }
 
+  const joinCompetition =async () => {
+    try {
+
+      await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/join`, {
+        competition_id: id,
+        user_id: user?.id
+      })
+
+      fetchCompetition();
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(()=> {
     fetchCompetition();
   }, [id])
@@ -101,7 +116,7 @@ const Competition = () => {
             {t("competition.quit")}
           </button>
           :
-          <button className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+          <button onClick={()=>joinCompetition()} className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
             {t("competition.join")}
           </button>
         }
