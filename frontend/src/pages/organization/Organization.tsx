@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom"
 import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
-import EditImage from "@/components/EditImage"
+// import EditImage from "@/components/EditImage"
 
 interface IFollower extends IUser {
   follower_id: string
@@ -27,6 +27,7 @@ const Organization = () => {
     const [isAvatarEdit, setIsAvatarEdit] = useState(false);
     const [avatar, setAvatar] = useState<File|null|string>(null);
 
+    console.log(isAvatarEdit, avatar)
     
     const handleOrganizationData = async () => {
       try {
@@ -89,13 +90,13 @@ const Organization = () => {
   return (
     <>
       <div className="mt-5 w-full flex justify-between items-center">
-        {
+        {/* {
           isAvatarEdit
           ?
-          <EditImage image={avatar} setIsEdit={setIsAvatarEdit} setImage={setAvatar}/>
+          // <EditImage handleSave={} image={avatar} setIsEdit={setIsAvatarEdit} setImage={setAvatar}/>
           :
           ''
-        }
+        } */}
 
         {
           user?.id == id
@@ -123,7 +124,7 @@ const Organization = () => {
             <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
                 <div className="relative">
                   <img 
-                      src={userData?.avatar}
+                      src={`https://apec.edu.kz/wp-content/uploads/2022/03/IMG_7598-scaled.jpg`}
                       className="rounded-full size-24 sm:size-32 md:size-40 lg:size-48 xl:size-64 border" 
                       alt="ava" 
                   />
@@ -136,13 +137,11 @@ const Organization = () => {
                   }
                 </div>
                 <div className="space-y-2 lg:space-y-3 text-center md:text-left">
-                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">{userData?.email}</p>
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">{userData?.username}</h2>
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">apec@edu.kz</p>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">APEC Petrotechnic Higher College</h2>
                     <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white flex flex-col sm:flex-row items-center gap-2">
                         <CalendarDays className="hidden sm:inline-block" />
-                        {userData?.created_at && (
-                          <>Joined {formatDistanceToNow(new Date(userData.created_at), { addSuffix: true })}</>
-                        )}
+                          <>Joined about 2 hours ago</>
                     </p>
                 </div>
             </div>
