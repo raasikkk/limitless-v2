@@ -14,7 +14,7 @@ interface IFollower extends IUser {
   follower_id: string
 }
 
-const ProfilePage = () => {
+const Organization = () => {
     const { t } = useTranslation();
     const { id } = useParams();
     const {user} = useAppSelector((state)=>state.user);
@@ -28,8 +28,7 @@ const ProfilePage = () => {
     const [avatar, setAvatar] = useState<File|null|string>(null);
 
     
-    
-    const hanldeUserData = async () => {
+    const handleOrganizationData = async () => {
       try {
         const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`)).data;
         setUserData(user)
@@ -39,7 +38,7 @@ const ProfilePage = () => {
       }
     }
 
-    const handleUserFollowers = async () => {
+    const handleOrganizationFollowers = async () => {
       try {
         const followersData:IFollower[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/followers/${id}`)).data;
         setFollowers(followersData)
@@ -47,7 +46,7 @@ const ProfilePage = () => {
         console.log(error);
       }
     }
-    const handleUserFollowing = async () => {
+    const handleOrganizationFollowing = async () => {
       try {
         const followingData:IFollower[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/following/${id}`)).data;
         setFollowing(followingData);
@@ -63,8 +62,8 @@ const ProfilePage = () => {
           user_id: id
         })
 
-        handleUserFollowers();
-        handleUserFollowing();
+        handleOrganizationFollowers();
+        handleOrganizationFollowing();
       } catch (error) {
         console.log(error);
       }
@@ -72,8 +71,8 @@ const ProfilePage = () => {
     const handleUnfollow = async () => {
       try {
         await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/unfollow/${id}/${user?.id}`)
-        handleUserFollowers();
-        handleUserFollowing();
+        handleOrganizationFollowers();
+        handleOrganizationFollowing();
       } catch (error) {
         console.log(error);
       }
@@ -81,9 +80,9 @@ const ProfilePage = () => {
 
 
     useEffect(()=>{
-      hanldeUserData();
-      handleUserFollowers();
-      handleUserFollowing();
+      handleOrganizationData();
+      handleOrganizationFollowers();
+      handleOrganizationFollowing();
     },[id])
 
     
@@ -283,4 +282,4 @@ const ProfilePage = () => {
   )
 }
 
-export default ProfilePage
+export default Organization
