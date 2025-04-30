@@ -40,7 +40,7 @@ export const login = async (req,res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: sevenDays,
-      sameSite: 'none'
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'Lax'
     });
 
     res.json({
@@ -107,7 +107,7 @@ export const register = async (req,res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: sevenDays,
-      sameSite: 'none'
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'Lax'
     });
     
     res.json({
@@ -147,6 +147,6 @@ export const logout = async (req,res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     expiresIn: new Date(0),
-    sameSite: 'none'
+    sameSite: process.env.NODE_ENV === "production" ? 'none' : 'Lax'
   }).send()
 }

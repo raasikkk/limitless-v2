@@ -5,9 +5,17 @@ CREATE TABLE users (
   avatar TEXT NOT NULL,
   password TEXT NOT NULL,
   bio TEXT,
+  college INT,
+  is_supervisor BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   google_id TEXT UNIQUE,
-  llm_use_at TIMESTAMP
+  FOREIGN KEY (college) REFERENCES colleges(id)
+)
+
+CREATE TABLE colleges (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  logo TEXT
 )
 
 CREATE TABLE categories (
@@ -75,4 +83,23 @@ CREATE TABLE votes (
   comment VARCHAR(200),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (submission_id) REFERENCES submissions(id)
+)
+
+CREATE TABLE chats (
+  id SERIAL PRIMARY KEY,
+  user_id INT,
+  supervisor_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (supervisor_id) REFERENCES users(id),
+  UNIQUE (user_id, supervisor_id)
+)
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  user_id INT,
+  chat_id INT,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (chat_id) REFERENCES chats(id)
 )

@@ -31,7 +31,7 @@ GooglePassport.authenticate('google',{
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     maxAge: sevenDays,
-    sameSite: 'none'
+    sameSite: process.env.NODE_ENV === "production" ? 'none' : 'Lax'
   });
   res.redirect(`${process.env.FRONTEND_BASE_URL}`)
 })
