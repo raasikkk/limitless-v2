@@ -21,7 +21,7 @@ app.use("/api", chatRoute);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_BASE_URL,
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -39,10 +39,17 @@ io.on("connection", (socket) => {
     const { room, user_id, message } = data;
     console.log(`send_message:`);
     console.log(data);
-    const messageQueery = await db.query(
+    const messageQuery = await db.query(
       "INSERT INTO messages (user_id, chat_id, message) VALUES ($1, $2, $3)",
       [user_id, room, message]
     );
+    const messageIdQuery = await db.query(
+      "SELECT id FROM messages WHERE chat_id=$1",
+      [room]
+    );
+
+    data.message_id = messageIdQuery;
+
     socket.to(data.room).emit("receive_message", data);
     console.log(`Data has been sent ${data}`);
   });
