@@ -1,4 +1,5 @@
-import { competitions } from "@/constants/competitions"
+// import { competitions } from "@/constants/competitions"
+import { organizations } from "@/constants/organizations"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
@@ -9,7 +10,7 @@ const Organizations = () => {
         <h2 className="text-3xl font-bold">{t('organization')}</h2>
 
         <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-            {competitions.map((item) => (
+            {organizations.map((item) => (
                 <Link
                     to={`/organization/${item.id}`}
                     key={item.id}
@@ -23,7 +24,7 @@ const Organizations = () => {
                         />
                         </div>
                         
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         
                         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                         <h3 className="text-lg font-semibold truncate">{t(item.text)}</h3>

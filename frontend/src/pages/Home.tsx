@@ -1,5 +1,7 @@
+import Campus from "@/components/Campus"
 import { useAppSelector } from "@/hooks/hooks"
-import { Plus, Trophy } from "lucide-react"
+import { School, Trophy } from "lucide-react"
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 // import LanguageSwitcher from "../components/LanguageSwitcher"
@@ -28,9 +30,15 @@ const visiters = [
 const Home = () => {
   const { t } = useTranslation()
   const {isLogged, user} = useAppSelector((state)=>state.user)
+
+  const [showCampus, setShowCampus] = useState(false)
   
   return (
     <div className="text-black dark:text-white ">
+      <div>
+      {showCampus && <Campus onClose={() => setShowCampus(false)} />}
+    </div>
+
       {isLogged ? (
         <div className="pt-10 flex flex-wrap lg:flex-nowrap justify-between gap-3">
           <div className="pt-10 lg:pt-20 w-full lg:w-1/2 flex flex-col gap-3">
@@ -40,20 +48,22 @@ const Home = () => {
 
             <div className="pt-5 flex flex-wrap items-center gap-3">
               <button 
+                onClick={() => setShowCampus(true)}
                 className="p-2 px-4 flex items-center gap-2 border rounded-full font-semibold"
               >
                 {/* <img src="/google-icon.svg" alt="google" width={20} /> */}
                 <span className="flex items-center gap-2">
-                  <Trophy size={20} />
-                  {t("competitions")}
+                  <School size={20} />
+                  Show Campus
                 </span>
               </button>
-              <button
+              <Link
+                to={`/competitions`}
                 className="p-2 px-4 flex items-center gap-1.5 border rounded-full font-semibold"
               >
-                <Plus />
-                {t("create")} 
-              </button>
+                <Trophy size={20} />
+                {t("competitions")} 
+              </Link>
             </div> 
           </div>
           <img 
