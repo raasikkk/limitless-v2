@@ -19,7 +19,7 @@ export const getCompetitionsByCategory = async (req,res) => {
 
     const {category} = req.params;
 
-    const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE categories.name = category", [category]);
+    const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE LOWER(categories.name) = LOWER($1)", [category]);
 
     res.json(competitions.rows)
     
