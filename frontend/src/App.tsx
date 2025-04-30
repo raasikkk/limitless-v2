@@ -18,8 +18,8 @@ import { fetchUserIsLogged } from "./features/userSlice/userSlice";
 import Schedule from "./pages/Schedule";
 import Organizations from "./pages/organization/Organizations";
 import Organization from "./pages/organization/Organization";
-import Chats from "./pages/chat/Chats";
-import Chat from "./pages/chat/Chat";
+// import Chats from "./pages/chat/Chats";
+// import Chat from "./pages/chat/Chat";
 // import Organizations from "./pages/organization/organizations";
 
 
@@ -56,9 +56,9 @@ function App() {
           <Route path="/organization/:id" element={<Organization />}/>
         </Route>
 
-        <Route path="/chats" element={<Chats />}>
+        {/* <Route path="/chats" element={<Chats />}>
           <Route path=":id" element={<Chat />}/>
-        </Route>
+        </Route> */}
 
         <Route path="/auth/signin" element={isLogged ? <Navigate to={'/'}/> : <Signin />} />
         <Route path="/auth/register" element={isLogged ? <Navigate to={'/'}/> : <Register />} />
