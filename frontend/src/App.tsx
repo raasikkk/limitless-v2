@@ -15,6 +15,10 @@ import Submission from "./pages/competition/Submission";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
+import Schedule from "./pages/Schedule";
+import Organizations from "./pages/organization/Organizations";
+import Organization from "./pages/organization/Organization";
+// import Organizations from "./pages/organization/organizations";
 
 axios.defaults.withCredentials = true;
 
@@ -41,7 +45,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/competitions" element={<Competitions />} />
           <Route
-            path="/categories/:category_id"
+            path="/categories/:category"
             element={<CompetitionCategorie />}
           />
           <Route path="/competitions/:id" element={<Competition />} />
@@ -50,6 +54,9 @@ function App() {
             element={<Submission />}
           />
           <Route path="/create" element={<CreatePage />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/organizations" element={<Organizations />} />
+          <Route path="/organization/:id" element={<Organization />} />
         </Route>
         <Route
           path="/auth/signin"

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signin = () => {
     const colorTheme = localStorage.getItem("theme")
@@ -34,20 +35,26 @@ const Signin = () => {
         }));
     };
 
-    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         try {
-          
           await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/login`, {
             userData: formData.email,
             password: formData.password
-          })
+          });
           window.location.reload();
-
-        } catch (error) {
-          console.log(error);
+        } catch (err) {
+          let errorMessage
+          
+          if (axios.isAxiosError(err)) {
+            errorMessage = err.response?.data?.message;
+          } else if (err instanceof Error) {
+            errorMessage = err.message;
+          }
+      
+          toast.error(errorMessage);
         }
-    };
+      };
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-darkColor">
@@ -117,7 +124,7 @@ const Signin = () => {
 
                     <Link
                         to={`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/google`}
-                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black"
+                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black dark:text-white"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
                         <span>{t("signin_google")}</span>

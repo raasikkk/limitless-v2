@@ -5,6 +5,8 @@
     "create": "Создать",
     "home": "Главное",
     "competitions": "Соревнования",
+    "organization": "Организации",
+    "schedule": "Расписание",
     "profile": "Профиль",
     "settings": "Настройки",
     "account": "Аккаунт",
@@ -22,6 +24,14 @@
     "sigin_email": "Войти с почтой",
     "cancel": "Закрыть",
     "save_changes": "Сохранить",
+
+    "group": "Группа",
+    "monday": "Понедельник",
+    "tuesday": "Вторник",
+    "wednesday": "Среда",
+    "thursday": "Четверг",
+    "friday": "Пятница",
+    "actions": "Действия",
 
     "who_is_on": "Кто есть в Limitless?",
     "learners": "Учащиеся",

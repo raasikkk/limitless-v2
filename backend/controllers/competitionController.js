@@ -14,6 +14,21 @@ export const getCompetitions = async (req,res) => {
   }
 }
 
+export const getCompetitionsByCategory = async (req,res) => {
+  try {
+
+    const {category} = req.params;
+
+    const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE LOWER(categories.name) = LOWER($1)", [category]);
+
+    res.json(competitions.rows)
+    
+  } catch (error) {
+    console.log('Error at getCompetition:', error);
+    res.status(500).send(error)
+  }
+}
+
 export const getCompetitionById = async (req,res) => {
   try {
 
@@ -40,7 +55,15 @@ export const createCompetition = async (req,res) => {
       })
     }
 
-    const competition = await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *", [userId, title, description, category, isPrivate, startDate, endDate]);
+    const cover = [
+      'https://res.cloudinary.com/dtsdbjvgg/image/upload/v1745997365/blue-pattern_yk4jeg.jpg',
+      'https://res.cloudinary.com/dtsdbjvgg/image/upload/v1745997365/green-pattern_jfmxgg.jpg',
+      'https://res.cloudinary.com/dtsdbjvgg/image/upload/v1745997365/white-pattern_rcpdp0.jpg',
+      'https://res.cloudinary.com/dtsdbjvgg/image/upload/v1745997365/pink-pattern_o4laz2.jpg'
+    ]
+    const randomElement = cover[Math.floor(Math.random() * cover.length)];
+
+    const competition = await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [userId, title, description, category, isPrivate, startDate, endDate, randomElement]);
     res.json({
       message: "Succesfully created.",
       id: competition.rows[0].id

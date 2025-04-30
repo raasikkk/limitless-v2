@@ -26,7 +26,10 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
         >
           <Menu size={24} />
         </button>
-        <div className="font-bold">Logo</div>
+        <Link to={`/`} className="flex items-center gap-2">
+          <p className='font-bold'>Limitless</p>
+          <img src="/logo.svg" className='size-10' alt="logo" />
+        </Link>
       </div>
 
       {
@@ -37,7 +40,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
         ) : (
           <div className="flex items-center text-center gap-3">
             <Link
-              to="/"
+              to="/auth/signin"
               className="min-w-24 p-1.5 px-4 text-white bg-black font-bold rounded-full hover:drop-shadow-md"
             >
               {t('signin')}

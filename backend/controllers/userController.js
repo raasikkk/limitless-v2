@@ -40,7 +40,7 @@ export const editUserById = async (req,res) => {
   try {
 
     const {id} = req.params;
-    const {email, username, bio} = req.body;
+    const {bio} = req.body;
 
     const user = await db.query("SELECT id, email, username, avatar, bio, created_at FROM users WHERE id = $1", [id]);
     if (user.rows.length <= 0) {
@@ -49,16 +49,16 @@ export const editUserById = async (req,res) => {
       })
     }
 
-    if (!email || !username || !bio) {
+    if (!bio) {
       return res.json({
         message: "Provide at least one field to change."
       })
     }
 
-    await db.query("UPDATE users SET email = $1, username = $2, bio = $3 WHERE id = $4", [email, username, bio, id])
+    await db.query("UPDATE users SET bio = $1 WHERE id = $2", [bio, id])
     res.json({
       message: "Succesfully changed."
-    })
+    }) 
   } catch (error) {
     console.log('Error at editUserById:', error);
     res.status(500).send(error)

@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/hooks/hooks"
-import { Plus } from "lucide-react"
+import { Plus, Trophy } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 // import LanguageSwitcher from "../components/LanguageSwitcher"
@@ -43,7 +43,10 @@ const Home = () => {
                 className="p-2 px-4 flex items-center gap-2 border rounded-full font-semibold"
               >
                 {/* <img src="/google-icon.svg" alt="google" width={20} /> */}
-                <span>{t("competitions")}</span>
+                <span className="flex items-center gap-2">
+                  <Trophy size={20} />
+                  {t("competitions")}
+                </span>
               </button>
               <button
                 className="p-2 px-4 flex items-center gap-1.5 border rounded-full font-semibold"
