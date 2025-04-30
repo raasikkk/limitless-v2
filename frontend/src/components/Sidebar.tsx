@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Home, User, Menu, Trophy, Settings, Plus } from 'lucide-react';
+import { Home, User, Menu, Trophy, Settings, Plus, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@/hooks/hooks';
@@ -22,6 +22,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
   const links = [
     { label: t('home'), url: "/", icon: <Home size={20} /> },
     { label: t('competitions'), url: "/competitions", icon: <Trophy size={20} /> },
+    { label: "Schedule", url: "/schedule", icon: <Calendar size={20} /> },
     { label: t('profile'), url: `/profile/${user?.id}`, icon: <User size={20} /> },
     { label: t('settings'), url: "/settings", icon: <Settings size={20} /> },
   ]
