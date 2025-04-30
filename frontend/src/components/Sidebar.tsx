@@ -22,8 +22,8 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
   const links = [
     { label: t('home'), url: "/", icon: <Home size={20} /> },
     { label: t('competitions'), url: "/competitions", icon: <Trophy size={20} /> },
-    { label: "Organizations", url: "/organizations", icon: <Building2 size={20} /> },
-    { label: "Schedule", url: "/schedule", icon: <Calendar size={20} /> },
+    { label: t('organization'), url: "/organizations", icon: <Building2 size={20} /> },
+    { label: t("schedule"), url: "/schedule", icon: <Calendar size={20} /> },
     { label: t('profile'), url: `/profile/${user?.id}`, icon: <User size={20} /> },
     { label: t('settings'), url: "/settings", icon: <Settings size={20} /> },
   ]

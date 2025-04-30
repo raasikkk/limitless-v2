@@ -5,6 +5,8 @@
     "create": "Create",
     "home": "Home",
     "competitions": "Competitions",
+    "organization": "Organizations",
+    "schedule": "Schedule",
     "profile": "Profile",
     "settings": "Settings",
     "account": "Account",
@@ -22,6 +24,14 @@
     "sigin_email": "Sign in with Email",
     "cancel": "Cancel",
     "save_changes": "Save Changes",
+
+    "group": "Group",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "actions": "Actions",
 
     "who_is_on": "Who's on Limitless?",
     "learners": "Learners",

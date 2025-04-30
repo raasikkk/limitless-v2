@@ -6,7 +6,7 @@ const Organizations = () => {
     const { t } = useTranslation()
   return (
     <div className="mt-5 text-black dark:text-white">
-        <h2 className="text-3xl font-bold">Organizations</h2>
+        <h2 className="text-3xl font-bold">{t('organization')}</h2>
 
         <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
             {competitions.map((item) => (
