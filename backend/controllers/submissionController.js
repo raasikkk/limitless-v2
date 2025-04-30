@@ -57,7 +57,7 @@ export const sendSubmission = async (req,res) => {
 
 export const getSubmissions = async (req,res) => {
   try {
-
+    const date = new Date();
     const {competitionId} = req.params;
 
     const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
@@ -70,6 +70,7 @@ export const getSubmissions = async (req,res) => {
     const submissions = await db.query(`
       SELECT 
       s.*, 
+      u.id AS user_id,
       u.username, 
       u.avatar,
       COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) AS likes,
@@ -77,12 +78,12 @@ export const getSubmissions = async (req,res) => {
       FROM submissions s
       JOIN users u ON s.participant_id = u.id
       LEFT JOIN votes v ON s.id = v.submission_id
-      WHERE s.competition_id = $1
+      WHERE s.competition_id = $1 AND DATE(s.submited_date) = DATE($2)
       GROUP BY s.id, u.username, u.avatar
       ORDER BY 
         COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) - 
         COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) DESC;
-    `, [competitionId]);
+    `, [competitionId, date]);
 
     res.json(submissions.rows);
     
