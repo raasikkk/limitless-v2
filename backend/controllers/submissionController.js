@@ -55,6 +55,16 @@ export const sendSubmission = async (req,res) => {
   }
 }
 
+export const getUserSubmission = async (req,res) => {
+  try {
+    const {submission_id, competition_id} = req.params;
+    const submission = await db.query("SELECT submissions, users.username, users.avatar FROM submissions JOIN users ON submissions.user_id = users.id WHERE submission_id = $1", [submission_id]);
+    res.json(submission.rows);
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
 export const getSubmissions = async (req,res) => {
   try {
     const date = new Date();
@@ -79,7 +89,7 @@ export const getSubmissions = async (req,res) => {
       JOIN users u ON s.participant_id = u.id
       LEFT JOIN votes v ON s.id = v.submission_id
       WHERE s.competition_id = $1 AND DATE(s.submited_date) = DATE($2)
-      GROUP BY s.id, u.username, u.avatar
+      GROUP BY s.id, u.id, u.username, u.avatar
       ORDER BY 
         COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) - 
         COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) DESC;
