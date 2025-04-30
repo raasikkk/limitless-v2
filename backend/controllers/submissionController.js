@@ -78,7 +78,7 @@ export const getSubmissions = async (req,res) => {
       FROM submissions s
       JOIN users u ON s.participant_id = u.id
       LEFT JOIN votes v ON s.id = v.submission_id
-      WHERE s.competition_id = $1 AND DATE(s.submited_date) = DATE($2)
+      WHERE s.competition_id = $1
       GROUP BY s.id, u.username, u.avatar
       ORDER BY 
         COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) - 
