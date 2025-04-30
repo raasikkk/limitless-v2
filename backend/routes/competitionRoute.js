@@ -13,7 +13,7 @@ competitionRoute.put('/competitions/:id/rules', checkAuth, editRules);
 competitionRoute.put('/competitions/:id/title', checkAuth, editTitle); 
 competitionRoute.get('/competitions', getCompetitions);
 competitionRoute.get('/competitions/:id', getCompetitionById);
-competitionRoute.get('/competitions/category/:category_id', getCompetitionsByCategory)
+competitionRoute.get('/competitions/category/:category', getCompetitionsByCategory)
 
 competitionRoute.post('/competitions/join', checkAuth, joinCompetition);
 competitionRoute.delete('/competitions/quit/:competition_id/:user_id', checkAuth, quitCompetition);
