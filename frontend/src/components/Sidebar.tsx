@@ -46,13 +46,13 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
             }`}
           >
             <Menu size={24} />
-            {isSidebarOpen && (
-              <>
+          </button>
+          {isSidebarOpen && (
+              <Link to={`/`} className='ml-3 flex items-center gap-2'>
                 <p className='font-bold'>Limitless</p>
                 <img src="/logo.svg" className='size-10' alt="logo" />
-              </>
+              </Link>
             )}
-          </button>
       </div>
       
       <nav className="p-2">
@@ -73,6 +73,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
                 <Link
                     key={item.label}
                     to={item.url}
+                    onClick={isMobile ? toggleSidebar : () => ""}
                     className={`flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-darkSecondary
                     ${!isSidebarOpen && !isMobile ? 'justify-center' : 'px-4'}`}
                 >

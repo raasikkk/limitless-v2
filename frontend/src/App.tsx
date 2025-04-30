@@ -18,6 +18,7 @@ import { fetchUserIsLogged } from "./features/userSlice/userSlice";
 import Schedule from "./pages/Schedule";
 import Organizations from "./pages/organization/Organizations";
 import Organization from "./pages/organization/Organization";
+// import Organizations from "./pages/organization/organizations";
 
 
 axios.defaults.withCredentials = true;

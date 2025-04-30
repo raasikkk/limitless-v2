@@ -17,6 +17,7 @@ interface ScheduleItem {
 const Schedule = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [scheduleData, setScheduleData] = useState<ScheduleItem[]>(initialScheduleData);
+  
   const isCurator = true;
 
   const exportToExcel = () => {
