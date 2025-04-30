@@ -6,6 +6,7 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   bio TEXT,
   college INT,
+  is_supervisor BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   google_id TEXT UNIQUE,
   FOREIGN KEY (college) REFERENCES colleges(id)
