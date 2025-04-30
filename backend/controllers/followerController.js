@@ -60,7 +60,7 @@ export const getUserFollowersById = async (req,res) => {
       })
     }
 
-    const followers = await db.query("SELECT users.id, users.avatar, users.username FROM followers JOIN users ON users.id = followers.follower_id WHERE followers.user_id = $1 ", [user_id]);
+    const followers = await db.query("SELECT users.id, users.avatar, users.username, followers.follower_id FROM followers JOIN users ON users.id = followers.follower_id WHERE followers.user_id = $1 ", [user_id]);
 
     res.json(followers.rows)
 
@@ -81,7 +81,7 @@ export const getUserFollowingById = async (req,res) => {
       })
     }
 
-    const following = await db.query("SELECT users.id, users.avatar, users.username FROM followers JOIN users ON users.id = followers.user_id WHERE followers.follower_id = $1", [user_id]);
+    const following = await db.query("SELECT users.id, users.avatar, users.username, followers.follower_id FROM followers JOIN users ON users.id = followers.user_id WHERE followers.follower_id = $1", [user_id]);
 
     res.json(following.rows)
   } catch (error) {

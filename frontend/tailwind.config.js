@@ -8,9 +8,13 @@
   ],
   theme: {
   	extend: {
+      screens: {
+        xs: '375px'
+      },
   		colors: {
   			primaryColor: '#3b82f6',
-  			darkColor: '#0F172A',
+  			darkColor: '#1C1D20',
+			darkSecondary: "#202226",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

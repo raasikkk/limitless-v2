@@ -6,9 +6,9 @@ import Highlight from "@tiptap/extension-highlight";
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
 
-const extensions = [StarterKit]
+// const extensions = [StarterKit]
 
-const content = '<p>Hello World!</p>'
+// const content = '<p>Hello World!</p>'
 interface Props {
   content: string;
   onChange: (content: string) => void;
@@ -42,7 +42,7 @@ const Editor = ({content, onChange}:Props) => {
     content: content,
     editorProps: {
       attributes: {
-        class: 'min-h-[156px] rounded-md bg-slate-50 dark:bg-[#1E293B] py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline'
+        class: 'min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline'
       },
     },
     onUpdate: ({ editor }) => {

@@ -1,22 +1,24 @@
+import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
-type Props = {}
 
-const CompetitionLeaderboard = (props: Props) => {
+const CompetitionLeaderboard = () => {
+  const { t } = useTranslation()
+
   return (
     <div className=''>
       <h2 className="font-semibold text-2xl mb-8">
-        Leaderboard
+        {t("competition.leaderboard")}
       </h2>
-      <table className="w-full text-xs md:text-lg">
+      <table className="w-full text-xs md:text-base lg:text-lg">
         <tr className='border-2 border-b-none px-4 text-zinc-500'>
           <th className='font-semibold text-left p-4'>
             #
           </th>
           <th className='font-semibold text-left p-4 w-1/2'>
-            User
+            {t("competition.user")}
           </th>
           <th className='text-center p-4 w-1/2'>
-            Score
+            {t("competition.score")}
           </th>
         </tr>
         <tr className='border-l-2 border-r-2 border-b-2'>
@@ -42,4 +44,4 @@ const CompetitionLeaderboard = (props: Props) => {
   )
 }
 
-export default CompetitionLeaderboard
+export default CompetitionLeaderboard 

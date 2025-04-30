@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/hooks/hooks"
 import { Plus } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
@@ -26,14 +27,14 @@ const visiters = [
 
 const Home = () => {
   const { t } = useTranslation()
-
-  const isLoggedin = false
+  const {isLogged, user} = useAppSelector((state)=>state.user)
+  
   return (
     <div className="text-black dark:text-white ">
-      {isLoggedin ? (
+      {isLogged ? (
         <div className="pt-10 flex flex-wrap lg:flex-nowrap justify-between gap-3">
           <div className="pt-10 lg:pt-20 w-full lg:w-1/2 flex flex-col gap-3">
-            <h1 className="font-bold text-4xl md:text-5xl">{t('welcome')}, raasikkk!</h1>
+            <h1 className="font-bold text-4xl md:text-5xl">{t('welcome')}, {user?.username}!</h1>
             {/* <LanguageSwitcher /> */}
             <p className="lg:w-2/3 text-lg">{t("motivational_phrase")}</p>
 
