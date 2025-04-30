@@ -3,6 +3,7 @@ import { Link } from "react-router"
 
 const CompetitionLeaderboard = () => {
   const { t } = useTranslation()
+  
 
   return (
     <div className=''>

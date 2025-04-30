@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Register = () => {
     const colorTheme = localStorage.getItem("theme")
@@ -35,15 +36,22 @@ const Register = () => {
     const handleSubmit =  async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            alert(t("auth.passwords_mismatch"));
+            toast.error(t("auth.passwords_mismatch"));
             return;
         }
         try {
-
           await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/register`, {email: formData.email, username: formData.name, password: formData.password, repPassword: formData.confirmPassword});
           window.location.reload();
-        } catch (error) {
-          console.log(error);
+        } catch (err) {
+            let errorMessage
+
+            if (axios.isAxiosError(err)) {
+                errorMessage = err.response?.data?.message;
+            } else if (err instanceof Error) {
+                errorMessage = err.message
+            }
+
+            toast.error(errorMessage)
         }
     };
 
@@ -156,7 +164,7 @@ const Register = () => {
 
                     <Link
                         to={`${import.meta.env.VITE_BACKEND_BASE_URL}/auth/google`}
-                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black"
+                        className="p-2 px-4 flex items-center justify-center gap-2 border rounded-full font-semibold text-black dark:text-white"
                     >
                         <img src="/google-icon.svg" alt="google" width={20} />
                         <span>{t("register_google")}</span>
