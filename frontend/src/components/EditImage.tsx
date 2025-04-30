@@ -6,9 +6,10 @@ type Props = {
   setIsEdit: (value: boolean) => void;
   setImage: (value: File | string | null) => void;
   image: File | string | null;
+  handleSave: (value: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const EditImage = ({ setIsEdit, setImage, image }: Props) => {
+const EditImage = ({ setIsEdit, setImage, image, handleSave }: Props) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -23,11 +24,7 @@ const EditImage = ({ setIsEdit, setImage, image }: Props) => {
 
   const handleImageFile = (file: File) => {
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setImage(file);
     }
   };
 
@@ -38,7 +35,7 @@ const EditImage = ({ setIsEdit, setImage, image }: Props) => {
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-20 z-30 flex items-center justify-end'>
-      <form className='bg-white dark:bg-darkColor h-full max-w-2xl w-full relative z-50 shadow-xl'>
+      <form onSubmit={handleSave} className='bg-white dark:bg-darkColor h-full max-w-2xl w-full relative z-50 shadow-xl'>
         <div className='flex items-center justify-between px-6 py-4 border-b'>
           <button
             type="button"

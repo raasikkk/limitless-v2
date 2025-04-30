@@ -79,6 +79,27 @@ const ProfilePage = () => {
       }
     }
 
+    const handleAvatarChange = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      
+      const formData = new FormData();
+      if (!avatar) {
+        return alert('Select image')
+      }
+      formData.append('avatar', avatar);
+      try {
+        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${user?.id}/avatar`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        hanldeUserData();
+        setIsAvatarEdit(false)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
 
     useEffect(()=>{
       hanldeUserData();
@@ -93,7 +114,7 @@ const ProfilePage = () => {
         {
           isAvatarEdit
           ?
-          <EditImage image={avatar} setIsEdit={setIsAvatarEdit} setImage={setAvatar}/>
+          <EditImage handleSave={handleAvatarChange} image={avatar} setIsEdit={setIsAvatarEdit} setImage={setAvatar}/>
           :
           ''
         }
