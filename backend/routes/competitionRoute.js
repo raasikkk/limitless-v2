@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCompetition, editDescription, editRules, editTitle, getCategories, getCompetitionById, getCompetitions, getParticipants, joinCompetition, quitCompetition, uploadCoverForCompetition } from "../controllers/competitionController.js";
+import { createCompetition, editDescription, editRules, editTitle, getCategories, getCompetitionById, getCompetitions, getCompetitionsByCategory, getParticipants, joinCompetition, quitCompetition, uploadCoverForCompetition } from "../controllers/competitionController.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 import { uploadImage } from "../middleware/uploadImage.js";
 
@@ -13,6 +13,7 @@ competitionRoute.put('/competitions/:id/rules', checkAuth, editRules);
 competitionRoute.put('/competitions/:id/title', checkAuth, editTitle); 
 competitionRoute.get('/competitions', getCompetitions);
 competitionRoute.get('/competitions/:id', getCompetitionById);
+competitionRoute.get('/competitions/category/:category_id', getCompetitionsByCategory)
 
 competitionRoute.post('/competitions/join', checkAuth, joinCompetition);
 competitionRoute.delete('/competitions/quit/:competition_id/:user_id', checkAuth, quitCompetition);

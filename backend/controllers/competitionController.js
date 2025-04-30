@@ -3,11 +3,26 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const getCompetitions = async (req,res) => {
   try {
+    const {categoryId} = req.params;
     
-    const competitions = await db.query("SELECT * FROM competitions WHERE private = FALSE");
+    const competitions = await db.query("SELECT * FROM competitions WHERE private = FALSE AND category = $1", [categoryId]);
 
     res.json(competitions.rows)
 
+  } catch (error) {
+    console.log('Error at getCompetition:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const getCompetitionsByCategory = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+    const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id WHERE competitions.category = $1", [id]);
+
+    res.json(competitions.rows)
+    
   } catch (error) {
     console.log('Error at getCompetition:', error);
     res.status(500).send(error)
