@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Home, User, Menu, Trophy, Settings, Plus, Calendar } from 'lucide-react';
+import { Home, User, Menu, Trophy, Settings, Plus, Calendar, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@/hooks/hooks';
@@ -22,6 +22,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
   const links = [
     { label: t('home'), url: "/", icon: <Home size={20} /> },
     { label: t('competitions'), url: "/competitions", icon: <Trophy size={20} /> },
+    { label: "Organizations", url: "/organizations", icon: <Building2 size={20} /> },
     { label: "Schedule", url: "/schedule", icon: <Calendar size={20} /> },
     { label: t('profile'), url: `/profile/${user?.id}`, icon: <User size={20} /> },
     { label: t('settings'), url: "/settings", icon: <Settings size={20} /> },
@@ -40,11 +41,17 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
       <div className="p-4 border-b h-16 flex items-center">
           <button
             onClick={toggleSidebar}
-            className={`hover:text-gray-600 transition-colors ${
+            className={`flex items-center gap-3 hover:text-gray-600 transition-colors ${
               !isSidebarOpen ? 'mx-auto' : ''
             }`}
           >
             <Menu size={24} />
+            {isSidebarOpen && (
+              <>
+                <p className='font-bold'>Limitless</p>
+                <img src="/logo.svg" className='size-10' alt="logo" />
+              </>
+            )}
           </button>
       </div>
       

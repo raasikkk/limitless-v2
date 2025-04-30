@@ -5,7 +5,7 @@ import { useState } from "react"
 import { utils, writeFile } from "xlsx"
 
 interface ScheduleItem {
-  id: string;
+  id: number;
   group: string;
   monday: string;
   tuesday: string;
@@ -15,7 +15,7 @@ interface ScheduleItem {
 }
 
 const Schedule = () => {
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [scheduleData, setScheduleData] = useState<ScheduleItem[]>(initialScheduleData);
   const isCurator = true;
 
@@ -38,7 +38,7 @@ const Schedule = () => {
     writeFile(workbook, 'Schedule.xlsx', { compression: true });
   }
 
-  const handleInputChange = (id: string, field: keyof ScheduleItem, value: string) => {
+  const handleInputChange = (id: number, field: keyof ScheduleItem, value: string) => {
     setScheduleData(prevData =>
       prevData.map(item =>
         item.id === id ? { ...item, [field]: value } : item
@@ -46,7 +46,7 @@ const Schedule = () => {
     );
   };
 
-  const handleEditToggle = (id: string) => {
+  const handleEditToggle = (id: number) => {
     setEditingId(currentId => currentId === id ? null : id);
   };
 
