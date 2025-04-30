@@ -5,8 +5,16 @@ CREATE TABLE users (
   avatar TEXT NOT NULL,
   password TEXT NOT NULL,
   bio TEXT,
+  college INT,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  google_id TEXT UNIQUE
+  google_id TEXT UNIQUE,
+  FOREIGN KEY (college) REFERENCES colleges(id)
+)
+
+CREATE TABLE colleges (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  logo TEXT
 )
 
 CREATE TABLE categories (
