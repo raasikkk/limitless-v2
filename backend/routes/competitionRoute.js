@@ -7,10 +7,10 @@ export const competitionRoute = Router();
 
 
 competitionRoute.post('/competitions', checkAuth, createCompetition);
-competitionRoute.put('/competitions/:id/cover', checkAuth, uploadImage.single('cover'), uploadCoverForCompetition);
-competitionRoute.put('/competitions/:id/description', checkAuth, editDescription);
-competitionRoute.put('/competitions/:id/rules', checkAuth, editRules); 
-competitionRoute.put('/competitions/:id/title', checkAuth, editTitle); 
+competitionRoute.patch('/competitions/:id/cover', checkAuth, uploadImage.single('cover'), uploadCoverForCompetition);
+competitionRoute.patch('/competitions/:id/description', checkAuth, editDescription);
+competitionRoute.patch('/competitions/:id/rules', checkAuth, editRules); 
+competitionRoute.patch('/competitions/:id/title', checkAuth, editTitle); 
 competitionRoute.get('/competitions', getCompetitions);
 competitionRoute.get('/competitions/:id', getCompetitionById);
 competitionRoute.get('/competitions/category/:category', getCompetitionsByCategory)
