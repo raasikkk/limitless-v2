@@ -165,7 +165,7 @@ const ProfilePage = () => {
                       :
                       <button onClick={handleFollow} className="p-2 px-4 bg-primaryColor text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
                     }
-                    <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
+                    <Link to={`/chats/${id}`} className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</Link>
                 </div>
               </div>
             }
