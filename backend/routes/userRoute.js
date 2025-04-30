@@ -8,4 +8,4 @@ export const userRoute = Router();
 userRoute.patch('/users/:id/avatar', uploadImage.single('avatar'), editUserAvatar);
 // userRoute.get('/users/:username', checkAuth, getUserByUsername);
 userRoute.get('/users/:id', checkAuth, getUserByUserId);
-userRoute.put('/users/:id', checkAuth, editUserById)
+userRoute.patch('/users/:id', checkAuth, editUserById)
