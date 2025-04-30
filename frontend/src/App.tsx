@@ -16,8 +16,8 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
 import Schedule from "./pages/Schedule";
-import Organizations from "./pages/organization/organizations";
 import Organization from "./pages/organization/Organization";
+import Organizations from "./pages/organization/organizations";
 
 
 axios.defaults.withCredentials = true;
