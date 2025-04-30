@@ -5,6 +5,8 @@
   "create": "Құру",
   "home": "Басты бет",
   "competitions": "Жарыстар",
+  "organization": "Организациялар",
+  "schedule": "Расписание",
   "profile": "Профиль",
   "settings": "Параметр",
   "account": "Аккаунт",
@@ -22,6 +24,14 @@
   "sigin_email": "Электрондық пошта мен кіру",
   "cancel": "Жабу",
   "save_changes": "Сақтау",
+
+  "group": "Топ",
+  "monday": "Дүйсенбі",
+  "tuesday": "Сейсенбі",
+  "wednesday": "Сәрсенбі",
+  "thursday": "Бейсенбі",
+  "friday": "Жұма",
+  "actions": "Әрекеттер",
 
   "who_is_on": "Limitless та кім бар?",
   "learners": "Оқушылар",

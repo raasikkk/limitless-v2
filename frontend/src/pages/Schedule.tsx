@@ -2,6 +2,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { scheduleData as initialScheduleData } from "@/constants/schedule"
 import { Pencil } from "lucide-react"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { utils, writeFile } from "xlsx"
 
 interface ScheduleItem {
@@ -15,14 +16,15 @@ interface ScheduleItem {
 }
 
 const Schedule = () => {
+  const { t } = useTranslation()
   const [editingId, setEditingId] = useState<number | null>(null);
   const [scheduleData, setScheduleData] = useState<ScheduleItem[]>(initialScheduleData);
-  
+
   const isCurator = true;
 
   const exportToExcel = () => {
     const worksheetData = [
-      ['Group', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      [t('group'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday')],
       ...scheduleData.map(item => [
         item.group,
         item.monday,
@@ -53,7 +55,7 @@ const Schedule = () => {
 
   return (
     <div className="mt-5 text-black dark:text-white">
-      <h2 className="text-3xl font-bold">Schedule</h2>
+      <h2 className="text-3xl font-bold">{t("schedule")}</h2>
       <div className="flex justify-end items-center gap-2">
         <button 
           className="p-2 px-4 border rounded-full"
@@ -66,13 +68,13 @@ const Schedule = () => {
         <TableCaption>Schedule of your group</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[150px]">Group</TableHead>
-            <TableHead>Monday</TableHead>
-            <TableHead>Tuesday</TableHead>
-            <TableHead>Wednesday</TableHead>
-            <TableHead>Thursday</TableHead>
-            <TableHead className="text-right">Friday</TableHead>
-            {isCurator && <TableHead className="text-right">Actions</TableHead>}
+            <TableHead className="w-[150px]">{t('group')}</TableHead>
+            <TableHead>{t('monday')}</TableHead>
+            <TableHead>{t('tuesday')}</TableHead>
+            <TableHead>{t('wednesday')}</TableHead>
+            <TableHead>{t('thursday')}</TableHead>
+            <TableHead className="text-right">{t('friday')}</TableHead>
+            {isCurator && <TableHead className="text-right">{t("actions")}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
