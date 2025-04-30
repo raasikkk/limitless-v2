@@ -15,6 +15,9 @@ import Submission from "./pages/competition/Submission";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
+import Schedule from "./pages/Schedule";
+import Organizations from "./pages/organization/organizations";
+import Organization from "./pages/organization/Organization";
 
 
 axios.defaults.withCredentials = true;
@@ -45,6 +48,9 @@ function App() {
           <Route path="/competitions/:id" element={<Competition />}/>
           <Route path="/competitions/:id/submission/:submissionId" element={<Submission />}/>
           <Route path="/create" element={<CreatePage/>}/>
+          <Route path="/schedule" element={<Schedule />}/>
+          <Route path="/organizations" element={<Organizations />}/>
+          <Route path="/organization/:id" element={<Organization />}/>
         </Route>
         <Route path="/auth/signin" element={isLogged ? <Navigate to={'/'}/> : <Signin />} />
         <Route path="/auth/register" element={isLogged ? <Navigate to={'/'}/> : <Register />} />
