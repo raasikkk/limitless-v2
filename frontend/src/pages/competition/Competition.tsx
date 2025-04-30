@@ -9,7 +9,7 @@ import CompetitionLeaderboard from "./CompetitionLeaderboard";
 import EditImage from "@/components/EditImage";
 import { useAppSelector } from "@/hooks/hooks";
 import axios from "axios";
-import { ICompetition } from "@/types";
+import { ICompetition, IUser } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 
 const Competition = () => {
@@ -17,7 +17,6 @@ const Competition = () => {
   const { id } = useParams();
   const {user} = useAppSelector((state)=>state.user);
 
-  const [isParticipant] = useState(false);
   const [isCoverEdit, setIsCoverEdit] = useState(false);
   const [description, setDescription] = useState('');
   const [rules, setRules] = useState('');
@@ -26,8 +25,9 @@ const Competition = () => {
   const [creatorUsername, setCreatorUsername] = useState<string>('');
   const [creatorAvatar, setCreatorAvatar] = useState<string>('');
   const [createdAt, setCreatedAt] = useState<Date>();
-  const [title, setTitle] = useState('Competition title about winning some type shit about thist');
+  const [title, setTitle] = useState('Competition title');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
+  const [participants, setParticipants] = useState<IUser[]>([]);
 
   const fetchCompetition = async () => {
     try {
@@ -82,8 +82,26 @@ const Competition = () => {
         user_id: user?.id
       })
 
-      fetchCompetition();
+      window.location.reload();
       
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const quitCompetition =async () => {
+    try {
+
+      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/quit/${id}/${user?.id}`)
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getParticipants = async () => {
+    try {
+      const participants = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/participants`)).data;
+      setParticipants(participants)
     } catch (error) {
       console.log(error);
     }
@@ -91,6 +109,7 @@ const Competition = () => {
 
   useEffect(()=> {
     fetchCompetition();
+    getParticipants();
   }, [id])
 
   return (
@@ -110,9 +129,9 @@ const Competition = () => {
           <span className="text-zinc-600 text-sm ">Created {createdAt ? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : ''}</span>
         </div>
         {
-          isParticipant
+          participants.some(mate => mate.id == user?.id) || creatorId == user?.id
           ?
-          <button className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+          <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
             {t("competition.quit")}
           </button>
           :
@@ -214,7 +233,7 @@ const Competition = () => {
           </ul>
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions competitionId={id!} isParticipant={isParticipant}/>
+          <CompetitionSubmissions competitionId={id!} isParticipant={participants.some(mate => mate.id == user?.id) || user?.id == creatorId}/>
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard/>

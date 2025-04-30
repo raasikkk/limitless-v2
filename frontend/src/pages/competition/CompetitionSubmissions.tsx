@@ -19,7 +19,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
   const fetchSubmissions = async () => {
     try {
 
-      const submissionsData:ISubmissions[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/submissions/${competitionId}`)).data;
+      const submissionsData:ISubmissions[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/${competitionId}`)).data;
       setSubmissions(submissionsData)
     } catch (error) {
       console.log(error);
@@ -35,7 +35,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
       {
         isSubmit
         ?
-        <SubmitPopUp setIsSubmit={setIsSubmit}/>
+        <SubmitPopUp competitionId={competitionId} setIsSubmit={setIsSubmit}/>
         :
         ''
       }

@@ -1,15 +1,19 @@
 import { useRef, useState } from "react";
 import Editor from "./editor/Editor";
 import { RotateCcw } from "lucide-react";
+import axios from "axios";
+import { useAppSelector } from "@/hooks/hooks";
 
 interface Props {
   setIsSubmit: (value: boolean) => void;
+  competitionId: number | string
 }
 
-const SubmitPopUp = ({ setIsSubmit }: Props) => {
+const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
   const [image, setImage] = useState<null | File | string>(null);
   const [explanation, setExplanation] = useState('');
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const {user} = useAppSelector((state) => state.user);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -38,8 +42,27 @@ const SubmitPopUp = ({ setIsSubmit }: Props) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const formData = new FormData();
+    if (image) {
+      formData.append('image', image)
+    }
+    formData.append('explanation', explanation);
+    formData.append('competition_id', competitionId.toString())
+    formData.append('user_id', user?.id + '')
+    try {
+      
+      await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      window.location.reload()
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

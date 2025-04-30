@@ -31,5 +31,6 @@ export interface ISubmissions {
   username: string,
   avatar: string,
   user_id: string | number,
-  submited_date: Date
+  submited_date: Date,
+  explanation: string
 }

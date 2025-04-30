@@ -1,24 +1,45 @@
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 import { EllipsisVertical, ChevronUp, ChevronDown } from "lucide-react";
 import Editor from "@/components/editor/Editor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Vote from "@/components/Vote";
+import axios from "axios";
+import { ISubmissions } from "@/types";
 
 const Submission = () => {
   const {t} = useTranslation();
+  const {submissionId} = useParams();
   const [explanation, setExplanation] = useState('<h2>Day 2</h2><p>Lorem, <a href="sd">ipsum dolor sit amet</a> consectetur adipisicing elit. Aliquid optio ullam aperiam, porro quia consequatur sit obcaecati. Consequuntur voluptatibus labore consequatur, accusamus inventore corrupti quod omnis, optio, qui repellat exercitationem.</p>');
   const [isExplanationEdit, setIsExplanationEdit] = useState(false);
   const [link] = useState('');
+  const [username, setUsername] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [voteType, setVoteType] = useState<null|boolean>(null);
+
+  const getSubmission = async () => {
+    try {
+      
+      const submission:ISubmissions = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/user/${submissionId}`)).data;
+      setExplanation(submission.explanation);
+      setUsername(submission.username);
+      setAvatar(submission.avatar);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(()=>{ 
+    getSubmission()
+  }, [submissionId])
 
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
           <Link to={`/profile/1`}>
-            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src="/ava.jpg" />
+            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={avatar} />
           </Link>
           <span className="text-zinc-600 text-sm ">Submitted 8 month ago</span>
         </div>
@@ -43,7 +64,7 @@ const Submission = () => {
         </div>
       </div>
       <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-10">
-        Username
+        {username}
       </h1>
       <Tabs defaultValue="main">
         <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-10">
@@ -58,7 +79,7 @@ const Submission = () => {
           {
             link
             ?
-            <img src="" className="w-1/2 h-1/2 mx-auto" alt="Explanation image" />
+            <img src={avatar} className="w-1/2 h-1/2 mx-auto" alt="Explanation image" />
             :
             ''
           }
