@@ -45,6 +45,35 @@ const Competition = () => {
     }
   }
 
+  const handleChangeTitle = async () => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/title`, {title});
+      fetchCompetition();
+      setIsTitleEdit(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleChangeCover = async () => {
+    const formData = new FormData();
+    if (!cover) {
+      return alert('No image provided')
+    }
+    formData.append('cover', cover);
+    try {
+      await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/cover`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      fetchCompetition();
+      setIsTitleEdit(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(()=> {
     fetchCompetition();
   }, [id])
@@ -54,7 +83,7 @@ const Competition = () => {
       {
         isCoverEdit
         ?
-        <EditImage image={cover} setIsEdit={setIsCoverEdit} setImage={setCover}/>
+        <EditImage handleSave={handleChangeCover} image={cover} setIsEdit={setIsCoverEdit} setImage={setCover}/>
         :
         ''
       }
@@ -98,7 +127,7 @@ const Competition = () => {
                   <button onClick={()=>setIsTitleEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
                     {t("cancel")}
                   </button>
-                  <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+                  <button onClick={()=>handleChangeTitle()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
                     {t("save_changes")}
                   </button>
                 </div>
@@ -140,6 +169,7 @@ const Competition = () => {
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
           <CompetitionMain 
+          id={id!}
           rules={rules} setRules={setRules}
           description={description} setDescription={setDescription} 
           canEdit={creatorId == user?.id}/>

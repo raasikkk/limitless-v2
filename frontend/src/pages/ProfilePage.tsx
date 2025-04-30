@@ -22,7 +22,7 @@ const ProfilePage = () => {
     const [followers, setFollowers] = useState<IFollower[]>([]);
     const [following, setFollowing] = useState<IFollower[]>([]);
     const [isEdit, setIsEdit] = useState(false);
-    const [bio, setBio] = useState<string>(userData?.bio||t('no_bio_yet'));
+    const [bio, setBio] = useState<string>(userData?.bio||'');
     const [isBioEdit, setIsBioEdit] = useState(false);
     const [isAvatarEdit, setIsAvatarEdit] = useState(false);
     const [avatar, setAvatar] = useState<File|null|string>(null);
@@ -34,6 +34,8 @@ const ProfilePage = () => {
         const user:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`)).data;
         setUserData(user)
         setAvatar(user.avatar)
+        setBio(user?.bio ? user?.bio : '')
+        
       } catch (error) {
         console.log(error);
       }
@@ -106,6 +108,19 @@ const ProfilePage = () => {
       handleUserFollowers();
       handleUserFollowing();
     },[id])
+
+
+    const handleBioChange = async () => {
+      try {
+        console.log(bio);
+        
+        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${user?.id}`, { bio });
+        hanldeUserData();
+        setIsBioEdit(false)
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     
   return (
@@ -186,7 +201,7 @@ const ProfilePage = () => {
                       :
                       <button onClick={handleFollow} className="p-2 px-4 bg-primaryColor text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>
                     }
-                    <button className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</button>
+                    <Link to={`/chats/${id}`} className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</Link>
                 </div>
               </div>
             }
@@ -227,7 +242,7 @@ const ProfilePage = () => {
                           <button onClick={()=>setIsBioEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
                             {t("cancel")}
                           </button>
-                          <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+                          <button onClick={handleBioChange} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
                             {t("save_changes")}
                           </button>
                         </div>

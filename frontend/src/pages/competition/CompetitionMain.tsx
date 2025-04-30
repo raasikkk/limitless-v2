@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 import Editor from "@/components/editor/Editor";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 type Props = {
   canEdit: boolean,
@@ -9,12 +10,31 @@ type Props = {
   setDescription: (value: string) => void,
   rules: string,
   setRules: (value: string) => void,
+  id: string | number
 }
 
-const CompetitionMain = ({canEdit, description, setDescription, rules, setRules}: Props) => {
+const CompetitionMain = ({canEdit, description, setDescription, rules, setRules, id}: Props) => {
   const { t } = useTranslation()
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
   const [isRulesEdit, setIsRulesEdit] = useState(false);
+
+  const handleChangeDescription = async () => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/description`, {description});
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleChangeRules = async () => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/rules`, {rules});
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="w-full md:w-3/4 pr-4">
@@ -40,7 +60,7 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules}
             <button onClick={()=>setIsDescriptionEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
               {t("cancel")}
             </button>
-            <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+            <button onClick={()=>handleChangeDescription()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
               {t("save_changes")}
             </button>
           </div>
@@ -73,7 +93,7 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules}
             <button onClick={()=>setIsRulesEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
               {t("cancel")}
             </button>
-            <button className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+            <button onClick={()=>handleChangeRules()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
               {t("save_changes")}
             </button>
           </div>
