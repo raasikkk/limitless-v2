@@ -11,6 +11,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import axios from "axios";
 import { ICompetition, IParticipant } from "@/types";
 import { formatDistanceToNow } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -24,6 +25,7 @@ const Competition = () => {
   const [title, setTitle] = useState('');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
   const [participants, setParticipants] = useState<IParticipant[]>([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchCompetition = async () => {
     try {
@@ -103,8 +105,17 @@ const Competition = () => {
   }
 
   useEffect(()=> {
-    fetchCompetition();
-    getParticipants();
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        await Promise.all([fetchCompetition(), getParticipants()])
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadData();
   }, [id])
 
   return (
@@ -118,12 +129,25 @@ const Competition = () => {
       }
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
-          <Link to={`/profile/${competition?.user_id}`}>
-            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
-          </Link>
-          <span className="text-zinc-600 text-sm ">Created {competition?.created_at ? formatDistanceToNow(new Date(competition?.created_at), { addSuffix: true }) : ''}</span>
+        {isLoading ? (
+            <Skeleton className="w-10 h-10 rounded-full" />
+          ) : (
+            <Link to={`/profile/${competition?.user_id}`}>
+              <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
+            </Link>
+          )}
+          <span className="text-zinc-600 text-sm">
+            {isLoading ? (
+              <Skeleton className="h-4 w-[150px]" />
+            ) : (
+              `Created ${competition?.created_at ? formatDistanceToNow(new Date(competition?.created_at), { addSuffix: true }) : ''}`
+            )}
+          </span>
         </div>
-        {
+
+        {isLoading ? (
+          <Skeleton className="h-10 w-24 rounded-lg" />
+        ) : (
           competition?.private
             ?
             (
@@ -143,15 +167,25 @@ const Competition = () => {
                 {t("competition.join")}
               </button>
             )
-        }
+
+        )}
+        
       </div>
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
         <div className="w-full pb-0 md:pb-10">
-          <Link to={`/categories/Programming`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">Programming</Link>
+          {isLoading ? (
+            <Skeleton className="h-6 w-32 mb-4" />
+          ) : (
+            <Link to={`/categories/Programming`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">Programming</Link>
+          )}
+
           <div className="flex flex-col-reverse items-start justify-between">
-            {
-              isTitleEdit
-              ?
+            {isLoading ? (
+              <>
+                <Skeleton className="h-12 w-3/4 mb-3" />
+                <Skeleton className="h-4 w-1/4 mb-2 self-end" />
+              </>
+            ) : isTitleEdit ? (
               <label className="w-full">
                 <small className="uppercase text-zinc-500 font-semibold text-xs">
                   {t('createCompetition.form.titleLabel')}
@@ -171,27 +205,37 @@ const Competition = () => {
                   </button>
                 </div>
               </label>
-              :
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{competition?.title}</h1>
-            }
-            {
-              competition?.user_id == user?.id
-              ?
-              <Pencil onClick={()=>setIsTitleEdit(true)} size={20} className="mb-2 hover:opacity-50 self-end"/>
-              :
-              ''
-            }
+            ) : (
+              <>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{competition?.title}</h1>
+                {
+                  competition?.user_id == user?.id
+                  ?
+                  <Pencil onClick={()=>setIsTitleEdit(true)} size={20} className="mb-2 hover:opacity-50 self-end"/>
+                  :
+                  ''
+                }
+              </>
+            )}
           </div>
         </div>
+
         <div className="w-full sm:w-fit relative grid place-items-center">
-          {
-            competition?.user_id == user?.id
-            ?
-            <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
-            :
-            ''
-          }
-          <img className=" min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt="Competiton cover"/>
+          {isLoading ? (
+            <Skeleton className="min-w-72 max-w-72 h-40 rounded-lg mb-4" />
+          ) : (
+            <>
+              {
+                competition?.user_id == user?.id
+                ?
+                <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
+                :
+                ''
+              }
+              <img className=" min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt="Competiton cover"/>
+            </>
+          )}
+
         </div>
       </div>
       <Tabs defaultValue="main">
@@ -207,34 +251,66 @@ const Competition = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
-          <CompetitionMain
-          fetchCompetition={fetchCompetition} 
-          id={id!}
-          rules={rules} setRules={setRules}
-          description={description} setDescription={setDescription} 
-          canEdit={competition?.user_id == user?.id}/>
+          {isLoading ? (
+            <div className="w-full md:w-3/4 space-y-4">
+              <Skeleton className="h-32 w-full" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+          ) : (
+            <CompetitionMain
+              fetchCompetition={fetchCompetition} 
+              id={id!}
+              rules={rules} setRules={setRules}
+              description={description} setDescription={setDescription} 
+              canEdit={competition?.user_id == user?.id}
+            />
+          )}
+          
+
           <ul className="w-full md:w-1/4 flex flex-col gap-4">
             <li className="flex items-center gap-4 justify-between">
-              <div>
-                <h3 className="font-semibold">
-                  {t("competition.host")}
-                </h3>
-                <p className="text-sm">
-                  {competition?.username}
-                </p>
-              </div>
-              <Link to={`/profile/${competition?.user_id}`}>
-                <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
-              </Link>
+              {isLoading ? (
+                <>
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-20" />
+                    <Skeleton className="h-3 w-32" />
+                  </div>
+                  <Skeleton className="w-12 h-12 rounded-full" />
+                </>
+              ) : (
+                <>
+                  <div>
+                    <h3 className="font-semibold">
+                      {t("competition.host")}
+                    </h3>
+                    <p className="text-sm">
+                      {competition?.username}
+                    </p>
+                  </div>
+                  <Link to={`/profile/${competition?.user_id}`}>
+                    <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
+                  </Link>
+                </>
+              )}
             </li>
+
             <li>
-              <h3 className="font-semibold mb-1">
-                {t("competition.participation")}
-              </h3>
-              <div className="text-sm">
-                <p>{t("competition.participants")} {participants.length}</p>
-                {/* <p>{t("competition.submissions")} 0</p> */}
-              </div>
+              {isLoading ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-24" />
+                </div>
+              ) : (
+                <>
+                  <h3 className="font-semibold mb-1">
+                    {t("competition.participation")}
+                  </h3>
+                  <div className="text-sm">
+                    <p>{t("competition.participants")} {participants.length}</p>
+                    {/* <p>{t("competition.submissions")} 0</p> */}
+                  </div>
+                </>
+              )}
             </li>
           </ul>
         </TabsContent>
