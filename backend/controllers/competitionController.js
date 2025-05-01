@@ -266,3 +266,41 @@ export const getParticipants = async (req,res) => {
     res.status(500).send(error)
   }
 }
+
+export const getLeaderboard = async (req,res) => {
+  try {
+    const {competitionId} = req.params;
+    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
+    if (competition.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Competition doesn't exist"
+      })
+    }
+    
+    const leaderboard = await db.query(`
+    SELECT 
+    ROW_NUMBER() OVER (
+      ORDER BY 
+        COUNT(CASE WHEN v.vote_type = true THEN 1 END) - 
+        COUNT(CASE WHEN v.vote_type = false THEN 1 END) DESC
+    ) AS place,
+    s.id AS submission_id,
+    u.id AS user_id,
+    u.username,
+    u.avatar,
+    COUNT(CASE WHEN v.vote_type = true THEN 1 END) - 
+    COUNT(CASE WHEN v.vote_type = false THEN 1 END) AS score
+    FROM submissions s
+    LEFT JOIN votes v ON s.id = v.submission_id
+    LEFT JOIN users u ON s.participant_id = u.id
+    WHERE s.competition_id = $1
+    GROUP BY s.id, u.id, u.username, u.avatar
+    ORDER BY score DESC
+    `, [competitionId])
+    res.json(leaderboard.rows)
+ 
+  } catch (error) {
+    console.log('Error at getLeaderboard:', error);
+    res.status(500).send(error)
+  }
+}
