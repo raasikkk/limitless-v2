@@ -52,3 +52,9 @@ export interface IVote {
   comment: string,
   vote_type: boolean | null
 }
+
+export interface ILeaderboard extends IUser {
+  score: number,
+  place: number,
+  user_id: string|number
+}

@@ -242,7 +242,7 @@ const Competition = () => {
           <CompetitionSubmissions competitionId={id!} isParticipant={participants.some(mate => mate.user_id == user?.id) || user?.id == competition?.user_id}/>
         </TabsContent>
         <TabsContent value="leaderboard">
-          <CompetitionLeaderboard/>
+          <CompetitionLeaderboard id={id}/>
         </TabsContent>
       </Tabs>
     </div>
