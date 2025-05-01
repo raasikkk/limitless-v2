@@ -10,10 +10,11 @@ type Props = {
   setDescription: (value: string) => void,
   rules: string,
   setRules: (value: string) => void,
-  id: string | number
+  id: string | number,
+  fetchCompetition: () => void
 }
 
-const CompetitionMain = ({canEdit, description, setDescription, rules, setRules, id}: Props) => {
+const CompetitionMain = ({canEdit, description, setDescription, rules, setRules, id, fetchCompetition}: Props) => {
   const { t } = useTranslation()
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
   const [isRulesEdit, setIsRulesEdit] = useState(false);
@@ -21,7 +22,8 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
   const handleChangeDescription = async () => {
     try {
       await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/description`, {description});
-      window.location.reload();
+      fetchCompetition()
+      setIsDescriptionEdit(false)
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +32,8 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
   const handleChangeRules = async () => {
     try {
       await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/rules`, {rules});
-      window.location.reload();
+      fetchCompetition()
+      setIsRulesEdit(false)
     } catch (error) {
       console.log(error);
     }

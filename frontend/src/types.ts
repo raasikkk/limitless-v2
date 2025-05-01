@@ -23,14 +23,32 @@ export interface ICompetition extends IUser {
   start_date: Date,
   end_date: Date,
   winner_id: number | string | null,
-  created_at: Date
+  created_at: Date,
+  private: boolean
 }
 
-export interface ISubmissions {
+export interface IParticipant {
+  id: number | string,
+  user_id: number | string,
+  username: string,
+  avatar: string
+}
+
+export interface ISubmission {
+  id: number | string,
+  username: string,
+  avatar: string,
+  participant_id: string | number,
+  submited_date: Date,
+  explanation: string,
+  image: string
+}
+
+export interface IVote {
   id: number | string,
   username: string,
   avatar: string,
   user_id: string | number,
-  submited_date: Date,
-  explanation: string
+  comment: string,
+  vote_type: boolean | null
 }

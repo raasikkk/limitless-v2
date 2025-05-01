@@ -76,6 +76,7 @@
       "score": "Score",
       "explanation": "Explanation",
       "comments": "Comments",
+      "votes": "Votes",
       "comment_optional": "Comment: (Optional)",
       "upvote": "Upvote",
       "downvote": "Downvote",
