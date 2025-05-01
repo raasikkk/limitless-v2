@@ -15,8 +15,6 @@ import Submission from "./pages/competition/Submission";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
-import Chats from "./pages/chat/Chats";
-import Chat from "./pages/chat/Chat";
 
 axios.defaults.withCredentials = true;
 
@@ -46,10 +44,6 @@ function App() {
           <Route path="/competitions/:id" element={<Competition />} />
           <Route path="/competitions/:id/submission/:submissionId" element={<Submission />} />
           <Route path="/create" element={<CreatePage />} />
-        </Route>
-
-        <Route path="/chats" element={<Chats />}>
-          <Route path=":chat_id" element={<Chat />} />
         </Route>
 
         <Route path="/auth/signin" element={isLogged ? <Navigate to={"/"} /> : <Signin />} />
