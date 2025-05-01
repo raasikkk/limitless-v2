@@ -73,7 +73,7 @@ export const getSubmissions = async (req,res) => {
     const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
     if (competition.rows.length <= 0) {
       return res.status(400).json({
-        message: "Incorrect id or competition doesn't exist"
+        message: "Competition doesn't exist"
       })
     }
 
