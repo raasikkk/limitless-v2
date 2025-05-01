@@ -3,7 +3,7 @@ import { Link } from "react-router"
 import SubmitPopUp from "@/components/SubmitPopUp";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { ISubmissions } from "@/types";
+import { ISubmission } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 
 type Props = {
@@ -14,12 +14,11 @@ type Props = {
 const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
   const { t } = useTranslation()
   const [isSubmit, setIsSubmit] = useState(false);
-  const [submissions, setSubmissions] = useState<ISubmissions[]>([]);
-
+  const [submissions, setSubmissions] = useState<ISubmission[]>([]);
   const fetchSubmissions = async () => {
     try {
 
-      const submissionsData:ISubmissions[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/${competitionId}`)).data;
+      const submissionsData:ISubmission[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/${competitionId}`)).data;
       setSubmissions(submissionsData)
     } catch (error) {
       console.log(error);
@@ -42,7 +41,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
       
       <div className="mb-8 flex items-center justify-between">
         <h2 className="font-semibold text-2xl">
-          {t("competition.submissions")} (0)
+          {t("competition.submissions")} ({submissions?.length})
         </h2>
         {
           isParticipant
@@ -55,22 +54,25 @@ const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
         }
       </div>
       <table className="w-full text-xs md:text-base lg:text-lg">
-        <tr className='border-2 border-b-none px-4 rounded-b-none text-zinc-500'>
-          <th className='font-semibold text-left p-4'>
-            {t("competition.user")}
-          </th>
-          <th className='font-semibold text-center w-1/3'>
-            {t("competition.submissions")}
-          </th>
-          <th className='text-right p-4'>
-            {t("competition.submitted")}
-          </th>
-        </tr>
+        <thead>
+          <tr className='border-2 border-b-none px-4 rounded-b-none text-zinc-500'>
+            <th className='font-semibold text-left p-4'>
+              {t("competition.user")}
+            </th>
+            <th className='font-semibold text-center w-1/3'>
+              {t("competition.submissions")}
+            </th>
+            <th className='text-right p-4'>
+              {t("competition.submitted")}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
         {
           submissions.map(submission => {
-            return <tr className='border-l-2 border-r-2 border-b-2'>
+            return <tr key={submission.id} className='border-l-2 border-r-2 border-b-2'>
                     <td className="p-4">
-                      <Link to={`/profile/${submission.user_id}`} className="flex items-center gap-2 md:gap-4 hover:underline">
+                      <Link to={`/profile/${submission.participant_id}`} className="flex items-center gap-2 md:gap-4 hover:underline">
                         
                         <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission.avatar} />
                         <h3 className='font-semibold'>
@@ -87,8 +89,9 @@ const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
                       {submission.submited_date ? formatDistanceToNow(new Date(submission.submited_date), { addSuffix: true }) : ''}
                     </td>
                   </tr>
-          })
-        }
+                })
+              }
+        </tbody>
 
       </table>
     </div>

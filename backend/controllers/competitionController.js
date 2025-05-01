@@ -173,8 +173,6 @@ export const uploadCoverForCompetition = async (req,res) => {
       },
       async (err, res) => {
         if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
-
-
         await db.query("UPDATE competitions SET cover = $1 WHERE id = $2", [res?.secure_url, id])
       }
     )
@@ -215,20 +213,12 @@ export const joinCompetition = async (req,res) => {
       })
     }
 
-    const checkIsUserCreator = await db.query("SELECT user_id FROM competitions WHERE id = $1 AND user_id = $2", [competition_id, user_id]);
-    if (checkIsUserCreator.rows.length > 0) {
-      return res.status(400).json({
-        message: "Already participating in the competition."
-      })
-    }
-
     const checkUser = await db.query("SELECT participants.user_id FROM participants WHERE user_id = $1 AND competition_id = $2", [user_id, competition_id]);
     if (checkUser.rows.length > 0) {
       return res.status(400).json({
         message: "Already participating in the competition."
       })
     }
-
 
     await db.query("INSERT INTO participants (user_id, competition_id) VALUES ($1, $2)", [user_id, competition_id]);
     res.json({
@@ -268,7 +258,7 @@ export const getParticipants = async (req,res) => {
   try {
     const { competition_id } = req.params;
 
-    const participants = await db.query(`SELECT users.id, users.avatar, users.username FROM participants JOIN users ON users.id = participants.user_id WHERE participants.competition_id = $1`, [competition_id]);
+    const participants = await db.query(`SELECT participants.*, users.avatar, users.username FROM participants JOIN users ON users.id = participants.user_id WHERE participants.competition_id = $1`, [competition_id]);
 
     res.json(participants.rows);
   } catch (error) {

@@ -10,20 +10,24 @@ interface Props {
 }
 
 const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
-  const [image, setImage] = useState<null | File | string>(null);
+  const [image, setImage] = useState<string | Blob | File>('');
   const [explanation, setExplanation] = useState('');
   const imageInputRef = useRef<HTMLInputElement>(null);
   const {user} = useAppSelector((state) => state.user);
+  
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setImage(file);
+    }
+  };
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      setImage(file);
     }
   };
 
@@ -31,23 +35,10 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
     event.preventDefault();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
-    if (image) {
-      formData.append('image', image)
-    }
+    formData.append('image', image)
     formData.append('explanation', explanation);
     formData.append('competition_id', competitionId.toString())
     formData.append('user_id', user?.id + '')
@@ -81,8 +72,8 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
         >
           {image ? (
             <div>
-              <img src={typeof image === 'string' ? image : undefined} alt="Preview" className="max-h-60 object-contain" />
-              <RotateCcw onClick={()=>setImage(null)} className="absolute -top-5 -right-5"/>
+              <img src={typeof image === 'string' ? image : URL.createObjectURL(image)} alt="Preview" className="max-h-60 object-contain" />
+              <RotateCcw onClick={()=>setImage('')} className="absolute -top-5 -right-5"/>
             </div>
           ) : (
             <>

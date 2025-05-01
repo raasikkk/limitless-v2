@@ -1,3 +1,5 @@
+import { useAppSelector } from "@/hooks/hooks";
+import axios from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -5,16 +7,36 @@ import { useTranslation } from "react-i18next";
 type Props = {
   voteType: boolean | null,
   setVoteType: (value: null|boolean) => void;
+  competitionId: string | void;
+  submissionId: string | void;
+  getVotes: () => void;
 }
 
-const Vote = ({voteType, setVoteType}: Props) => {
+const Vote = ({voteType, setVoteType, submissionId, competitionId, getVotes}: Props) => {
   const { t } = useTranslation()
+  const {user} = useAppSelector((state)=>state.user);
   const [comment, setComment] = useState('');
 
   const handleCommentChange = (e: string) => {
     if (comment.length <= 50) {
       setComment(e);
     } 
+  }
+
+  const handleVote = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/vote`, {
+        userId: user?.id,
+        submissionId,
+        competitionId,
+        comment,
+        voteType
+      })
+      getVotes();
+      setVoteType(null);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -42,12 +64,14 @@ const Vote = ({voteType, setVoteType}: Props) => {
         </button>
         {voteType ? (
           <button 
+            onClick={()=>handleVote()}
             className="rounded-lg py-1.5 px-5 text-sm font-medium bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-green-500/30 transition-all"
           >
             {t("competition.upvote")}
           </button>
         ) : (
           <button 
+            onClick={()=>handleVote()}
             className="rounded-lg py-1.5 px-5 text-sm font-medium bg-red-500 hover:bg-red-600 text-white shadow-md hover:shadow-red-500/30 transition-all"
           >
             {t("competition.downvote")}

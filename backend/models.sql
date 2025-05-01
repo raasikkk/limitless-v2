@@ -84,22 +84,3 @@ CREATE TABLE votes (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (submission_id) REFERENCES submissions(id)
 )
-
-CREATE TABLE chats (
-  id SERIAL PRIMARY KEY,
-  user_id INT,
-  supervisor_id INT,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (supervisor_id) REFERENCES users(id),
-  UNIQUE (user_id, supervisor_id)
-)
-
-CREATE TABLE messages (
-  id SERIAL PRIMARY KEY,
-  user_id INT,
-  chat_id INT,
-  message TEXT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (chat_id) REFERENCES chats(id)
-)

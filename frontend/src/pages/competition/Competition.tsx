@@ -9,37 +9,30 @@ import CompetitionLeaderboard from "./CompetitionLeaderboard";
 import EditImage from "@/components/EditImage";
 import { useAppSelector } from "@/hooks/hooks";
 import axios from "axios";
-import { ICompetition, IUser } from "@/types";
+import { ICompetition, IParticipant } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 
 const Competition = () => {
   const {t} = useTranslation();
   const { id } = useParams();
   const {user} = useAppSelector((state)=>state.user);
-
+  const [competition, setCompetition] = useState<ICompetition|null>(null)
   const [isCoverEdit, setIsCoverEdit] = useState(false);
   const [description, setDescription] = useState('');
   const [rules, setRules] = useState('');
   const [cover, setCover] = useState<File|null|string>(null);
-  const [creatorId, setCreatorId] = useState<string | number>('');
-  const [creatorUsername, setCreatorUsername] = useState<string>('');
-  const [creatorAvatar, setCreatorAvatar] = useState<string>('');
-  const [createdAt, setCreatedAt] = useState<Date>();
-  const [title, setTitle] = useState('Competition title');
+  const [title, setTitle] = useState('');
   const [isTitleEdit,setIsTitleEdit] = useState(false);
-  const [participants, setParticipants] = useState<IUser[]>([]);
+  const [participants, setParticipants] = useState<IParticipant[]>([]);
 
   const fetchCompetition = async () => {
     try {
       const competition:ICompetition = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`)).data;
-      setTitle(competition.title);
-      setCover(competition.cover);
-      setCreatorId(competition.user_id);
-      setCreatorUsername(competition.username);
-      setCreatorAvatar(competition.avatar);
-      setCreatedAt(competition.created_at);
+      setCompetition(competition);
       setDescription(competition.description);
       setRules(competition.rules);
+      setTitle(competition?.title);
+      setCover(competition.cover);
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +48,8 @@ const Competition = () => {
     }
   }
 
-  const handleChangeCover = async () => {
+  const handleChangeCover = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
     if (!cover) {
       return alert('No image provided')
@@ -68,12 +62,12 @@ const Competition = () => {
         }
       });
       fetchCompetition();
-      setIsTitleEdit(false);
+      setIsCoverEdit(false);
     } catch (error) {
       console.log(error);
     }
   }
-
+  
   const joinCompetition =async () => {
     try {
 
@@ -82,7 +76,7 @@ const Competition = () => {
         user_id: user?.id
       })
 
-      window.location.reload();
+      getParticipants()
       
     } catch (error) {
       console.log(error);
@@ -92,12 +86,13 @@ const Competition = () => {
     try {
 
       await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/quit/${id}/${user?.id}`)
-      window.location.reload();
+      getParticipants()
     } catch (error) {
       console.log(error);
     }
   }
-
+  console.log(participants);
+  
   const getParticipants = async () => {
     try {
       const participants = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/participants`)).data;
@@ -123,27 +118,37 @@ const Competition = () => {
       }
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
-          <Link to={`/profile/${creatorId}`}>
-            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={creatorAvatar} />
+          <Link to={`/profile/${competition?.user_id}`}>
+            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
           </Link>
-          <span className="text-zinc-600 text-sm ">Created {createdAt ? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : ''}</span>
+          <span className="text-zinc-600 text-sm ">Created {competition?.created_at ? formatDistanceToNow(new Date(competition?.created_at), { addSuffix: true }) : ''}</span>
         </div>
         {
-          participants.some(mate => mate.id == user?.id) || creatorId == user?.id
-          ?
-          <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-            {t("competition.quit")}
-          </button>
-          :
-          <button onClick={()=>joinCompetition()} className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-            {t("competition.join")}
-          </button>
+          competition?.private
+            ?
+            (
+              <button className="text-sm bg-red-700 py-2 px-4 rounded-lg text-white font-semibold">
+                {t("createCompetition.form.privacyOptions.private")}
+              </button>
+            )
+            :
+            (
+              participants.some(mate => mate.user_id == user?.id)
+              ?
+              <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                {t("competition.quit")}
+              </button>
+              :
+              <button onClick={()=>joinCompetition()} className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                {t("competition.join")}
+              </button>
+            )
         }
       </div>
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
         <div className="w-full pb-0 md:pb-10">
           <Link to={`/categories/Programming`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">Programming</Link>
-          <div className="flex flex-col-reverse items-end md:items-start justify-between">
+          <div className="flex flex-col-reverse items-start justify-between">
             {
               isTitleEdit
               ?
@@ -167,10 +172,10 @@ const Competition = () => {
                 </div>
               </label>
               :
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{title}</h1>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{competition?.title}</h1>
             }
             {
-              creatorId == user?.id
+              competition?.user_id == user?.id
               ?
               <Pencil onClick={()=>setIsTitleEdit(true)} size={20} className="mb-2 hover:opacity-50 self-end"/>
               :
@@ -178,15 +183,15 @@ const Competition = () => {
             }
           </div>
         </div>
-        <div className="relative">
+        <div className="w-full sm:w-fit relative grid place-items-center">
           {
-            creatorId == user?.id
+            competition?.user_id == user?.id
             ?
             <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
             :
             ''
           }
-          <img className="mx-auto min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof cover === 'string' ? cover : undefined} alt="Competiton cover"/>
+          <img className=" min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt="Competiton cover"/>
         </div>
       </div>
       <Tabs defaultValue="main">
@@ -202,11 +207,12 @@ const Competition = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
-          <CompetitionMain 
+          <CompetitionMain
+          fetchCompetition={fetchCompetition} 
           id={id!}
           rules={rules} setRules={setRules}
           description={description} setDescription={setDescription} 
-          canEdit={creatorId == user?.id}/>
+          canEdit={competition?.user_id == user?.id}/>
           <ul className="w-full md:w-1/4 flex flex-col gap-4">
             <li className="flex items-center gap-4 justify-between">
               <div>
@@ -214,11 +220,11 @@ const Competition = () => {
                   {t("competition.host")}
                 </h3>
                 <p className="text-sm">
-                  {creatorUsername}
+                  {competition?.username}
                 </p>
               </div>
-              <Link to={`/profile/${creatorId}`}>
-                <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={creatorAvatar} />
+              <Link to={`/profile/${competition?.user_id}`}>
+                <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
               </Link>
             </li>
             <li>
@@ -226,14 +232,14 @@ const Competition = () => {
                 {t("competition.participation")}
               </h3>
               <div className="text-sm">
-                <p>{t("competition.participants")} 0</p>
-                <p>{t("competition.submissions")} 0</p>
+                <p>{t("competition.participants")} {participants.length}</p>
+                {/* <p>{t("competition.submissions")} 0</p> */}
               </div>
             </li>
           </ul>
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions competitionId={id!} isParticipant={participants.some(mate => mate.id == user?.id) || user?.id == creatorId}/>
+          <CompetitionSubmissions competitionId={id!} isParticipant={participants.some(mate => mate.user_id == user?.id) || user?.id == competition?.user_id}/>
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard/>

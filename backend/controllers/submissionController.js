@@ -20,7 +20,7 @@ export const sendSubmission = async (req,res) => {
       })
     }
 
-    let image = null;
+    let image;
     const publicId = `submission_user-${user_id}_competition-${competition_id}_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     if (req.file) {
       await cloudinary.uploader.upload(
@@ -32,7 +32,6 @@ export const sendSubmission = async (req,res) => {
         },
         async (err, res) => {
           if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
-  
           return image = res?.secure_url;
         }
       )
@@ -57,10 +56,11 @@ export const sendSubmission = async (req,res) => {
 
 export const getUserSubmission = async (req,res) => {
   try {
-    const {submission_id, competition_id} = req.params;
-    const submission = await db.query("SELECT submissions, users.username, users.avatar FROM submissions JOIN users ON submissions.user_id = users.id WHERE submission_id = $1", [submission_id]);
-    res.json(submission.rows);
+    const {submission_id } = req.params;
+    const submission = await db.query("SELECT submissions.*, users.username, users.avatar FROM submissions JOIN users ON submissions.participant_id = users.id WHERE submissions.id = $1", [submission_id]);
+    res.json(submission.rows[0]);
   } catch (error) {
+    console.log('Error at getUserSubmission:', error)
     res.status(500).json(error)
   }
 }
@@ -90,9 +90,7 @@ export const getSubmissions = async (req,res) => {
       LEFT JOIN votes v ON s.id = v.submission_id
       WHERE s.competition_id = $1 AND DATE(s.submited_date) = DATE($2)
       GROUP BY s.id, u.id, u.username, u.avatar
-      ORDER BY 
-        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = TRUE), 0) - 
-        COALESCE(COUNT(v.*) FILTER (WHERE v.vote_type = FALSE), 0) DESC;
+      ORDER BY s.submited_date DESC
     `, [competitionId, date]);
 
     res.json(submissions.rows);
@@ -218,10 +216,6 @@ export const vote = async (req,res) => {
     const {userId, submissionId, voteType, comment,competitionId} = req.body;
     const date = new Date();
 
-    if (req.user.id === userId) return res.status(400).json({
-      message: "You cannot vote yourself"
-    });
-
     const checkIsParticipant = await db.query("SELECT * FROM participants WHERE user_id = $1 AND competition_id = $2", [userId, competitionId]);
 
     if (checkIsParticipant.rows.length <= 0) {
@@ -236,6 +230,12 @@ export const vote = async (req,res) => {
     if (checkSubmission.rows.length <= 0) {
       return res.status(400).json({
         message: "Incorrect id or submission doesn't exist"
+      })
+    }
+
+    if (checkSubmission.rows[0].participant_id == userId) {
+      return res.status(400).json({
+        message: "You cannot vote yourself"
       })
     }
 
@@ -261,6 +261,48 @@ export const vote = async (req,res) => {
     })
   } catch (error) {
     console.log('Error at upvote:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const getVotes = async (req,res) => {
+  try {
+    const {submissionId} = req.params;
+
+    const checkSubmission = await db.query("SELECT * FROM submissions WHERE id = $1", [submissionId]);
+    if (checkSubmission.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Submission doesn't exist"
+      })
+    }
+
+    const votes = await db.query('SELECT votes.*, users.username, users.avatar FROM votes JOIN users ON users.id = votes.user_id WHERE votes.submission_id = $1', [submissionId]);
+    res.json(votes.rows);
+  } catch (error) {
+    console.log('Error at getVotes:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const cancelVote = async (req,res) => {
+  try {
+
+    const {submissionId, userId} = req.params;
+
+    const checkSubmission = await db.query("SELECT * FROM submissions WHERE id = $1", [submissionId]);
+    if (checkSubmission.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Submission doesn't exist"
+      })
+    }
+
+    await db.query("DELETE FROM votes WHERE submission_id = $1 AND user_id = $2", [submissionId, userId]);
+    return res.json({
+      message: "Succesfully cancelled"
+    })
+    
+  } catch (error) {
+    console.log('Error at deleteVotes:', error);
     res.status(500).send(error)
   }
 }
