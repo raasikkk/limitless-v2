@@ -1,7 +1,7 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import Layout from "./Layout"
-import Home from "./pages/Home"
-import { useTranslation } from "react-i18next"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Layout from "./Layout";
+import Home from "./pages/Home";
+import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import Signin from "./pages/auth/Signin";
 import Register from "./pages/auth/Register";
@@ -18,53 +18,64 @@ import { fetchUserIsLogged } from "./features/userSlice/userSlice";
 import Schedule from "./pages/Schedule";
 import Organizations from "./pages/organization/Organizations";
 import Organization from "./pages/organization/Organization";
-// import Chats from "./pages/chat/Chats";
-// import Chat from "./pages/chat/Chat";
+import Chats from "./pages/chat/Chats";
+import Chat from "./pages/chat/Chat";
 // import Organizations from "./pages/organization/organizations";
-
 
 axios.defaults.withCredentials = true;
 
 function App() {
   const dispatch = useAppDispatch();
   const { i18n } = useTranslation();
-  
-  const {isLogged} = useAppSelector((state)=>state.user);
 
-  useEffect(()=>{
-    dispatch(fetchUserIsLogged());
-  },[])
+  const { isLogged } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    document.documentElement.lang = i18n.language
-  }, [i18n.language])
+    dispatch(fetchUserIsLogged());
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />}/>
-          <Route path="/profile/:id" element={<ProfilePage />}/>
-          <Route path="/settings" element={<Settings />}/>
-          <Route path="/competitions" element={<Competitions />}/>
-          <Route path="/categories/:category" element={<CompetitionCategorie />}/>
-          <Route path="/competitions/:id" element={<Competition />}/>
-          <Route path="/competitions/:id/submission/:submissionId" element={<Submission />}/>
-          <Route path="/create" element={<CreatePage/>}/>
-          <Route path="/schedule" element={<Schedule />}/>
-          <Route path="/organizations" element={<Organizations />}/>
-          <Route path="/organization/:id" element={<Organization />}/>
+          <Route index element={<Home />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/competitions" element={<Competitions />} />
+          <Route
+            path="/categories/:category"
+            element={<CompetitionCategorie />}
+          />
+          <Route path="/competitions/:id" element={<Competition />} />
+          <Route
+            path="/competitions/:id/submission/:submissionId"
+            element={<Submission />}
+          />
+          <Route path="/create" element={<CreatePage />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/organizations" element={<Organizations />} />
+          <Route path="/organization/:id" element={<Organization />} />
         </Route>
 
-        {/* <Route path="/chats" element={<Chats />}>
-          <Route path=":id" element={<Chat />}/>
-        </Route> */}
+        <Route path="/chats" element={<Chats />}>
+          <Route path=":chat_id" element={<Chat />} />
+        </Route>
 
-        <Route path="/auth/signin" element={isLogged ? <Navigate to={'/'}/> : <Signin />} />
-        <Route path="/auth/register" element={isLogged ? <Navigate to={'/'}/> : <Register />} />
+        <Route
+          path="/auth/signin"
+          element={isLogged ? <Navigate to={"/"} /> : <Signin />}
+        />
+        <Route
+          path="/auth/register"
+          element={isLogged ? <Navigate to={"/"} /> : <Register />}
+        />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
