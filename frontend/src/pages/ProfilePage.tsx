@@ -4,7 +4,7 @@ import axios from "axios"
 import { CalendarDays, Pencil, Settings } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
@@ -17,7 +17,7 @@ interface IFollower extends IUser {
 const ProfilePage = () => {
     const { t } = useTranslation();
     const { id } = useParams();
-    const {user} = useAppSelector((state)=>state.user);
+    const {user, isLogged} = useAppSelector((state)=>state.user);
     const [userData,setUserData] = useState<null|IUser>(null);
     const [followers, setFollowers] = useState<IFollower[]>([]);
     const [following, setFollowing] = useState<IFollower[]>([]);
@@ -27,7 +27,13 @@ const ProfilePage = () => {
     const [isAvatarEdit, setIsAvatarEdit] = useState(false);
     const [avatar, setAvatar] = useState<File|null|string>(null);
 
-    
+    const navigate = useNavigate()
+
+    useEffect(() => {
+      if (!isLogged) {
+        navigate("/auth/signin")
+      }
+    }, [isLogged])
     
     const hanldeUserData = async () => {
       try {
