@@ -12,6 +12,5 @@ llmRouter.get("/llm/suggestions", checkAuth, llmSuggestions);
 llmRouter.get(
   "/llm/grading/:competition_id",
   checkAuth,
-  llmGradingEligibility,
   llmGradingParticipants
 );

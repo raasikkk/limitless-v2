@@ -37,12 +37,18 @@ export const llmGradingParticipants = async (req, res) => {
     const today = new Date();
 
     const promptContext = await db.query(
-      "SELECT description, rules FROM competitions WHERE id=$1",
+      "SELECT description, rules, ai_based FROM competitions WHERE id=$1",
       [competition_id]
     );
 
+    if (!promptContext.ai_based) {
+      return res.status(400).json({
+        message: "Bad Request. AI based grading is disabled",
+      });
+    }
+
     const submission = await db.query(
-      "SELECT id, explanation, image FROM submissions WHERE competition_id=$1, DATE(submited_date) = DATE($2)",
+      "SELECT id, explanation, image FROM submissions WHERE competition_id=$1 AND DATE(submited_date) = DATE($2)",
       [competition_id, today]
     );
 
@@ -93,16 +99,14 @@ export const llmGradingParticipants = async (req, res) => {
 
     const result = await Promise.all(promises);
 
-    console.log(result);
-    console.log(result.length);
-
     res.status(200).send({
       result,
     });
   } catch (error) {
     console.log(`Error occured at llmGradingParticipants(): ${error}`);
+    console.log(error);
     return res.status(500).send({
-      error_message: error,
+      error,
     });
   }
 };
