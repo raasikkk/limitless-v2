@@ -143,6 +143,8 @@ const ProfilePage = () => {
       }
     }
 
+    console.log(userData)
+
     
   return (
     <>
@@ -253,15 +255,27 @@ const ProfilePage = () => {
                     <TabsTrigger 
                         value="about"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("about")}</TabsTrigger>
+                    >
+                      {t("about")}
+                    </TabsTrigger>
                     <TabsTrigger 
                         value="follower"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("followers")} ({followers.length})</TabsTrigger>
+                    >
+                      {t("followers")} ({followers.length})
+                    </TabsTrigger>
                     <TabsTrigger 
                         value="following"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("following")} ({following.length})</TabsTrigger>
+                    >
+                      {t("following")} ({following.length})
+                    </TabsTrigger>
+                    <TabsTrigger 
+                        value="competition"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >
+                      {t("competitions")} ({following.length})
+                    </TabsTrigger>
                 </TabsList>
                 <TabsContent value="about">
                   <div className="flex items-center justify-between my-4">
@@ -381,6 +395,9 @@ const ProfilePage = () => {
                         )}
                       </div>
                     </div>
+                </TabsContent>
+                <TabsContent value="competitions">
+
                 </TabsContent>
             </Tabs>
         </div>
