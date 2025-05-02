@@ -34,6 +34,7 @@ export const llmSuggestions = async (req, res) => {
 export const llmGradingParticipants = async (req, res) => {
   try {
     const { competition_id } = req.params;
+    const today = new Date();
 
     const promptContext = await db.query(
       "SELECT description, rules FROM competitions WHERE id=$1",
@@ -41,8 +42,8 @@ export const llmGradingParticipants = async (req, res) => {
     );
 
     const submission = await db.query(
-      "SELECT id, explanation, image FROM submissions WHERE competition_id=$1",
-      [competition_id]
+      "SELECT id, explanation, image FROM submissions WHERE competition_id=$1, DATE(submited_date) = DATE($2)",
+      [competition_id, today]
     );
 
     let content;
