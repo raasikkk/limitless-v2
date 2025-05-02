@@ -10,8 +10,8 @@ export const suggestions = async (user_prompt) => {
     model: "gemini-2.0-flash",
     contents: `Hello, we are Limitless - a platform for students trying to improve their knowledge on certain topics 
         by competing with others through competitions where they can submit answers that we call "submissions". 
-        We need to give our user 1 suggestion for the description and rules for the competition according to the user's prompt.
-        Please put the description and rules on seperate parameters in JSON, without any additional text or formatting.
+        We need to give our user 1 suggestion for the title, description and rules for the competition according to the user's prompt.
+        Please put the title, description and rules on seperate parameters in JSON, without any additional text or formatting.
         Also please use tags for rich text editor\n
         The user prompt: ${user_prompt}`,
     config: {
@@ -21,6 +21,11 @@ export const suggestions = async (user_prompt) => {
         items: {
           type: Type.OBJECT,
           properties: {
+            title: {
+              type: Type.STRING,
+              description: "Title of the competition",
+              nullable: false,
+            },
             description: {
               type: Type.STRING,
               description: "Description of the competition",
