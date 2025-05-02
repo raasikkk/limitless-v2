@@ -15,6 +15,7 @@ import Submission from "./pages/competition/Submission";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
+import SearchPage from "./pages/search/SearchPage";
 
 axios.defaults.withCredentials = true;
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/competitions/:id" element={<Competition />} />
           <Route path="/competitions/:id/submission/:submissionId" element={<Submission />} />
           <Route path="/create" element={<CreatePage />} />
+          <Route path="/search" element={<SearchPage />}/>
         </Route>
 
         <Route path="/auth/signin" element={isLogged ? <Navigate to={"/"} /> : <Signin />} />
