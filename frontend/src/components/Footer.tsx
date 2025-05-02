@@ -10,7 +10,7 @@ const Footer = () => {
           <span className="block text-sm pb-4 text-gray-800 dark:text-white/50 text-center">
           © 2025{" "}
           <a href="#" className="hover:underline">
-              Limitless
+            Sheksiz
           </a>
           . {t('rights')}
           </span>

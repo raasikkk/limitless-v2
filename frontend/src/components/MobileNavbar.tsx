@@ -27,7 +27,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ toggleSidebar }) => {
           <Menu size={24} />
         </button>
         <Link to={`/`} className="flex items-center gap-2">
-          <p className='font-bold'>Limitless</p>
+          <p className='font-bold'>Sheksiz</p>
           <img src="/logo.svg" className='size-10' alt="logo" />
         </Link>
       </div>

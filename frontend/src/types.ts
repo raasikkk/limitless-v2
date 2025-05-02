@@ -58,3 +58,10 @@ export interface ILeaderboard extends IUser {
   place: number,
   user_id: string|number
 }
+
+export interface IFollower {
+  avatar: string;
+  follower_id?: number | string;
+  id: number | string;
+  username: string
+}
