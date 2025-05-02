@@ -47,7 +47,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
           </button>
           {isSidebarOpen && (
               <Link to={`/`} className='ml-3 flex items-center gap-2'>
-                <p className='font-bold'>Limitless</p>
+                <p className='font-bold'>Sheksiz</p>
                 <img src="/logo.svg" className='size-10' alt="logo" />
               </Link>
             )}

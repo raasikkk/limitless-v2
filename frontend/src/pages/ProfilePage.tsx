@@ -10,6 +10,7 @@ import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
 import EditImage from "@/components/EditImage"
 import { Skeleton } from "@/components/ui/skeleton"
+import FollowerCard from "@/components/FollowerCard"
 
 interface IFollower extends IUser {
   follower_id: string
@@ -143,7 +144,7 @@ const ProfilePage = () => {
       }
     }
 
-    console.log(userData)
+    console.log(followers)
 
     
   return (
@@ -335,20 +336,10 @@ const ProfilePage = () => {
                         followers?.length > 0
                         ?
                         followers.map((item) => (
-                          <Link
-                            to={`/profile/${item.id}`} 
+                          <FollowerCard 
                             key={item.id}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0"
-                          >
-                            <img 
-                              src={item.avatar} 
-                              className="size-8 lg:size-10 rounded-full flex-shrink-0" 
-                              alt={item.username} 
-                            />
-                            <span className="text-xs sm:text-sm font-medium truncate">
-                              {item.username}
-                            </span>
-                          </Link>
+                            item={item}
+                          />
                           ))
                           :
                           ''
@@ -375,20 +366,10 @@ const ProfilePage = () => {
                           following.length > 0
                           ?
                           following.map((item) => (
-                            <Link
-                              to={`/profile/${item.id}`} 
+                            <FollowerCard 
                               key={item.id}
-                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0"
-                            >
-                              <img 
-                                src={item.avatar} 
-                                className="size-8 lg:size-10 rounded-full flex-shrink-0" 
-                                alt={item.username} 
-                              />
-                              <span className="text-xs sm:text-sm font-medium truncate">
-                                {item.username}
-                              </span>
-                            </Link>
+                              item={item}
+                            />
                             ))
                             :
                             ''

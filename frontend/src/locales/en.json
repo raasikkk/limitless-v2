@@ -15,7 +15,7 @@
     "password": "Password",
     "full_name": "Full Name",
     "username": "Username",
-    "Level up": "Level up with the Limitless community",
+    "Level up": "Level up with the Sheksiz community",
     "Grow your skills": "Grow your skills by competing in our exciting competitions. Discover a huge community of grinders. Discover a huge repository of community-published models, data & code for your next project.",
     "motivational_phrase": "You're on a roll! Jump back in, or start something new.",
     "register_google": "Register with Google",
@@ -33,11 +33,11 @@
     "friday": "Friday",
     "actions": "Actions",
 
-    "who_is_on": "Who's on Limitless?",
+    "who_is_on": "Who's on Sheksiz?",
     "learners": "Learners",
-    "learners_description": "Dive into Limitless courses, competitions & forums",
+    "learners_description": "Dive into Sheksiz courses, competitions & forums",
     "developers": "Developers",
-    "developers_description": "Leverage Limitless models, notebooks & datasets",
+    "developers_description": "Leverage Sheksiz models, notebooks & datasets",
     "researchers": "Researchers",
     "researchers_description": "Advance ML with our pre-trained model hub & competitions",
 
@@ -116,12 +116,12 @@
     },
 
     "settingsPage": {
-      "title": "Control over your Limitless account",
+      "title": "Control over your Sheksiz account",
       "your_email": "Your email address",
       "change_profile": "Change profile",
       "edit_profile": "Edit profile",
       "theme": "Theme",
-      "theme_title": "Toggle the dark mode by choosing Limitless UI theme below",
+      "theme_title": "Toggle the dark mode by choosing Sheksiz UI theme below",
       "light": "Light",
       "dark": "Dark",
       "language": "Language",

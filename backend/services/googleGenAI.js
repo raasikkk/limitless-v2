@@ -8,7 +8,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export const suggestions = async (user_prompt) => {
   const llmResponse = await ai.models.generateContent({
     model: "gemini-2.0-flash",
-    contents: `Hello, we are Limitless - a platform for students trying to improve their knowledge on certain topics 
+    contents: `Hello, we are Sheksiz - a platform for students trying to improve their knowledge on certain topics 
         by competing with others through competitions where they can submit answers that we call "submissions". 
         We need to give our user 1 suggestion for the title, description and rules for the competition according to the user's prompt.
         Please put the title, description and rules on seperate parameters in JSON, without any additional text or formatting.

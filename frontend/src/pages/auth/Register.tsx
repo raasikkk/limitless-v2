@@ -61,7 +61,7 @@ const Register = () => {
                 <div className="mb-8 text-center">
                     <div className="mb-4">
                         {/* LOGO */}
-                        <span className="text-2xl font-bold text-primaryColor">Limitless</span>
+                        <span className="text-2xl font-bold text-primaryColor">Sheksiz</span>
                     </div>
                     <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">{t("register_email")}</h2>
                 </div>
