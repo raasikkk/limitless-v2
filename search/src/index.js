@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { MeiliSearch } from "meilisearch";
 import { searchRouter } from "./routes/searchRoute";
 
 dotenv.config();

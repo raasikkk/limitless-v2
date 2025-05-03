@@ -14,15 +14,30 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const llmSuggestions = async (req, res) => {
   try {
-    const { user_prompt } = req.body;
+    const { competition_id } = req.params;
 
-    if (!user_prompt) {
-      res.status(400).send({
-        message: "user_prompt must be provided",
+    if (!competition_id) {
+      return res.status(400).send({
+        message: "Bad Request, competition_id Must Be Provided",
       });
     }
 
-    const response = await suggestions(user_prompt);
+    const promptContext = await db.query(
+      "SELECT description, rules, ai_based FROM competitions WHERE id=$1",
+      [competition_id]
+    );
+
+    const response = await suggestions(promptContext);
+
+    const updateCompetition = await db.query(
+      "UPDATE competitions SET title=$1, description=$2, rules=$3 WHERE id=$4",
+      [
+        response[0].title,
+        response[0].description,
+        response[0].rules,
+        competition_id,
+      ]
+    );
 
     res.status(200).send({ response: response });
   } catch (error) {
@@ -37,12 +52,18 @@ export const llmGradingParticipants = async (req, res) => {
     const today = new Date();
 
     const promptContext = await db.query(
-      "SELECT description, rules FROM competitions WHERE id=$1",
+      "SELECT description, rules, ai_based FROM competitions WHERE id=$1",
       [competition_id]
     );
 
+    if (!promptContext.ai_based) {
+      return res.status(400).json({
+        message: "Bad Request. AI based grading is disabled",
+      });
+    }
+
     const submission = await db.query(
-      "SELECT id, explanation, image FROM submissions WHERE competition_id=$1, DATE(submited_date) = DATE($2)",
+      "SELECT id, explanation, image FROM submissions WHERE competition_id=$1 AND DATE(submited_date) = DATE($2)",
       [competition_id, today]
     );
 
@@ -93,16 +114,14 @@ export const llmGradingParticipants = async (req, res) => {
 
     const result = await Promise.all(promises);
 
-    console.log(result);
-    console.log(result.length);
-
     res.status(200).send({
       result,
     });
   } catch (error) {
     console.log(`Error occured at llmGradingParticipants(): ${error}`);
+    console.log(error);
     return res.status(500).send({
-      error_message: error,
+      error,
     });
   }
 };
