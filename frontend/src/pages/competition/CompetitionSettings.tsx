@@ -3,6 +3,7 @@ import { Slider } from "@/components/ui/slider"
 import { ICompetition } from "@/types"
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog"
 import axios from "axios"
+import { LoaderCircle } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface SettingsProps {
@@ -16,9 +17,11 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
     const [participantsCount, setParticipantsCount] = useState(competition?.max_participants)
     const [code, setCode] = useState<string | number>(competition?.code || '');
     const [isSave, setIsSave] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true)
         try {
             await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${competition?.id}/settings`, {
               competitionId: competition?.id,
@@ -31,6 +34,8 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
             setIsSave(false)
         } catch (error) {
             console.error('Update failed:', error);
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -174,7 +179,11 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
                             className="px-6 py-2 bg-primaryColor hover:bg-blue-700 text-white rounded-lg
                             transition-colors duration-200 font-medium shadow-sm"
                           >
-                              Save Changes
+                              {isLoading ? (
+                                <LoaderCircle className="animate-spin"/>
+                              ) : (
+                                <div>Save Changes</div>
+                              )}
                           </button>
                         }
                     </div>

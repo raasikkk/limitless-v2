@@ -5,6 +5,7 @@ import { ICategory } from "@/types";
 import axios from "axios";
 import { useAppSelector } from "@/hooks/hooks";
 import { useNavigate } from "react-router";
+import { LoaderCircle } from "lucide-react";
 
 const CreatePage = () => {
   const {t} = useTranslation();
@@ -15,6 +16,7 @@ const CreatePage = () => {
   const [category, setCategory] = useState<string|number>('');
   const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -42,8 +44,8 @@ const CreatePage = () => {
   
   const handleCreate = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
     try {
-
       const competition = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions`, {
         userId: user?.id,
         title, 
@@ -53,11 +55,11 @@ const CreatePage = () => {
         startDate: oneDayAhead, 
         endDate: oneWeekAhead
       })
-      
       return navigate(`/competitions/${competition.data.id}`)
-      
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -78,8 +80,16 @@ const CreatePage = () => {
               }
             </p>
             <div className="flex items-center justify-center gap-4">
-              <button className="bg-primaryColor font-semibold text-white rounded-md w-40 p-2 hover:opacity-75">
-                {t('createCompetition.modal.yes')}
+            <button
+                type="submit"
+                disabled={isLoading}
+                className="bg-primaryColor font-semibold text-white rounded-md w-40 p-2 hover:opacity-75 disabled:opacity-75 flex justify-center items-center gap-2"
+              >
+                {isLoading ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  t("createCompetition.modal.yes")
+                )}
               </button>
               <button
                 onClick={() => setCreate(false)}
