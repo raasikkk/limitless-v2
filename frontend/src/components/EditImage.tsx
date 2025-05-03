@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRef } from 'react';
-import { X, Image, Replace } from 'lucide-react';
+import { X, Image, Replace, Loader2 } from 'lucide-react';
 
 type Props = {
   setIsEdit: (value: boolean) => void;
   setImage: (value: File | string | null) => void;
   image: File | string | null;
-  handleSave: (value: React.FormEvent<HTMLFormElement>) => void;
+  handleSave: (value: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 const EditImage = ({ setIsEdit, setImage, image, handleSave }: Props) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -33,9 +34,21 @@ const EditImage = ({ setIsEdit, setImage, image, handleSave }: Props) => {
     if (file) handleImageFile(file);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    try {
+      await handleSave(e)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className='fixed inset-0 bg-black bg-opacity-20 z-30 flex items-center justify-end'>
-      <form onSubmit={handleSave} className='bg-white dark:bg-darkColor h-full max-w-2xl w-full relative z-50 shadow-xl'>
+      <form onSubmit={handleSubmit} className='bg-white dark:bg-darkColor h-full max-w-2xl w-full relative z-50 shadow-xl'>
         <div className='flex items-center justify-between px-6 py-4 border-b'>
           <button
             type="button"
@@ -82,7 +95,13 @@ const EditImage = ({ setIsEdit, setImage, image, handleSave }: Props) => {
                   type="submit"
                   className="px-6 py-2 bg-primaryColor text-white font-medium hover:opacity-90 rounded-lg transition-opacity"
                 >
-                  Save Changes
+                  {isLoading ? (
+                      <>
+                        <Loader2 className="animate-spin h-5 w-5" />
+                      </>
+                    ) : (
+                      'Save Changes'
+                    )}
                 </button>
               </div>
             </div>

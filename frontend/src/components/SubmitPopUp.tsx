@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import Editor from "./editor/Editor";
-import { RotateCcw } from "lucide-react";
+import { LoaderCircle, RotateCcw } from "lucide-react";
 import axios from "axios";
 import { useAppSelector } from "@/hooks/hooks";
 
@@ -14,6 +14,7 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
   const [explanation, setExplanation] = useState('');
   const imageInputRef = useRef<HTMLInputElement>(null);
   const {user} = useAppSelector((state) => state.user);
+  const [isLoading, setIsLoading] = useState(false)
   
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -42,8 +43,8 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
     formData.append('explanation', explanation);
     formData.append('competition_id', competitionId.toString())
     formData.append('user_id', user?.id + '')
+    setIsLoading(true)
     try {
-      
       await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -53,12 +54,14 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
 
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
   return (
     <div className="fixed w-full h-full left-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-20">
-      <form onSubmit={handleSubmit} className="bg-white max-w-1/2 py-10 px-4 md:px-8 rounded-lg">
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-darkColor max-w-1/2 py-10 px-4 md:px-8 rounded-lg">
         <p className="text-center pb-4 text-zinc-500 font-medium">
           Make sure that your explanation/file fits the rules.
         </p>
@@ -96,7 +99,7 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
           <button 
             type="button"
             onClick={() => setIsSubmit(false)} 
-            className="p-2 rounded-lg py-2 px-6 font-semibold hover:opacity-75 hover:bg-zinc-200"
+            className="p-2 rounded-lg py-2 px-6 font-semibold hover:opacity-75 border hover:bg-zinc-200 dark:hover:bg-darkSecondary"
           >
             Cancel
           </button>
@@ -104,7 +107,11 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
             type="submit"
             className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75"
           >
-            Send
+            {isLoading ? (
+              <LoaderCircle className="animate-spin"/>
+            ) : (
+              <div>Send</div>
+            )}
           </button>
         </div>
       </form>

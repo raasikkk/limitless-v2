@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompetitionMain from "./CompetitionMain";
 import CompetitionSubmissions from "./CompetitionSubmissions";
 import { useEffect, useState } from "react";
-import { Pencil } from "lucide-react";
+import { LoaderCircle, Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CompetitionLeaderboard from "./CompetitionLeaderboard";
 import EditImage from "@/components/EditImage";
@@ -28,6 +28,7 @@ const Competition = () => {
   const [isTitleEdit,setIsTitleEdit] = useState(false);
   const [participants, setParticipants] = useState<IParticipant[]>([]);
   const [isLoading, setIsLoading] = useState(false)
+  const [buttonLoading, setButtonLoading] = useState(false)
 
   const fetchCompetition = async () => {
     try {
@@ -73,26 +74,28 @@ const Competition = () => {
   }
   
   const joinCompetition =async () => {
+    setButtonLoading(true)
     try {
-
       await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/join`, {
         competition_id: id,
         user_id: user?.id
       })
-
       getParticipants()
-      
     } catch (error) {
       console.log(error);
+    } finally {
+      setButtonLoading(false)
     }
   }
   const quitCompetition =async () => {
+    setButtonLoading(true)
     try {
-
       await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/quit/${id}/${user?.id}`)
       getParticipants()
     } catch (error) {
       console.log(error);
+    } finally {
+      setButtonLoading(false)
     }
   }
   console.log(participants);
@@ -163,12 +166,20 @@ const Competition = () => {
             (
               participants.some(mate => mate.user_id == user?.id)
               ?
-              <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-                {t("competition.quit")}
+              <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                {buttonLoading ? (
+                  <LoaderCircle className="block mx-auto animate-spin" />
+                ) : (
+                  t("competition.quit")
+                )}
               </button>
               :
-              <button onClick={()=>joinCompetition()} className="text-sm bg-black py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-                {t("competition.join")}
+              <button onClick={()=>joinCompetition()} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                {buttonLoading ? (
+                  <LoaderCircle className="block mx-auto animate-spin" />
+                ) : (
+                  t("competition.join")
+                )}
               </button>
             )
 
