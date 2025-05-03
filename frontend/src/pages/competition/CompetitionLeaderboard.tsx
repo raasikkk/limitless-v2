@@ -1,3 +1,4 @@
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ILeaderboard } from "@/types"
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -39,28 +40,22 @@ const CompetitionLeaderboard = ({id}:Props) => {
       <h2 className="font-semibold text-2xl mb-8">
         {t("competition.leaderboard")}
       </h2>
-      <table className="w-full border text-xs md:text-base lg:text-lg">
-        <thead>
-          <tr className='border-2 px-4 text-zinc-500'>
-            <th className='font-semibold text-left p-4'>
-              #
-            </th>
-            <th className='font-semibold text-left p-4 w-1/2'>
-              {t("competition.user")}
-            </th>
-            <th className='text-center p-4 w-1/2'>
-              {t("competition.score")}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          leaderboard.map(user => {
-            return <tr key={user?.user_id} className={`${userPlace(user?.place)} `}>
-              <td className="p-4">
+      <Table className="border-2 rounded-md">
+        <TableCaption>A list of leaderboard</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="">#</TableHead>
+            <TableHead className="">{t("competition.user")}</TableHead>
+            <TableHead className="w-1/2 text-center">{t("competition.score")}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {leaderboard.map((user) => (
+            <TableRow key={user?.user_id} className={`${userPlace(user?.place)}`}>
+              <TableCell className="font-medium">
                 {user?.place}
-              </td>
-              <td className="p-4">
+              </TableCell>
+              <TableCell>
                 <Link to={`/profile/${user.user_id}`} className="flex items-center gap-2 md:gap-4 hover:underline">
                   
                   <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={user?.avatar} />
@@ -68,15 +63,14 @@ const CompetitionLeaderboard = ({id}:Props) => {
                     {user?.username}
                   </h3>
                 </Link>
-              </td>
-              <td className="text-center p-4">
+              </TableCell>
+              <TableCell className="text-center">
                 {user?.score}
-              </td>
-            </tr>
-          })
-        }
-        </tbody>
-      </table>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   )
 }
