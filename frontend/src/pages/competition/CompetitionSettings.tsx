@@ -1,6 +1,6 @@
-import FollowerCard from "@/components/FollowerCard"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
-import { ICompetition, IParticipant } from "@/types"
+import { Slider } from "@/components/ui/slider"
+import { ICompetition } from "@/types"
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog"
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -10,35 +10,29 @@ interface SettingsProps {
 }
 
 const CompetitionSettings = ({id}: SettingsProps) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
     const [isPrivate, setIsPrivate] = useState(false)
-    const [participants, setParticipants] = useState<IParticipant[]>([])
+    const [isAiBased, setIsAiBased] = useState(false)
+    const [participantsCount, setParticipantsCount] = useState(0)
+    const [code, setCode] = useState<string | number>("")
 
     const fetchCompetition = async () => {
         try {
             const competition:ICompetition = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`)).data;
-            setDescription(competition.description);
             setIsPrivate(competition.private);
-            setTitle(competition?.title);
-        } catch (error) {
+            setIsAiBased(competition.ai_based)
+            setParticipantsCount(competition.max_participants)
+            setCode(competition.code)
+            console.log(competition)
+        } catch (error) {   
             console.log(error);
         }
     }
 
-    const getParticipants = async () => {
-        const data = (await axios.get(
-            `${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/participants`
-        )).data;
-        setParticipants(data)
-    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`, {
-                title,
-                description,
                 private: isPrivate
             });
         } catch (error) {
@@ -48,7 +42,6 @@ const CompetitionSettings = ({id}: SettingsProps) => {
 
     useEffect(() => {
         fetchCompetition()
-        getParticipants()
     }, [])
 
     return (
@@ -61,47 +54,37 @@ const CompetitionSettings = ({id}: SettingsProps) => {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="bg-gray-50 dark:bg-darkColor rounded-lg p-5">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
-                            General Settings
-                        </h3>
+                        
 
                         <div className="space-y-4">
-                            <div className="space-y-2">
+                            {/* Is AI based */}
+                            <div className="flex items-center space-x-3 pt-4">
                                 <label 
-                                    htmlFor="title"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-400"
+                                    htmlFor="is_ai_based"
+                                    className="relative flex items-center cursor-pointer"
                                 >
-                                    Competition Title
+                                    <input
+                                        type="checkbox"
+                                        id="is_ai_based"
+                                        checked={isAiBased}
+                                        onChange={(e) => setIsAiBased(e.target.checked)}
+                                        className="sr-only"
+                                    />
+                                    <div className={`w-11 h-6 rounded-full transition-colors
+                                    ${isAiBased ? 'bg-primaryColor' : 'bg-gray-300 dark:bg-gray-600'}`}
+                                    >
+                                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md
+                                        bg-white transition-transform transform duration-200
+                                        ${isAiBased ? 'translate-x-5' : ''}`}
+                                    />
+                                    </div>
                                 </label>
-                                <input
-                                    type="text"
-                                    id="title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-darkSecondary
-                                    dark:text-gray-200 transition-all"
-                                />
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-400">
+                                    Is AI Based
+                                </span>
                             </div>
 
-                            <div className="space-y-2">
-                                <label 
-                                    htmlFor="description"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-400"
-                                >
-                                    Description
-                                </label>
-                                <textarea
-                                    id="description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    rows={4}
-                                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-darkSecondary
-                                    dark:text-gray-200 transition-all"
-                                />
-                            </div>
-
+                            {/* Is Private */}
                             <div className="flex items-center space-x-3 pt-4">
                                 <label 
                                     htmlFor="private"
@@ -127,6 +110,44 @@ const CompetitionSettings = ({id}: SettingsProps) => {
                                     Private Competition
                                 </span>
                             </div>
+
+                            {isPrivate ? (
+                                <div>
+                                    <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+                                        Secret code to Enter Competition
+                                    </h3>
+                                    <input 
+                                        type="number" 
+                                        value={code}
+                                        placeholder="Secret code..."
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            if (/^\d{0,4}$/.test(value)) {
+                                                setCode(value);
+                                            }
+                                        }}
+                                        maxLength={4} 
+                                        inputMode="numeric" 
+                                        className="w-40 p-0.5 px-3 rounded-md bg-white dark:bg-darkSecondary border-2 
+                                                [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none 
+                                                [&::-webkit-inner-spin-button]:appearance-none outline-none"
+                                    />
+                                </div>
+                            ) : null}
+
+                            <div className="mt-5">
+                                <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+                                    Participant number - {participantsCount}
+                                </h3>
+                                <Slider 
+                                    defaultValue={[participantsCount]}
+                                    value={[participantsCount]}
+                                    min={2}
+                                    max={30} 
+                                    step={1} 
+                                    onValueChange={([val]) => setParticipantsCount(val)}
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -140,21 +161,6 @@ const CompetitionSettings = ({id}: SettingsProps) => {
                         </button>
                     </div>
                 </form>
-            </div>
-
-            <div className="bg-white dark:bg-darkSecondary rounded-xl p-6 shadow-sm">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-200">
-                    Participants ({participants.length})
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {participants.map((item) => (
-                        <FollowerCard 
-                            key={item.id}
-                            item={item}
-                        />
-                    ))}
-                </div>
             </div>
 
             <div className="bg-red-50 dark:bg-red-900/20 border rounded-xl p-6 shadow-sm">

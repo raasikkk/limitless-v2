@@ -24,7 +24,10 @@ export interface ICompetition extends IUser {
   end_date: Date,
   winner_id: number | string | null,
   created_at: Date,
-  private: boolean
+  private: boolean,
+  ai_based: boolean,
+  max_participants: number,
+  code: number
 }
 
 export interface IParticipant {

@@ -13,6 +13,7 @@ import { ICompetition, IParticipant } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import CompetitionSettings from "./CompetitionSettings";
+import FollowerCard from "@/components/FollowerCard";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -252,6 +253,9 @@ const Competition = () => {
           <TabsTrigger value="leaderboard" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
             {t("competition.leaderboard")}
           </TabsTrigger>
+          <TabsTrigger value="participants" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+            {t("competition.participants")}
+          </TabsTrigger>
 
           {competition?.user_id == user?.id && (
             <TabsTrigger value="settings" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
@@ -329,6 +333,22 @@ const Competition = () => {
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard id={id}/>
+        </TabsContent>
+        <TabsContent value="participants">
+        <div className="bg-white dark:bg-darkSecondary rounded-xl p-6 shadow-sm">
+                <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-200">
+                    Participants ({participants.length})
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {participants.map((item) => (
+                        <FollowerCard 
+                            key={item.id}
+                            item={item}
+                        />
+                    ))}
+                </div>
+            </div>
         </TabsContent>
         <TabsContent value="settings">
           <CompetitionSettings id={id} />
