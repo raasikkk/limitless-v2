@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pencil } from "lucide-react";
+import { Bot, Loader2, Pencil } from "lucide-react";
 import Editor from "@/components/editor/Editor";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
@@ -18,6 +18,7 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
   const { t } = useTranslation()
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
   const [isRulesEdit, setIsRulesEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChangeDescription = async () => {
     try {
@@ -39,9 +40,37 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
     }
   }
 
+  const handleAIChange = () => {
+    setIsLoading(true)
+    try {
+      console.log("here")
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="w-full md:w-3/4 pr-4">
-      <div className="flex items-center justify-between mb-4">
+      {canEdit ? (
+        <div className="flex flex-col items-end mb-5">
+          <button
+            onClick={handleAIChange}
+            className="p-2 px-4 w-56 truncate flex items-center gap-1.5 border rounded-md hover:bg-zinc-300 dark:hover:bg-darkSecondary"
+          >
+            {isLoading ? (
+              <Loader2 className="mx-auto animate-spin"/>
+            ) : (
+              <><Bot /> Enhance with AI</>
+            )}
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
+
+      <div className=" flex items-center justify-between mb-4">
         <h2 className="font-semibold text-2xl">
           {t("competition.description")}
         </h2>

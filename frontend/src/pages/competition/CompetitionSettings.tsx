@@ -197,14 +197,9 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
 
                 {/* Добавь в Continue Delete function */}
                 <AlertDialog>
-                    <AlertDialogTrigger>
-                        <button 
-                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg
-                            transition-colors duration-200 font-medium shadow-sm"
-                            
-                        >
+                    <AlertDialogTrigger className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg
+                            transition-colors duration-200 font-medium shadow-sm">
                             Delete Competition
-                        </button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
