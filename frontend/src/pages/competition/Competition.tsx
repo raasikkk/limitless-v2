@@ -288,6 +288,7 @@ const Competition = () => {
               rules={rules} setRules={setRules}
               description={description} setDescription={setDescription} 
               canEdit={competition?.user_id == user?.id}
+              isAiBased={competition?.ai_based}
             />
           )}
           
