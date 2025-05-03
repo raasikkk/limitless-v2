@@ -5,15 +5,29 @@ dotenv.config();
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export const suggestions = async (user_prompt) => {
+export const suggestions = async (promptContext) => {
   const llmResponse = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: `Hello, we are Limitless - a platform for students trying to improve their knowledge on certain topics 
         by competing with others through competitions where they can submit answers that we call "submissions". 
-        We need to give our user 1 suggestion for the title, description and rules for the competition according to the user's prompt.
+        We need to enhance the title and description (refactor the description completely), and generate rules for the competition according to the competition title and description.
         Please put the title, description and rules on seperate parameters in JSON, without any additional text or formatting.
-        Also please use tags for rich text editor\n
-        The user prompt: ${user_prompt}`,
+        It also mandatory use tags for javascript richtexteditor\n
+        Title: ${promptContext.rows[0].title}\n
+        Description: ${promptContext.rows[0].description}\n
+        If possible try to use this often: AlignCenter,
+        AlignLeft,
+        AlignRight,
+        Bold,
+        Heading2,
+        Heading3,
+        Highlighter,
+        Italic,
+        List,
+        ListOrdered,
+        Strikethrough,
+        Link,
+        Underline`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -200,4 +214,37 @@ export const grading = async (
     submission_id,
     content,
   };
+};
+
+export const filtering = async (request) => {
+  const llmResponse = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: `Please analyse this request from our user\n
+        This might a profile bio, a comment, or a submission.\n
+        Check if the request does not contain anything 
+        racist, fascist, nazi, discrimintating, inappropriate and etc (anything negative, the platform is family-friendly).\n
+        Return boolean true if the request is good to go, and boolean false if it is not\n
+        Request: ${request}`,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            isValid: {
+              type: Type.BOOLEAN,
+              description: "true/false, is the content valid",
+              nullable: false,
+            },
+          },
+          required: ["isValid"],
+        },
+      },
+    },
+  });
+
+  const content = JSON.parse(llmResponse.candidates[0].content.parts[0].text);
+
+  return content;
 };

@@ -14,15 +14,30 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const llmSuggestions = async (req, res) => {
   try {
-    const { user_prompt } = req.body;
+    const { competition_id } = req.params;
 
-    if (!user_prompt) {
-      res.status(400).send({
-        message: "user_prompt must be provided",
+    if (!competition_id) {
+      return res.status(400).send({
+        message: "Bad Request, competition_id Must Be Provided",
       });
     }
 
-    const response = await suggestions(user_prompt);
+    const promptContext = await db.query(
+      "SELECT description, rules, ai_based FROM competitions WHERE id=$1",
+      [competition_id]
+    );
+
+    const response = await suggestions(promptContext);
+
+    const updateCompetition = await db.query(
+      "UPDATE competitions SET title=$1, description=$2, rules=$3 WHERE id=$4",
+      [
+        response[0].title,
+        response[0].description,
+        response[0].rules,
+        competition_id,
+      ]
+    );
 
     res.status(200).send({ response: response });
   } catch (error) {
