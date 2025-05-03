@@ -43,10 +43,10 @@ const SearchPage = () => {
         <Tabs className="mt-5" defaultValue="competitions">
             <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-10">
                 <TabsTrigger value="competitions" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-                    {t("competitions")}
+                    {t("competitions")} ({competitions.length})
                 </TabsTrigger>
                 <TabsTrigger value="users" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-                    {t("competition.users")}
+                    {t("competition.users")} ({users.length})
                 </TabsTrigger>
             </TabsList>
 
@@ -80,13 +80,30 @@ const SearchPage = () => {
                 </div>
             </TabsContent>
             <TabsContent value="users">
+                {users.length === 0 ? (
+                        <h3>Oops! There's no such users!</h3>
+                    ) : (
+                        ""
+                    )}
                 <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
-                    {users.map((item) => (
-                        <FollowerCard 
-                            key={item.id}
-                            item={item}
-                        />
-                    ))}
+                    {isLoading ? (
+                        [...Array(8)].map((_, i) => (
+                            <div
+                              key={i}
+                              className="flex items-center gap-3 p-3 rounded-lg"
+                            >
+                              <Skeleton className="size-8 lg:size-10 rounded-full"/>
+                              <Skeleton className="h-4 w-[100px]"/>
+                            </div>
+                          ))
+                    ) : (
+                        users.map((item) => (
+                            <FollowerCard 
+                                key={item.id}
+                                item={item}
+                            />
+                        ))
+                    )}
                 </div>
             </TabsContent>
         </Tabs>
