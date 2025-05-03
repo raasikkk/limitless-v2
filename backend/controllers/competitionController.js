@@ -323,6 +323,18 @@ export const saveSettings = async (req,res) => {
       })
     }
 
+    if (maxParticipants >= 30) {
+      return res.status(400).json({
+        message: "Maximum amount of participants cannot be more than 30"
+      })
+    }
+
+    if (code.length <= 4) {
+      return res.status(400).json({
+        message: "Code should be 4 digits"
+      })
+    }
+
     await db.query("UPDATE competitions SET max_participants = $1, private = $2, ai_based = $3, code = $4 WHERE id = $5", [maxParticipants, isPrivate, isAiBased, code, competitionId]);
     
     res.json({
