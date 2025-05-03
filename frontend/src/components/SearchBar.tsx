@@ -14,7 +14,7 @@ const SearchBar = () => {
   const location = useLocation();
   const removeSpace = location?.search?.slice(3)?.split("%20")?.join(" ")
   const [query, setQuery] = useState(removeSpace)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   // const [competitions, setCompetition] = useState<ICompetition[]>([]);
   // const [users, setUsers] = useState<IUser[]>([]);
@@ -31,20 +31,24 @@ const SearchBar = () => {
     }
   }
 
-  useEffect(() => {
-    if (query) {
-      navigate(`/search?q=${query}`)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (query) {
+  //     navigate(`/search?q=${query}`)
+  //   }
+  // }, [])
 
-  handleSearch()
+  // console.log(competitions)
+
+  // handleSearch()
 
   useEffect(() => {
     setQuery(removeSpace)
-  }, [navigate])
+  }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setQuery(removeSpace)
+    handleSearch()
   }
 
   
