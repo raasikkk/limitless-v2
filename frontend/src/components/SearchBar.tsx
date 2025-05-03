@@ -4,8 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import Profile from "./Profile"
 import { useAppSelector } from "@/hooks/hooks"
 import { useEffect, useState } from "react"
-// import { ICompetition, IUser } from "@/types"
-import axios from "axios"
 
 const SearchBar = () => {
   const { t } = useTranslation()
@@ -14,32 +12,7 @@ const SearchBar = () => {
   const location = useLocation();
   const removeSpace = location?.search?.slice(3)?.split("%20")?.join(" ")
   const [query, setQuery] = useState(removeSpace)
-  // const navigate = useNavigate()
-
-  // const [competitions, setCompetition] = useState<ICompetition[]>([]);
-  // const [users, setUsers] = useState<IUser[]>([]);
-
-  const handleSearch = async () => {
-    try {
-
-      const results = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/search?q=${query}`);
-
-      console.log(results);
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // useEffect(() => {
-  //   if (query) {
-  //     navigate(`/search?q=${query}`)
-  //   }
-  // }, [])
-
-  // console.log(competitions)
-
-  // handleSearch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setQuery(removeSpace)
@@ -48,7 +21,9 @@ const SearchBar = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setQuery(removeSpace)
-    handleSearch()
+    // handleSearch()
+    navigate(`/search?q=${query}`)
+    window.location.reload()
   }
 
   

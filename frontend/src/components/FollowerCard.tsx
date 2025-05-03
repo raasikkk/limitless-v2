@@ -34,7 +34,7 @@ const FollowerCard = ({ item, competition_id, user_id }: FollowerProp) => {
           </span>
         </Link>
 
-        {!location.pathname.startsWith("/profile") && competition_id == user_id && (
+        {!location.pathname.startsWith("/profile") && !location.pathname.startsWith("/search") && competition_id == user_id && (
           <div onClick={kickUser} className="p-0.5 px-2 bg-red-500 rounded-md cursor-pointer text-white dark:text-white hover:bg-red-600">
             Kick
           </div>
