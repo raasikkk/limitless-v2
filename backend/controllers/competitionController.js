@@ -323,13 +323,19 @@ export const saveSettings = async (req,res) => {
       })
     }
 
+    if (req.user.id !== competition.rows[0].user_id) {
+      return res.status(403).json({
+        message: "You are not creator of the competition"
+      })
+    }
+
     if (maxParticipants >= 30) {
       return res.status(400).json({
         message: "Maximum amount of participants cannot be more than 30"
       })
     }
 
-    if (code.length <= 4) {
+    if (code.length !== 4) {
       return res.status(400).json({
         message: "Code should be 4 digits"
       })
@@ -340,8 +346,6 @@ export const saveSettings = async (req,res) => {
     res.json({
       message: "Succesfully saved settings"
     })
-
-
 
   } catch (error) {
     console.log('Error at getLeaderboard:', error);

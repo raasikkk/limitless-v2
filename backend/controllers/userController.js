@@ -111,3 +111,29 @@ export const editUserAvatar = async (req,res) => {
     res.status(500).send(error)
   }
 }
+
+export const search = async (req,res) => {
+  try {
+    const {q} = req.query;
+
+    if (!q) return res.status(400).json({
+      message: "Empty search value"
+    })
+
+    const competitionsResult = await db.query(`
+      SELECT * FROM competitions WHERE title LIKE $1 OR description LIKE $1
+    `, [`%${q.toLowerCase()}%`])
+    
+    const usersResult = await db.query(`
+      SELECT * FROM users WHERE username LIKE $1 OR email LIKE $1
+    `, [`%${q.toLowerCase()}%`])
+
+
+    res.json({
+      competitions: competitionsResult.rows,
+      users: usersResult.rows
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
