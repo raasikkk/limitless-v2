@@ -155,7 +155,7 @@ const Competition = () => {
           competition?.private
             ?
             (
-              <button className="text-sm bg-red-700 py-2 px-4 rounded-lg text-white font-semibold">
+              <button className="text-sm bg-red-400 border border-red-700 py-2 px-4 rounded-lg text-white font-semibold">
                 {t("createCompetition.form.privacyOptions.private")}
               </button>
             )
@@ -191,7 +191,7 @@ const Competition = () => {
               </>
             ) : isTitleEdit ? (
               <label className="w-full">
-                <small className="uppercase text-zinc-500 font-semibold text-xs">
+                <small className="uppercase text-zinc-500 font-semibold text-xs mt-3">
                   {t('createCompetition.form.titleLabel')}
                 </small>
                 <input
@@ -211,7 +211,7 @@ const Competition = () => {
               </label>
             ) : (
               <>
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold ">{competition?.title}</h1>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3">{competition?.title}</h1>
                 {
                   competition?.user_id == user?.id
                   ?
@@ -340,6 +340,9 @@ const Competition = () => {
                     Participants ({participants.length})
                 </h2>
 
+                {participants.length === 0 && (
+                  <h3>No Participants yet...</h3>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {participants.map((item) => (
                         <FollowerCard 
