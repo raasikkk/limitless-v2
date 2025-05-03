@@ -2,8 +2,9 @@ import { ICompetition } from "@/types"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Link, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import { Skeleton } from "@/components/ui/skeleton"
+import Card from "@/components/Card"
 
 const CompetitionCategorie = () => {
     const { category } = useParams()
@@ -27,6 +28,8 @@ const CompetitionCategorie = () => {
       getCompetitionByCategory()
     }, [category])
 
+    console.log(competitions)
+
   return (
     <div className="mt-5 text-black dark:text-white">
         <h2 className="text-3xl font-bold">{category} {t("competitions")}</h2>
@@ -46,25 +49,10 @@ const CompetitionCategorie = () => {
           ))
         ) : (
           competitions.map((item) => (
-            <Link
-              to={`/competitions/${item.id}`}
+            <Card 
               key={item.id}
-              className="min-h-40 md:max-h-40 group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl"
-            >
-              <div className="h-full w-full">
-                <img 
-                  src={`${item.cover}`} 
-                  alt={`competition image`} 
-                  className="object-coverw-full h-full transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="text-lg font-semibold truncate">Competition {item.title}</h3>
-              </div>
-            </Link>
+              item={item}
+            />
           ))
         )}
         

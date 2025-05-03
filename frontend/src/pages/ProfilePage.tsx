@@ -10,6 +10,7 @@ import { useAppSelector } from "@/hooks/hooks"
 import Editor from "@/components/editor/Editor"
 import EditImage from "@/components/EditImage"
 import { Skeleton } from "@/components/ui/skeleton"
+import FollowerCard from "@/components/FollowerCard"
 
 interface IFollower extends IUser {
   follower_id: string
@@ -143,6 +144,8 @@ const ProfilePage = () => {
       }
     }
 
+    console.log(followers)
+
     
   return (
     <>
@@ -253,15 +256,27 @@ const ProfilePage = () => {
                     <TabsTrigger 
                         value="about"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("about")}</TabsTrigger>
+                    >
+                      {t("about")}
+                    </TabsTrigger>
                     <TabsTrigger 
                         value="follower"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("followers")} ({followers.length})</TabsTrigger>
+                    >
+                      {t("followers")} ({followers.length})
+                    </TabsTrigger>
                     <TabsTrigger 
                         value="following"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
-                    >{t("following")} ({following.length})</TabsTrigger>
+                    >
+                      {t("following")} ({following.length})
+                    </TabsTrigger>
+                    <TabsTrigger 
+                        value="competition"
+                        className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
+                    >
+                      {t("competitions")} ({following.length})
+                    </TabsTrigger>
                 </TabsList>
                 <TabsContent value="about">
                   <div className="flex items-center justify-between my-4">
@@ -321,20 +336,10 @@ const ProfilePage = () => {
                         followers?.length > 0
                         ?
                         followers.map((item) => (
-                          <Link
-                            to={`/profile/${item.id}`} 
+                          <FollowerCard 
                             key={item.id}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0"
-                          >
-                            <img 
-                              src={item.avatar} 
-                              className="size-8 lg:size-10 rounded-full flex-shrink-0" 
-                              alt={item.username} 
-                            />
-                            <span className="text-xs sm:text-sm font-medium truncate">
-                              {item.username}
-                            </span>
-                          </Link>
+                            item={item}
+                          />
                           ))
                           :
                           ''
@@ -361,26 +366,19 @@ const ProfilePage = () => {
                           following.length > 0
                           ?
                           following.map((item) => (
-                            <Link
-                              to={`/profile/${item.id}`} 
+                            <FollowerCard 
                               key={item.id}
-                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0"
-                            >
-                              <img 
-                                src={item.avatar} 
-                                className="size-8 lg:size-10 rounded-full flex-shrink-0" 
-                                alt={item.username} 
-                              />
-                              <span className="text-xs sm:text-sm font-medium truncate">
-                                {item.username}
-                              </span>
-                            </Link>
+                              item={item}
+                            />
                             ))
                             :
                             ''
                         )}
                       </div>
                     </div>
+                </TabsContent>
+                <TabsContent value="competitions">
+
                 </TabsContent>
             </Tabs>
         </div>

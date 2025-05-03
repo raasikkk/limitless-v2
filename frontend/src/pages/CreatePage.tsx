@@ -15,7 +15,6 @@ const CreatePage = () => {
   const [category, setCategory] = useState<string|number>('');
   const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
-  
 
   const navigate = useNavigate();
 
@@ -66,7 +65,7 @@ const CreatePage = () => {
     <form onSubmit={handleCreate} className="pt-10">
       {create ? (
         <div className="bg-black bg-opacity-15 fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
-          <div className="bg-white px-16 py-10 rounded-md w-80 sm:w-96">
+          <div className="bg-white dark:bg-darkSecondary px-5 py-10 rounded-md w-80 sm:w-96">
             <h2 className="font-bold text-2xl text-center mb-2">
               {t('createCompetition.modal.title')}
             </h2>
@@ -79,13 +78,13 @@ const CreatePage = () => {
               }
             </p>
             <div className="flex items-center justify-center gap-4">
-              <button className="bg-primaryColor text-white rounded-md w-40 p-2 hover:opacity-75">
+              <button className="bg-primaryColor font-semibold text-white rounded-md w-40 p-2 hover:opacity-75">
                 {t('createCompetition.modal.yes')}
               </button>
               <button
                 onClick={() => setCreate(false)}
                 type="button"
-                className="w-24 border border-zinc-300 rounded-md p-2 hover:opacity-75"
+                className="w-24 border border-zinc-300 font-semibold rounded-md p-2 hover:opacity-75"
               >
                 {t('createCompetition.modal.no')}
               </button>

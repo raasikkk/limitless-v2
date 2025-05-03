@@ -12,6 +12,7 @@ import axios from "axios";
 import { ICompetition, IParticipant } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
+import CompetitionSettings from "./CompetitionSettings";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -117,6 +118,8 @@ const Competition = () => {
     }
     loadData();
   }, [id])
+
+  console.log(competition)
 
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
@@ -239,7 +242,7 @@ const Competition = () => {
         </div>
       </div>
       <Tabs defaultValue="main">
-        <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-10">
+        <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-5">
           <TabsTrigger value="main" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
             {t("competition.main")}
           </TabsTrigger>
@@ -247,8 +250,15 @@ const Competition = () => {
             {t("competition.submissions")}
           </TabsTrigger>
           <TabsTrigger value="leaderboard" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
-           {t("competition.leaderboard")}
+            {t("competition.leaderboard")}
           </TabsTrigger>
+
+          {competition?.user_id == user?.id && (
+            <TabsTrigger value="settings" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+              {t("settings")}
+            </TabsTrigger>
+          )}
+          
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
           {isLoading ? (
@@ -319,6 +329,9 @@ const Competition = () => {
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard id={id}/>
+        </TabsContent>
+        <TabsContent value="settings">
+          <CompetitionSettings id={id} />
         </TabsContent>
       </Tabs>
     </div>
