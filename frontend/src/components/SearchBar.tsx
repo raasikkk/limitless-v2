@@ -4,8 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import Profile from "./Profile"
 import { useAppSelector } from "@/hooks/hooks"
 import { useEffect, useState } from "react"
-// import { ICompetition, IUser } from "@/types"
-import axios from "axios"
 
 const SearchBar = () => {
   const { t } = useTranslation()
@@ -16,35 +14,16 @@ const SearchBar = () => {
   const [query, setQuery] = useState(removeSpace)
   const navigate = useNavigate()
 
-  // const [competitions, setCompetition] = useState<ICompetition[]>([]);
-  // const [users, setUsers] = useState<IUser[]>([]);
-
-  const handleSearch = async () => {
-    try {
-
-      const results = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/search?q=${query}`);
-
-      console.log(results);
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    if (query) {
-      navigate(`/search?q=${query}`)
-    }
-  }, [])
-
-  handleSearch()
-
   useEffect(() => {
     setQuery(removeSpace)
-  }, [navigate])
+  }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setQuery(removeSpace)
+    // handleSearch()
+    navigate(`/search?q=${query}`)
+    window.location.reload()
   }
 
   

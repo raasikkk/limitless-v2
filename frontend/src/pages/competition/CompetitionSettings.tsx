@@ -126,6 +126,7 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
                                         placeholder="Secret code..."
                                         onChange={(e) => {
                                             const value = e.target.value;
+                                            
                                             if (/^\d{0,4}$/.test(value)) {
                                                 setCode(value);
                                             }

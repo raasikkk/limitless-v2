@@ -345,6 +345,8 @@ const Competition = () => {
                         <FollowerCard 
                             key={item.id}
                             item={item}
+                            competition_id={competition?.user_id}
+                            user_id={user?.id}
                         />
                     ))}
                 </div>

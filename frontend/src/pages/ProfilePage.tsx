@@ -252,7 +252,7 @@ const ProfilePage = () => {
               </div>
             }
             <Tabs defaultValue="about" className="mt-3 w-full">
-                <TabsList className="w-full mb-2 justify-start border-b rounded-none h-auto p-0 bg-transparent">
+                <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden w-full">
                     <TabsTrigger 
                         value="about"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"

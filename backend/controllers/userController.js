@@ -121,11 +121,11 @@ export const search = async (req,res) => {
     })
 
     const competitionsResult = await db.query(`
-      SELECT * FROM competitions WHERE title LIKE $1 OR description LIKE $1
+      SELECT * FROM competitions WHERE LOWER(title) LIKE LOWER($1) OR LOWER(description) LIKE LOWER($1)
     `, [`%${q.toLowerCase()}%`])
     
     const usersResult = await db.query(`
-      SELECT * FROM users WHERE username LIKE $1 OR email LIKE $1
+      SELECT * FROM users WHERE LOWER(username) LIKE LOWER($1) OR LOWER(email) LIKE LOWER($1)
     `, [`%${q.toLowerCase()}%`])
 
 
