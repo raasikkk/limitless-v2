@@ -304,3 +304,35 @@ export const getLeaderboard = async (req,res) => {
     res.status(500).send(error)
   }
 }
+
+export const saveSettings = async (req,res) => {
+  try {
+
+    const {competitionId, maxParticipants, isPrivate, isAiBased, code } = req.body;
+
+    if (!competitionId || !maxParticipants || !code) {
+      return res.status(400).json({
+        message: "Add at least one field to change the settings"
+      })
+    }
+
+    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
+    if (competition.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Competition doesn't exist"
+      })
+    }
+
+    await db.query("UPDATE competitions SET max_participants = $1, private = $2, ai_based = $3, code = $4 WHERE id = $5", [maxParticipants, isPrivate, isAiBased, code, competitionId]);
+    
+    res.json({
+      message: "Succesfully saved settings"
+    })
+
+
+
+  } catch (error) {
+    console.log('Error at getLeaderboard:', error);
+    res.status(500).send(error)
+  }
+}
