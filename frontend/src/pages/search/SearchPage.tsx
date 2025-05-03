@@ -6,6 +6,8 @@ import { Link } from "react-router-dom"
 
 const SearchPage = () => {
     const { t } = useTranslation()
+
+    
   
     return (
     <div className="mt-5 text-black dark:text-white">
