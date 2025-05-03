@@ -27,7 +27,7 @@ export interface ICompetition extends IUser {
   private: boolean,
   ai_based: boolean,
   max_participants: number,
-  code: number
+  code: number | string
 }
 
 export interface IParticipant {
