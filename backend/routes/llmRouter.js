@@ -9,7 +9,7 @@ import { submissionIsValid } from "../middleware/filterIsValid.js";
 
 export const llmRouter = Router();
 
-llmRouter.get("/llm/suggestions/:competition_id", checkAuth, llmSuggestions);
+llmRouter.put("/llm/suggestions/:competition_id", checkAuth, llmSuggestions);
 llmRouter.get(
   "/llm/grading/:competition_id",
   checkAuth,
