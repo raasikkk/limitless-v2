@@ -310,12 +310,6 @@ export const saveSettings = async (req,res) => {
 
     const {competitionId, maxParticipants, isPrivate, isAiBased, code } = req.body;
 
-    if (!competitionId || !maxParticipants || !code) {
-      return res.status(400).json({
-        message: "Add at least one field to change the settings"
-      })
-    }
-
     const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
     if (competition.rows.length <= 0) {
       return res.status(400).json({
@@ -335,7 +329,7 @@ export const saveSettings = async (req,res) => {
       })
     }
 
-    if (code.length !== 4) {
+    if (code.length !== 4 && isPrivate) {
       return res.status(400).json({
         message: "Code should be 4 digits"
       })
