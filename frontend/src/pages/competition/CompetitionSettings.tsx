@@ -182,7 +182,7 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
                               {isLoading ? (
                                 <LoaderCircle className="animate-spin"/>
                               ) : (
-                                <div>Save Changes</div>
+                                <>Save Changes</>
                               )}
                           </button>
                         }
