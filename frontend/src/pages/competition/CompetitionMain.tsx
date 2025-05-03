@@ -11,10 +11,11 @@ type Props = {
   rules: string,
   setRules: (value: string) => void,
   id: string | number,
-  fetchCompetition: () => void
+  fetchCompetition: () => void,
+  isAiBased: boolean | undefined
 }
 
-const CompetitionMain = ({canEdit, description, setDescription, rules, setRules, id, fetchCompetition}: Props) => {
+const CompetitionMain = ({canEdit, description, setDescription, rules, setRules, id, fetchCompetition, isAiBased}: Props) => {
   const { t } = useTranslation()
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
   const [isRulesEdit, setIsRulesEdit] = useState(false);
@@ -53,7 +54,7 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
 
   return (
     <div className="w-full md:w-3/4 pr-4">
-      {canEdit ? (
+      {canEdit && isAiBased ? (
         <div className="flex flex-col items-end mb-5">
           <button
             onClick={handleAIChange}
