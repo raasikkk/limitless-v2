@@ -351,7 +351,7 @@ const Competition = () => {
             </div>
         </TabsContent>
         <TabsContent value="settings">
-          <CompetitionSettings id={id} />
+          <CompetitionSettings fetchCompetition={fetchCompetition} competition={competition}/>
         </TabsContent>
       </Tabs>
     </div>

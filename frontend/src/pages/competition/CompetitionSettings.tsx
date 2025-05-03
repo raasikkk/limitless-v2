@@ -6,44 +6,48 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 
 interface SettingsProps {
-    id: string | undefined
+    competition: ICompetition | null,
+    fetchCompetition: () => void;
 }
 
-const CompetitionSettings = ({id}: SettingsProps) => {
-    const [isPrivate, setIsPrivate] = useState(false)
-    const [isAiBased, setIsAiBased] = useState(false)
-    const [participantsCount, setParticipantsCount] = useState(0)
-    const [code, setCode] = useState<string | number>("")
-
-    const fetchCompetition = async () => {
-        try {
-            const competition:ICompetition = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`)).data;
-            setIsPrivate(competition.private);
-            setIsAiBased(competition.ai_based)
-            setParticipantsCount(competition.max_participants)
-            setCode(competition.code)
-            console.log(competition)
-        } catch (error) {   
-            console.log(error);
-        }
-    }
-
+const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => {
+    const [isPrivate, setIsPrivate] = useState(competition?.private)
+    const [isAiBased, setIsAiBased] = useState(competition?.ai_based)
+    const [participantsCount, setParticipantsCount] = useState(competition?.max_participants)
+    const [code, setCode] = useState<string | number>(competition?.code || '');
+    const [isSave, setIsSave] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}`, {
-                private: isPrivate
+            await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${competition?.id}/settings`, {
+              competitionId: competition?.id,
+              maxParticipants: participantsCount,
+              isAiBased,
+              isPrivate,
+              code
             });
+            fetchCompetition();
+            setIsSave(false)
         } catch (error) {
             console.error('Update failed:', error);
         }
     }
 
-    useEffect(() => {
-        fetchCompetition()
-    }, [])
+    useEffect(()=> {
+      try {
 
+        if (isPrivate !== competition?.private || isAiBased !== competition?.ai_based || competition?.max_participants !== participantsCount || competition?.code !== code) {
+          setIsSave(true)
+        } else {
+          setIsSave(false)
+        }
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }, [isAiBased, isPrivate, participantsCount, code])
+    
     return (
         <div className="space-y-8 p-6 bg-gray-50 dark:bg-darkColor min-h-screen">
 
@@ -140,8 +144,8 @@ const CompetitionSettings = ({id}: SettingsProps) => {
                                     Participant number - {participantsCount}
                                 </h3>
                                 <Slider 
-                                    defaultValue={[participantsCount]}
-                                    value={[participantsCount]}
+                                    defaultValue={[participantsCount!]}
+                                    value={[participantsCount!]}
                                     min={2}
                                     max={30} 
                                     step={1} 
@@ -152,13 +156,26 @@ const CompetitionSettings = ({id}: SettingsProps) => {
                     </div>
 
                     <div className="flex justify-end pt-6">
-                        <button
+                        {
+                          !isSave
+                          ?
+                          <button
+                            type="button"
+                            disabled
+                            className="px-6 py-2 bg-primaryColor hover:bg-blue-700 text-white rounded-lg
+                            transition-colors duration-200 font-medium shadow-sm opacity-50"
+                          >
+                              Save Changes
+                          </button>
+                          :
+                          <button
                             type="submit"
                             className="px-6 py-2 bg-primaryColor hover:bg-blue-700 text-white rounded-lg
                             transition-colors duration-200 font-medium shadow-sm"
-                        >
-                            Save Changes
-                        </button>
+                          >
+                              Save Changes
+                          </button>
+                        }
                     </div>
                 </form>
             </div>
