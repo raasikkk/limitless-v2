@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { GoogleGenAI, Type } from "@google/genai";
+import { db } from "../db.js";
 
 dotenv.config();
 
@@ -70,14 +71,25 @@ export const noImageGrading = async (
 ) => {
   const llmResponse = await ai.models.generateContent({
     model: "gemini-2.0-flash",
-    contents: `A user on our platform submitted a submission for a competition.
+    contents: [
+      {
+        inlineData: {
+          mimeType: "image/jpeg",
+          data: base64ImageData,
+        },
+      },
+      {
+        text: `A user on our platform submitted a submission for a competition.
           Your task is to rate this submission with a boolean value:
           - true for upvote
           - false for downvote
           Please respond with only the boolean value, without any additional text or formatting.\n
+          Then you have to explain your vote in 50 characters max, put it in explanation parameter.\n
           Description: ${description}
           Rules: ${rules}\n
           Submission: ${explanation}`,
+      },
+    ],
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -88,6 +100,11 @@ export const noImageGrading = async (
             vote: {
               type: Type.BOOLEAN,
               description: "true or false",
+              nullable: false,
+            },
+            explanation: {
+              type: Type.STRING,
+              description: "Explain your vote",
             },
           },
           required: ["vote"],
@@ -97,6 +114,11 @@ export const noImageGrading = async (
   });
 
   const content = JSON.parse(llmResponse.candidates[0].content.parts[0].text);
+
+  const dbQuery = await db.query(
+    "INSERT INTO votes (user_id, submission_id, vote_type, comment) VALUES (39, $1, $2, $3)",
+    [submission_id, content[0].vote, content[0].explanation]
+  );
 
   return {
     submission_id,
@@ -129,6 +151,7 @@ export const noTextGrading = async (
           - true for upvote
           - false for downvote
           Please respond with only the boolean value, without any additional text or formatting.\n
+          Then you have to explain your vote in 50 characters max, put it in explanation parameter.\n
           Description: ${description}
           Rules: ${rules}\n`,
       },
@@ -143,6 +166,11 @@ export const noTextGrading = async (
             vote: {
               type: Type.BOOLEAN,
               description: "true or false",
+              nullable: false,
+            },
+            explanation: {
+              type: Type.STRING,
+              description: "Explain your vote",
             },
           },
           required: ["vote"],
@@ -152,6 +180,11 @@ export const noTextGrading = async (
   });
 
   const content = JSON.parse(llmResponse.candidates[0].content.parts[0].text);
+
+  const dbQuery = await db.query(
+    "INSERT INTO votes (user_id, submission_id, vote_type, comment) VALUES (39, $1, $2, $3)",
+    [submission_id, content[0].vote, content[0].explanation]
+  );
 
   return {
     submission_id,
@@ -185,6 +218,7 @@ export const grading = async (
           - true for upvote
           - false for downvote
           Please respond with only the boolean value, without any additional text or formatting.\n
+          Then you have to explain your vote in 50 characters max, put it in explanation parameter.\n
           Description: ${description}
           Rules: ${rules}\n
           Submission: ${explanation}`,
@@ -200,6 +234,11 @@ export const grading = async (
             vote: {
               type: Type.BOOLEAN,
               description: "true or false",
+              nullable: false,
+            },
+            explanation: {
+              type: Type.STRING,
+              description: "Explain your vote",
             },
           },
           required: ["vote"],
@@ -209,6 +248,11 @@ export const grading = async (
   });
 
   const content = JSON.parse(llmResponse.candidates[0].content.parts[0].text);
+
+  const dbQuery = await db.query(
+    "INSERT INTO votes (user_id, submission_id, vote_type, comment) VALUES (39, $1, $2, $3)",
+    [submission_id, content[0].vote, content[0].explanation]
+  );
 
   return {
     submission_id,
