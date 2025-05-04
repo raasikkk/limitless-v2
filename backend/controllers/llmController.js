@@ -56,7 +56,7 @@ export const llmGradingParticipants = async (req, res) => {
       [competition_id]
     );
 
-    if (!promptContext.ai_based) {
+    if (!promptContext.rows[0].ai_based) {
       return res.status(400).json({
         message: "Bad Request. AI based grading is disabled",
       });
