@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 ::-webkit-scrollbar { width: 1px; height: 1px}
   
 ::-webkit-scrollbar-track { background-color: #d1d1d1; }
