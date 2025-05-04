@@ -293,11 +293,7 @@ export const filtering = async (request) => {
   return content;
 };
 
-export const advice = async (user_id) => {
-  const dbQuery = await db.query("SELECT bio FROM users WHERE id=$1", [
-    user_id,
-  ]);
-
+export const advice = async (bio) => {
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: `Our user needs an advice on what competition to join\n
@@ -306,7 +302,7 @@ export const advice = async (user_id) => {
         We will give you a their bio where the user is telling you about yourself.\n
         Give him advice on what kind of competitions he should attend and join.\n
         Keep the answer short and concise
-        User prompt: ${dbQuery.rows[0].bio}`,
+        User prompt: ${bio}`,
   });
 
   return response.text;
