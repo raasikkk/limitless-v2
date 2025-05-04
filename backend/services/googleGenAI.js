@@ -73,12 +73,6 @@ export const noImageGrading = async (
     model: "gemini-2.0-flash",
     contents: [
       {
-        inlineData: {
-          mimeType: "image/jpeg",
-          data: base64ImageData,
-        },
-      },
-      {
         text: `A user on our platform submitted a submission for a competition.
           Your task is to rate this submission with a boolean value:
           - true for upvote
