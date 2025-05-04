@@ -41,10 +41,11 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
     }
   }
 
-  const handleAIChange = () => {
+  const handleAIChange = async () => {
     setIsLoading(true)
     try {
-      console.log("here")
+      await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/llm/suggestions/${id}`);
+      fetchCompetition();
     } catch (error) {
       console.log(error)
     } finally {
