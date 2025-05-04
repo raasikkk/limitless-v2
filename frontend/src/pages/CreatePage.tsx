@@ -9,7 +9,7 @@ import { LoaderCircle } from "lucide-react";
 
 const CreatePage = () => {
   const {t} = useTranslation();
-  const {user} = useAppSelector((state)=>state.user);
+  const {user, isLogged} = useAppSelector((state)=>state.user);
   const [title, setTitle] = useState('Competition Title');
   const [description, setDescription] = useState("Describe the competition you're organizing. Include details like the theme or topic, who can participate, the format (online or offline), key dates, judging criteria, and any prizes. Be as detailed as possible to help participants understand what to expect.")
   const [isPrivate, setIsPrivate] = useState(false);
@@ -19,6 +19,12 @@ const CreatePage = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/auth/signin")
+    }
+  }, [])
 
   const today = new Date();
 
