@@ -34,6 +34,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
   }
 
   const handleGradeWithAi = async () => {
+    setIsLoading(true)
     try {
 
       await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/llm/grading/${competitionId}`);
@@ -41,6 +42,8 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
 
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   }
 

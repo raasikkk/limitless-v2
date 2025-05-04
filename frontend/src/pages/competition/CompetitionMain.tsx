@@ -3,6 +3,8 @@ import { Bot, Loader2, Pencil } from "lucide-react";
 import Editor from "@/components/editor/Editor";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog"
 
 type Props = {
   canEdit: boolean,
@@ -55,20 +57,34 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
 
   return (
     <div className="w-full md:w-3/4 pr-4">
-      {canEdit && isAiBased ? (
-        <div className="flex flex-col items-end mb-5">
-          <button
-            onClick={handleAIChange}
+      {canEdit && isAiBased ?
+      <div className="flex justify-end items-center">
+      <AlertDialog>
+        <AlertDialogTrigger onClick={handleAIChange}
             className="p-2 px-4 w-56 truncate font-semibold text-white flex items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-zinc-300 dark:hover:bg-darkSecondary"
           >
             {isLoading ? (
               <Loader2 className="mx-auto animate-spin"/>
             ) : (
               <><Bot /> Enhance with AI</>
-            )}
-          </button>
-        </div>
-      ) : (
+            )}+
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Ai will change your title,description and rules.
+            </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAIChange}>Enhance</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+    </div>
+      :
+       (
         ""
       )}
 
