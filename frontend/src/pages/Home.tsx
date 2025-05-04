@@ -64,12 +64,12 @@ const Home = () => {
             </div> 
           </div>
           <img 
-            src="https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-dbbc-61f7-905c-af89e53a2bf0/raw?se=2025-05-04T06%3A52%3A50Z&sp=r&sv=2024-08-04&sr=b&scid=7df338cd-0ea0-521d-948b-c570c844c66f&skoid=7c382de0-129f-486b-9922-6e4a89c6eb7d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-03T19%3A39%3A08Z&ske=2025-05-04T19%3A39%3A08Z&sks=b&skv=2024-08-04&sig=xUhu%2BM/b/WEB6Ixfl39yknNq3anN6g01jPlpYCNnoWQ%3D" 
+            src="/hero-white.png" 
             alt="hero"
             className="block dark:hidden mx-auto max-w-[450px] w-full max-h-[440px] h-full" 
           />
           <img 
-            src="https://sdmntprwestus.oaiusercontent.com/files/00000000-219c-6230-b7b1-10853dfad152/raw?se=2025-05-04T07%3A14%3A21Z&sp=r&sv=2024-08-04&sr=b&scid=2050f408-3328-5e2e-be22-f07a7c548fe1&skoid=aa8389fc-fad7-4f8c-9921-3c583664d512&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-03T23%3A16%3A16Z&ske=2025-05-04T23%3A16%3A16Z&sks=b&skv=2024-08-04&sig=BQU/r21/vHIouBh2hysDvMTkqCFB%2BgySuONB%2BUBQfxk%3D" 
+            src="/hero-black.png" 
             alt="hero"
             className="hidden dark:block mx-auto max-w-[450px] w-full max-h-[440px] h-full" 
           />
@@ -100,9 +100,14 @@ const Home = () => {
           </div>
 
           <img 
-            src="/hero.png" 
+            src="/hero-white.png" 
             alt="hero"
-            className="block mx-auto max-w-[500px] w-full max-h-[440px] h-full" 
+            className="block dark:hidden mx-auto max-w-[450px] w-full max-h-[440px] h-full" 
+          />
+          <img 
+            src="/hero-black.png" 
+            alt="hero"
+            className="hidden dark:block mx-auto max-w-[450px] w-full max-h-[440px] h-full" 
           />
         </div>
       )}

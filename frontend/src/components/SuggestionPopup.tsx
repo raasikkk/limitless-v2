@@ -44,21 +44,19 @@ const SuggestionPopup = () => {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px] ">
             <DialogHeader>
-              <DialogTitle>Suggestion Based on Bio</DialogTitle>
-              <div className="py-4">
+              <DialogTitle className="mb-5">Suggestion Based on Bio</DialogTitle>
+              <div className="p-3 min-h-40 flex justify-center border-2 rounded-md hover:bg-darkSecondary">
               {
                 isLoading
                 ?
-                <Loader2 className="animate-spin"/>
+                <div className="flex items-center justify-center">
+                    <Loader2 className="block mx-auto animate-spin"/>
+                </div>
                 :
                 suggestion
               }
               </div>
             </DialogHeader>
-
-            <div className="flex h-40 items-center justify-center">
-                
-            </div>
 
             <div className="flex justify-end gap-3 text-sm font-medium">
                 
