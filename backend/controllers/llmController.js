@@ -6,6 +6,7 @@ import {
   noImageGrading,
   grading,
   suggestions,
+  advice,
 } from "../services/googleGenAI.js";
 
 dotenv.config();
@@ -121,6 +122,29 @@ export const llmGradingParticipants = async (req, res) => {
     console.log(`Error occured at llmGradingParticipants(): ${error}`);
     console.log(error);
     return res.status(500).send({
+      error,
+    });
+  }
+};
+
+export const llmAdvice = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+
+    if (!user_id) {
+      return res.status(403).send({
+        error_message: "Forbidden. Unauthorized",
+      });
+    }
+
+    const response = await advice(user_id);
+
+    return res.status(200).send({
+      response,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
       error,
     });
   }

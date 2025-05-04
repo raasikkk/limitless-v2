@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   llmSuggestions,
   llmGradingParticipants,
+  llmAdvice,
 } from "../controllers/llmController.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 import { llmGradingEligibility } from "../middleware/checkFeatureEligibility.js";
@@ -14,3 +15,4 @@ llmRouter.get(
   checkAuth,
   llmGradingParticipants
 );
+llmRouter.get("/llm/advice/:user_id", checkAuth, llmAdvice);
