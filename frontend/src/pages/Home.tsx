@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/hooks/hooks"
-import { Bot, Plus, Trophy } from "lucide-react"
+import { Plus, Trophy } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 // import LanguageSwitcher from "../components/LanguageSwitcher"
@@ -36,10 +36,6 @@ const Home = () => {
       {/* <div className="fixed bottom-0 w-full ">
 
       </div> */}
-      <button className="flex items-center gap-2 fixed bottom-5 right-5 p-2 px-4 font-semibold bg-primaryColor rounded-md animate-bounce duration-1000">
-        <Bot />
-        Suggestions
-      </button>
 
       {isLogged ? (
         <div className="pt-10 flex flex-wrap lg:flex-nowrap justify-between gap-3">

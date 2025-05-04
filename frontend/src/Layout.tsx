@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import MobileNavbar from "./components/MobileNavbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
+import SuggestionPopup from "./components/SuggestionPopup";
 
 const Layout = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -59,6 +60,13 @@ const Layout = () => {
         <div className="p-4 md:p-6">
           <SearchBar />
           <Outlet />
+
+          <SuggestionPopup />
+
+          {/* <button className="flex text-white items-center gap-2 fixed bottom-5 right-5 p-2 px-4 font-semibold bg-primaryColor rounded-md animate-bounce duration-1000 opacity-90">
+            <Bot />
+            Suggestions
+          </button> */}
         </div>
       </main>
 
