@@ -33,6 +33,17 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
     }
   }
 
+  const handleGradeWithAi = async () => {
+    try {
+
+      await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/llm/grading/${competitionId}`);
+      fetchSubmissions();
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(()=> {
     fetchSubmissions()
   },[competitionId])
@@ -57,13 +68,13 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
           {canEdit && isAiBased ? (
           <div className="flex flex-col items-end">
             <button
-              // onClick={handleAIChange}
+              onClick={handleGradeWithAi}
               className="p-2 px-4 w-56 truncate font-semibold text-white flex justify-center items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-zinc-300 dark:hover:bg-darkSecondary"
             >
               {isLoading ? (
                 <Loader2 className="mx-auto animate-spin"/>
               ) : (
-                <><Bot /> Create with AI</>
+                <><Bot /> Grade using AI</>
               )}
             </button>
           </div>
