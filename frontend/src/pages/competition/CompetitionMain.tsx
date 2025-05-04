@@ -3,8 +3,6 @@ import { Bot, Loader2, Pencil } from "lucide-react";
 import Editor from "@/components/editor/Editor";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 
 type Props = {
   canEdit: boolean,
@@ -21,7 +19,7 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
   const { t } = useTranslation()
   const [isDescriptionEdit, setIsDescriptionEdit] = useState(false);
   const [isRulesEdit, setIsRulesEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChangeDescription = async () => {
     try {
@@ -43,11 +41,10 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
     }
   }
 
-  const handleAIChange = async () => {
+  const handleAIChange = () => {
     setIsLoading(true)
     try {
-      await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/llm/suggestions/${id}`);
-      fetchCompetition();
+      console.log("here")
     } catch (error) {
       console.log(error)
     } finally {
@@ -59,29 +56,16 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
     <div className="w-full md:w-3/4 pr-4">
       {canEdit && isAiBased ? (
         <div className="flex flex-col items-end mb-5">
-          <AlertDialog>
-            <AlertDialogTrigger
-                className="p-2 px-4 w-56 truncate flex items-center gap-1.5 border rounded-md hover:bg-zinc-300 dark:hover:bg-darkSecondary"
-              >
-                {isLoading ? (
-                  <Loader2 className="mx-auto animate-spin"/>
-                ) : (
-                  <><Bot /> Enhance with AI</>
-                )}
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                    Check your title and description. Depending on it ai will change them.
-                </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleAIChange}>Enhance</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+          <button
+            onClick={handleAIChange}
+            className="p-2 px-4 w-56 truncate font-semibold text-white flex items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-zinc-300 dark:hover:bg-darkSecondary"
+          >
+            {isLoading ? (
+              <Loader2 className="mx-auto animate-spin"/>
+            ) : (
+              <><Bot /> Enhance with AI</>
+            )}
+          </button>
         </div>
       ) : (
         ""
