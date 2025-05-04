@@ -341,7 +341,12 @@ const Competition = () => {
           </ul>
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions competitionId={id!} isParticipant={participants.some(mate => mate.user_id == user?.id) || user?.id == competition?.user_id}/>
+          <CompetitionSubmissions 
+            competitionId={id!} 
+            isParticipant={participants.some(mate => mate.user_id == user?.id) || user?.id == competition?.user_id}
+            canEdit={competition?.user_id == user?.id}
+            isAiBased={competition?.ai_based}
+          />
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard id={id}/>

@@ -6,23 +6,30 @@ import axios from "axios";
 import { ISubmission } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Bot, Loader2 } from "lucide-react";
 
 type Props = {
   isParticipant: boolean,
-  competitionId: number | string
+  competitionId: number | string,
+  canEdit: boolean,
+  isAiBased: boolean | undefined
 }
 
-const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
+const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBased}: Props) => {
   const { t } = useTranslation()
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissions, setSubmissions] = useState<ISubmission[]>([]);
-  const fetchSubmissions = async () => {
-    try {
+  const [isLoading, setIsLoading] = useState(false)
 
+  const fetchSubmissions = async () => {
+    setIsLoading(true)
+    try {
       const submissionsData:ISubmission[] = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/${competitionId}`)).data;
       setSubmissions(submissionsData)
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -41,18 +48,39 @@ const CompetitionSubmissions = ({isParticipant, competitionId}: Props) => {
       }
       
       <div className="mb-8 flex items-center justify-between">
+      
         <h2 className="font-semibold text-2xl">
           {t("competition.submissions")} ({submissions?.length})
         </h2>
-        {
-          isParticipant
-          ?
-          <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
-            {t("competition.submit")}
-          </button>
-          :
-          ''
-        }
+
+        <div className="flex items-center flex-wrap gap-2">
+          {canEdit && isAiBased ? (
+          <div className="flex flex-col items-end">
+            <button
+              // onClick={handleAIChange}
+              className="p-2 px-4 w-56 truncate font-semibold text-white flex justify-center items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-zinc-300 dark:hover:bg-darkSecondary"
+            >
+              {isLoading ? (
+                <Loader2 className="mx-auto animate-spin"/>
+              ) : (
+                <><Bot /> Create with AI</>
+              )}
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+
+          {
+            isParticipant
+            ?
+            <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
+              {t("competition.submit")}
+            </button>
+            :
+            ''
+          }
+          </div>
       </div>
 
       <Table className="border-2 rounded-md">
