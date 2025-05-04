@@ -10,7 +10,7 @@ import { llmGradingEligibility } from "../middleware/checkFeatureEligibility.js"
 export const llmRouter = Router();
 
 llmRouter.put("/llm/suggestions/:competition_id", checkAuth, llmSuggestions);
-llmRouter.get(
+llmRouter.put(
   "/llm/grading/:competition_id",
   checkAuth,
   llmGradingParticipants
