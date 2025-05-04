@@ -1,12 +1,14 @@
 import DOMPurify from 'dompurify';
 
-export const TextOnlyDescription = ({ html }: { html: string }) => {
+export const TextOnlyDescription = ({ html, className }: { html: string, className: string }) => {
     const clean = DOMPurify.sanitize(html, {
       ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'br']
     });
   
     return <div 
-      className="text-sm truncate"
-      dangerouslySetInnerHTML={{ __html: clean }}
-    />;
+    className={`truncate text-sm text-ellipsis ${className}`}
+    dangerouslySetInnerHTML={{ __html: clean }}
+    >
+      {/* { html } */}
+    </div>;
   };

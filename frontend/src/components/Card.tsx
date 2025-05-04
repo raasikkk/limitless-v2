@@ -37,13 +37,14 @@ const Card = ({ item }: CardType) => {
             {item.title}
         </h3>
         
-        <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+        <div className="flex truncate items-center text-sm text-gray-600 dark:text-gray-300">
             <UsersIcon className="h-4 w-4 mr-1" />
             <span>Author - {item.username}</span>
         </div>
 
         <div className="text-sm truncate">
-            <TextOnlyDescription html={item.description}/>
+            {/* {item.description} */}
+            <TextOnlyDescription className={"truncate"} html={item.description}/>
         </div>
         
         <div className="flex items-center text-sm text-blue-600 dark:text-blue-400">
