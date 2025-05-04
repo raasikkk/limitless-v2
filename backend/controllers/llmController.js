@@ -137,7 +137,7 @@ export const llmAdvice = async (req, res) => {
       });
     }
 
-    const dbQuery = await db.query("SELECT bio FROM users WHERE user_id=$1", [user_id])
+    const dbQuery = await db.query("SELECT bio FROM users WHERE id = $1", [user_id]);
 
     if (!dbQuery.rows[0].bio) {
       return res.status(400).send({
