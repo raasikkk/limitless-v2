@@ -137,7 +137,15 @@ export const llmAdvice = async (req, res) => {
       });
     }
 
-    const response = await advice(user_id);
+    const dbQuery = await db.query("SELECT bio FROM users WHERE user_id=$1", [user_id])
+
+    if (!dbQuery.rows[0].bio) {
+      return res.status(400).send({
+        error_message: "User must have bio fille out"
+      })
+    }
+
+    const response = await advice(dbQuery.rows[0].bio);
 
     return res.status(200).send({
       response,
