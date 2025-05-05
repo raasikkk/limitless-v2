@@ -349,6 +349,7 @@ const Competition = () => {
               modifiersClassNames={{today: 'bg-primaryColor'}}
             />
           </ul>
+          
         </TabsContent>
         <TabsContent value="submissions">
           <CompetitionSubmissions 
@@ -380,6 +381,7 @@ const Competition = () => {
                         />
                     ))}
                 </div>
+                
             </div>
         </TabsContent>
         <TabsContent value="settings">
