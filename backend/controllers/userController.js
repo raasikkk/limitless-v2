@@ -39,15 +39,8 @@ export const getUserByUserId = async (req,res) => {
 export const editUserById = async (req,res) => {
   try {
 
-    const {id} = req.params;
+    const {id} = req.user;
     const {bio} = req.body;
-
-    const user = await db.query("SELECT id, email, username, avatar, bio, created_at FROM users WHERE id = $1", [id]);
-    if (user.rows.length <= 0) {
-      return res.status(400).json({
-        message: "Incorrect id or user doesn't exist"
-      })
-    }
 
     if (!bio) {
       return res.json({

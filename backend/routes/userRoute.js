@@ -9,4 +9,4 @@ userRoute.patch('/users/avatar', checkAuth, uploadImage.single('avatar'), editUs
 // userRoute.get('/users/:username', checkAuth, getUserByUsername);
 userRoute.get('/users/:id', checkAuth, getUserByUserId);
 userRoute.get('/search', search);
-userRoute.patch('/users/:id', checkAuth, editUserById)
+userRoute.patch('/users/', checkAuth, editUserById)
