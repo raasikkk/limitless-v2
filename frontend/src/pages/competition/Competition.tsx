@@ -77,8 +77,7 @@ const Competition = () => {
     setButtonLoading(true)
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/join`, {
-        competition_id: id,
-        user_id: user?.id
+        competition_id: id
       })
       getParticipants()
     } catch (error) {
@@ -90,7 +89,7 @@ const Competition = () => {
   const quitCompetition =async () => {
     setButtonLoading(true)
     try {
-      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/quit/${id}/${user?.id}`)
+      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/quit/${id}`)
       getParticipants()
     } catch (error) {
       console.log(error);
@@ -98,7 +97,6 @@ const Competition = () => {
       setButtonLoading(false)
     }
   }
-  console.log(participants);
   
   const getParticipants = async () => {
     try {
@@ -122,8 +120,6 @@ const Competition = () => {
     }
     loadData();
   }, [id])
-
-  console.log(competition)
 
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
