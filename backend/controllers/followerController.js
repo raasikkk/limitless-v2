@@ -2,14 +2,8 @@ import { db } from "../db.js";
 
 export const followUser = async (req,res) => {
   try {
-
-    const {follower_id, user_id} = req.body;
-
-    if (follower_id !== req.body.id) {
-      return res.status(403).json({
-        message: "Forbidden"
-      })
-    }
+    const follower_id = req.user.id;
+    const {user_id} = req.body;
 
     const user = await db.query("SELECT * FROM users WHERE id = $1", [user_id]);
     if (user.rows.length <= 0) {
@@ -32,8 +26,8 @@ export const followUser = async (req,res) => {
 
 export const unfollowUser = async (req,res) => {
   try {
-
-    const {follower_id, user_id} = req.params;
+    const follower_id = req.user.id;
+    const {user_id} = req.params;
 
     const user = await db.query("SELECT * FROM users WHERE id = $1", [user_id]);
     if (user.rows.length <= 0) {
