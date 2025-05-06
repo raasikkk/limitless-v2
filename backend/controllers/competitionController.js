@@ -49,6 +49,8 @@ export const createCompetition = async (req,res) => {
     const userId = req.user.id;
     const {title, description, category, isPrivate, startDate, endDate} = req.body;
 
+    let categoryId = category == 0 ? null : category
+
     if (!title || !description || !startDate || !endDate ) {
       return res.status(400).json({
         message: "Fill all the fields."
@@ -63,7 +65,7 @@ export const createCompetition = async (req,res) => {
     ]
     const randomElement = cover[Math.floor(Math.random() * cover.length)];
 
-    const competition = await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [userId, title, description, category, isPrivate, startDate, endDate, randomElement]);
+    const competition = await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [userId, title, description, categoryId, isPrivate, startDate, endDate, randomElement]);
     res.json({
       message: "Succesfully created.",
       id: competition.rows[0].id
