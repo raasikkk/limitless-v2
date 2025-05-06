@@ -71,7 +71,6 @@ const ProfilePage = () => {
     const handleFollow = async () => {
       try {
         await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/follow`, {
-          follower_id: user?.id,
           user_id: id
         })
 
@@ -83,7 +82,7 @@ const ProfilePage = () => {
     }
     const handleUnfollow = async () => {
       try {
-        await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/unfollow/${id}/${user?.id}`)
+        await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/unfollow/${id}`)
         handleUserFollowers();
         handleUserFollowing();
       } catch (error) {
@@ -143,8 +142,6 @@ const ProfilePage = () => {
         console.log(error);
       }
     }
-
-    console.log(followers)
 
     
   return (
