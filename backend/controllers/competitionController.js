@@ -197,8 +197,8 @@ export const getCategories = async (req,res) => {
 
 export const joinCompetition = async (req,res) => {
   try {
-
-    const {competition_id, user_id} = req.body;
+    const user_id = req.user.id;
+    const {competition_id} = req.body;
 
     const competition = await db.query("SELECT private FROM competitions WHERE id = $1", [competition_id]);
     const isPrivate = competition.rows[0].private;
@@ -228,7 +228,8 @@ export const joinCompetition = async (req,res) => {
 
 export const quitCompetition = async (req, res) => {
   try {
-    const {competition_id, user_id} = req.params;
+    const user_id = req.user.id;
+    const {competition_id} = req.params;
 
     const checkUser = await db.query("SELECT user_id FROM participants WHERE user_id = $1 AND competition_id = $2", [user_id, competition_id]);
 

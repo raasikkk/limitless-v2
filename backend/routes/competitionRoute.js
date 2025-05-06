@@ -18,7 +18,7 @@ competitionRoute.get('/competitions/:id', getCompetitionById);
 competitionRoute.get('/competitions/category/:category', getCompetitionsByCategory)
 
 competitionRoute.post('/competitions/join', checkAuth, joinCompetition);
-competitionRoute.delete('/competitions/quit/:competition_id/:user_id', checkAuth, quitCompetition);
+competitionRoute.delete('/competitions/quit/:competition_id', checkAuth, quitCompetition);
 competitionRoute.get('/competitions/:competition_id/participants', getParticipants);
 competitionRoute.get("/competitions/:competitionId/leaderboard", getLeaderboard);
 
