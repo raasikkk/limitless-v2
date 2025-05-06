@@ -62,6 +62,7 @@
     "competition": {
       "join": "Join Competition",
       "quit": "Quit Competition",
+      "full": "Full",
       "main": "Main",
       "submissions": "Submissions",
       "leaderboard": "Leaderboard",
@@ -102,7 +103,8 @@
         "privacyLabel": "Privacy :",
         "privacyOptions": {
           "private": "Private",
-          "public": "Public"
+          "public": "Public",
+          "enter_code": "Enter code"
         },
         "categoryLabel": "Category :",
         "categoryOptions": {

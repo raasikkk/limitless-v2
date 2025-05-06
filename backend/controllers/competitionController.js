@@ -34,7 +34,7 @@ export const getCompetitionById = async (req,res) => {
 
     const {id} = req.params;
 
-    const competition = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id WHERE competitions.id = $1", [id]);
+    const competition = await db.query("SELECT competitions.*, categories.name AS category, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE competitions.id = $1", [id]);
     res.json(competition.rows[0])
     
   } catch (error) {

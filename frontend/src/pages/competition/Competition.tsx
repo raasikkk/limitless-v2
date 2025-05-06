@@ -14,6 +14,14 @@ import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import CompetitionSettings from "./CompetitionSettings";
 import FollowerCard from "@/components/FollowerCard";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -29,6 +37,7 @@ const Competition = () => {
   const [participants, setParticipants] = useState<IParticipant[]>([]);
   const [isLoading, setIsLoading] = useState(false)
   const [buttonLoading, setButtonLoading] = useState(false)
+  const [code, setCode] = useState('');
 
   const fetchCompetition = async () => {
     try {
@@ -77,7 +86,8 @@ const Competition = () => {
     setButtonLoading(true)
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/join`, {
-        competition_id: id
+        competition_id: id,
+        code
       })
       getParticipants()
     } catch (error) {
@@ -121,8 +131,66 @@ const Competition = () => {
     loadData();
   }, [id])
 
+  const handlePrivateJoin =() => {
+    try {
+      if (competition?.private) {
+        return <Dialog>
+        <DialogTrigger asChild>
+          <button className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+            {buttonLoading ? (
+              <LoaderCircle className="block mx-auto animate-spin" />
+            ) : (
+              t("competition.join")
+            )}
+          </button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{t("createCompetition.form.privacyOptions.enter_code")}</DialogTitle>
+          </DialogHeader>
+          <input 
+          type="number" 
+            value={code}
+            placeholder="Secret code..."
+            onChange={(e) => {
+                const value = e.target.value;
+                
+                if (/^\d{0,4}$/.test(value)) {
+                    setCode(value);
+                }
+            }}
+            maxLength={4} 
+            inputMode="numeric" className="p-2 outline-none border border-zinc-400 rounded-md"/>
+
+          <DialogFooter>
+            <button onClick={()=>joinCompetition()} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+              {buttonLoading ? (
+                <LoaderCircle className="block mx-auto animate-spin" />
+              ) : (
+                t("competition.join")
+              )}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      } else {
+        return <button onClick={()=>joinCompetition()} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+          {buttonLoading ? (
+            <LoaderCircle className="block mx-auto animate-spin" />
+          ) : (
+            t("competition.join")
+          )}
+        </button>
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="mt-5 text-black dark:text-white pt-10">
+      
       {
         isCoverEdit
         ?
@@ -146,9 +214,7 @@ const Competition = () => {
               `Created ${competition?.created_at ? formatDistanceToNow(new Date(competition?.created_at), { addSuffix: true }) : ''}`
             )}
           </span>
-        </div>
-
-        {isLoading ? (
+          {isLoading ? (
           <Skeleton className="h-10 w-24 rounded-lg" />
         ) : (
           competition?.private
@@ -159,8 +225,16 @@ const Competition = () => {
               </button>
             )
             :
-            (
-              participants.some(mate => mate.user_id == user?.id)
+            ''
+        )
+          }
+        </div>
+
+        {isLoading ? (
+          <Skeleton className="h-10 w-24 rounded-lg" />
+        ) : (
+            
+            participants.some(mate => mate.user_id == user?.id)
               ?
               <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
                 {buttonLoading ? (
@@ -170,16 +244,20 @@ const Competition = () => {
                 )}
               </button>
               :
-              <button onClick={()=>joinCompetition()} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
-                {buttonLoading ? (
-                  <LoaderCircle className="block mx-auto animate-spin" />
-                ) : (
-                  t("competition.join")
-                )}
-              </button>
-            )
+              (participants.length < competition?.max_participants!
+              ?
+                handlePrivateJoin()
+              :
+                <button disabled className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold opacity-75">
+                  {buttonLoading ? (
+                    <LoaderCircle className="block mx-auto animate-spin" />
+                  ) : (
+                    t("competition.full")
+                  )}
+                </button>)
+              )
 
-        )}
+        }
         
       </div>
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
@@ -187,7 +265,7 @@ const Competition = () => {
           {isLoading ? (
             <Skeleton className="h-6 w-32 mb-4" />
           ) : (
-            <Link to={`/categories/Programming`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">Programming</Link>
+            <Link to={`/categories/${competition?.category}`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">{competition?.category}</Link>
           )}
 
           <div className="flex flex-col-reverse items-start justify-between">

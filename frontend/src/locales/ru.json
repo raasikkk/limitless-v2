@@ -62,6 +62,7 @@
     "competition": {
       "join": "Присоединиться к соревнованию",
       "quit": "Покинуть соревнование",
+      "full": "Заполнен",
       "main": "Главная",
       "submissions": "Отправленные работы",
       "leaderboard": "Таблица лидеров",
@@ -102,7 +103,8 @@
         "privacyLabel": "Конфиденциальность:",
         "privacyOptions": {
           "private": "Приватное",
-          "public": "Публичное"
+          "public": "Публичное",
+          "enter_code": "Введите код"
         },
         "categoryLabel": "Категория:",
         "categoryOptions": {

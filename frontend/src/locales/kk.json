@@ -62,6 +62,7 @@
   "competition": {
       "join": "Жарысқа қосылу",
       "quit": "Жарыстан шығу",
+      "full": "толық",
       "main": "Негізгі",
       "submissions": "Жіберілген жұмыстар",
       "leaderboard": "Лидерлер кестесі",
@@ -102,7 +103,8 @@
       "privacyLabel": "Құпиялылық:",
       "privacyOptions": {
         "private": "Жабық",
-        "public": "Ашық"
+        "public": "Ашық",
+        "enter_code": "Кодты енгізіңіз"
       },
       "categoryLabel": "Санат:",
       "categoryOptions": {
