@@ -14,7 +14,6 @@ import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import CompetitionSettings from "./CompetitionSettings";
 import FollowerCard from "@/components/FollowerCard";
-import { Calendar } from "@/components/ui/calendar";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -339,15 +338,7 @@ const Competition = () => {
                 </>
               )}
             </li>
-            <Calendar
-              mode="multiple"
-              showOutsideDays={false}
-              fromDate={new Date(competition?.start_date!)}
-              toDate={new Date(competition?.end_date!)}
-              selected={[new Date(competition?.start_date!), new Date(), new Date(competition?.end_date!)]}
-              modifiers={{today: new Date()}}
-              modifiersClassNames={{today: 'bg-primaryColor'}}
-            />
+            
           </ul>
           
         </TabsContent>
