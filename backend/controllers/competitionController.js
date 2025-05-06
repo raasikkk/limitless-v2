@@ -47,7 +47,8 @@ export const getCompetitionById = async (req,res) => {
 export const createCompetition = async (req,res) => {
   try {
 
-    const {userId, title, description, category, isPrivate, startDate, endDate} = req.body;
+    const userId = req.user.id;
+    const {title, description, category, isPrivate, startDate, endDate} = req.body;
 
     if (!title || !description || !startDate || !endDate ) {
       return res.status(400).json({
@@ -156,6 +157,12 @@ export const uploadCoverForCompetition = async (req,res) => {
     if (competition.rows.length <= 0) {
       return res.status(400).json({
         message: "Incorrect id or competition doesn't exist"
+      })
+    }
+
+    if (req.user.id !== competition.rows[0].user_id) {
+      return res.status(403).json({
+        message: "You are not creator of the competition"
       })
     }
 
