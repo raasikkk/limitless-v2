@@ -19,7 +19,7 @@ export const getCompetitionsByCategory = async (req,res) => {
 
     const {category} = req.params;
 
-    const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE LOWER(categories.name) = LOWER($1)", [category]);
+    const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE LOWER(categories.name) = LOWER($1) AND private = FALSE", [category]);
 
     res.json(competitions.rows)
     
@@ -35,7 +35,6 @@ export const getCompetitionById = async (req,res) => {
     const {id} = req.params;
 
     const competition = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id WHERE competitions.id = $1", [id]);
-
     res.json(competition.rows[0])
     
   } catch (error) {
@@ -198,14 +197,16 @@ export const getCategories = async (req,res) => {
 export const joinCompetition = async (req,res) => {
   try {
     const user_id = req.user.id;
-    const {competition_id} = req.body;
+    const {competition_id, code} = req.body;
 
-    const competition = await db.query("SELECT private FROM competitions WHERE id = $1", [competition_id]);
+    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competition_id]);
     const isPrivate = competition.rows[0].private;
     if (isPrivate) {
-      return res.status(400).json({
-        message: "The competition is private."
-      })
+      if (competition.rows[0].code != code || !code) {
+        return res.status(400).json({
+          message: "Incorrect code."
+        })
+      }
     }
 
     const checkUser = await db.query("SELECT participants.user_id FROM participants WHERE user_id = $1 AND competition_id = $2", [user_id, competition_id]);
