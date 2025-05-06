@@ -13,7 +13,7 @@ const CreatePage = () => {
   const [title, setTitle] = useState('Competition Title');
   const [description, setDescription] = useState("Describe the competition you're organizing. Include details like the theme or topic, who can participate, the format (online or offline), key dates, judging criteria, and any prizes. Be as detailed as possible to help participants understand what to expect.")
   const [isPrivate, setIsPrivate] = useState(false);
-  const [category, setCategory] = useState<string|number>('');
+  const [category, setCategory] = useState<number|string>(0);
   const [categories, setCategories] = useState<null|ICategory[]>(null)
   const [create, setCreate] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
@@ -34,7 +34,6 @@ const CreatePage = () => {
   oneWeekAhead.setDate(today.getDate() + 7);
   
   const getCategories = async () => {
-    console.log(title, description, category);
     try {
       const categories = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/categories`)).data;
       setCategories(categories);
@@ -143,14 +142,14 @@ const CreatePage = () => {
                 type="button"
                 className={`p-2 ${isPrivate ? '' : 'bg-primaryColor text-white'}`}
               >
-                {t('createCompetition.form.privacyOptions.private')}
+                {t('createCompetition.form.privacyOptions.public')} 
               </button>
               <button
                 onClick={() => setIsPrivate(true)}
                 type="button"
                 className={`p-2 ${isPrivate ? 'bg-primaryColor text-white' : ''}`}
               >
-                {t('createCompetition.form.privacyOptions.public')}
+                {t('createCompetition.form.privacyOptions.private')}
               </button>
             </div>
           </div>
@@ -165,7 +164,7 @@ const CreatePage = () => {
               <option value={''}>{t('createCompetition.form.categoryOptions.select')}</option>
               {
                 categories?.map(category => {
-                  return <option value={category.id}>{category.name}</option>
+                  return <option key={category.id} value={category.id}>{t(category.name)}</option>
                 })
               }
             </select>
