@@ -28,11 +28,9 @@ const CompetitionCategorie = () => {
       getCompetitionByCategory()
     }, [category])
 
-    console.log(competitions)
-
   return (
     <div className="mt-5 text-black dark:text-white">
-        <h2 className="text-3xl font-bold">{category} {t("competitions")}</h2>
+        <h2 className="text-3xl font-bold">{t(category)}</h2>
 
         <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
         {isLoading ? (
