@@ -3,20 +3,13 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const sendSubmission = async (req,res) => {
   try {
-
-    const {user_id, competition_id, explanation} = req.body;
+    const user_id = req.user.id;
+    const {competition_id, explanation} = req.body;
     const date = new Date();
 
     if (!user_id || !competition_id || !explanation) {
       return res.status(400).json({
         message: "Provide all the fileds."
-      })
-    }
-
-    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competition_id]);
-    if (competition.rows.length <= 0) {
-      return res.status(400).json({
-        message: "Incorrect id or competition doesn't exist"
       })
     }
 
@@ -103,20 +96,13 @@ export const getSubmissions = async (req,res) => {
 
 export const editSubmissionImage = async (req,res) => {
   try {
-
-    const {userId, competitionId} = req.params;
+    const userId = req.user.id;
+    const {competitionId} = req.params;
     const date = new Date();
     const file = req.file;
     if (!file) return res.status(400).json({
       message: "No image provided!"
     })
-
-    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
-    if (competition.rows.length <= 0) {
-      return res.status(400).json({
-        message: "Incorrect id or competition doesn't exist"
-      })
-    }
 
     const submission = await db.query("SELECT * FROM submissions WHERE participant_id = $1 AND competition_id = $2 AND DATE(submited_date) = DATE($3)", [userId, competitionId, date]);
     if (submission.rows.length <= 0) {
@@ -154,14 +140,15 @@ export const editSubmissionImage = async (req,res) => {
 
 export const editSubmissionText = async (req,res) => {
   try {
-    const {userId, competitionId} = req.params;
+    const userId = req.user.id;
+    const {competitionId} = req.params;
     const {explanation} = req.body;
     const date = new Date();
 
-    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
-    if (competition.rows.length <= 0) {
+    const submission = await db.query("SELECT * FROM submissions WHERE participant_id = $1 AND competition_id = $2 AND DATE(submited_date) = DATE($3)", [userId, competitionId, date]);
+    if (submission.rows.length <= 0) {
       return res.status(400).json({
-        message: "Incorrect id or competition doesn't exist"
+        message: "Only today's submissions can be edited"
       })
     }
 
@@ -177,16 +164,9 @@ export const editSubmissionText = async (req,res) => {
 
 export const deleteSubmission = async (req, res) => {
   try {
-
-    const {userId, competitionId} = req.params;
+    const userId = req.user.id;
+    const {competitionId} = req.params;
     const date = new Date();
-
-    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
-    if (competition.rows.length <= 0) {
-      return res.status(400).json({
-        message: "Incorrect id or competition doesn't exist"
-      })
-    }
 
     const submission = await db.query("SELECT * FROM submissions WHERE participant_id = $1 AND competition_id = $2 AND DATE(submited_date) = DATE($3)", [userId, competitionId, date]);
 
@@ -213,17 +193,9 @@ export const deleteSubmission = async (req, res) => {
 
 export const vote = async (req,res) => {
   try {
-    const {userId, submissionId, voteType, comment,competitionId} = req.body;
+    const userId = req.user.id;
+    const {submissionId, voteType, comment,competitionId} = req.body;
     const date = new Date();
-
-    const checkIsParticipant = await db.query("SELECT * FROM participants WHERE user_id = $1 AND competition_id = $2", [userId, competitionId]);
-
-    if (checkIsParticipant.rows.length <= 0) {
-      return res.status(400).json({
-        message: "Cannot find the participant"
-      })
-    }
-
 
     const checkSubmission = await db.query("SELECT * FROM submissions WHERE id = $1", [submissionId]);
 
@@ -286,8 +258,8 @@ export const getVotes = async (req,res) => {
 
 export const cancelVote = async (req,res) => {
   try {
-
-    const {submissionId, userId} = req.params;
+    const userId = req.user.id;
+    const {submissionId} = req.params;
 
     const checkSubmission = await db.query("SELECT * FROM submissions WHERE id = $1", [submissionId]);
     if (checkSubmission.rows.length <= 0) {

@@ -209,7 +209,7 @@ export const joinCompetition = async (req,res) => {
         })
       }
     }
-    const getParticipants = await db.query("SELECT * FROM participants WHERE id = $1", [competition_id]);
+    const getParticipants = await db.query("SELECT * FROM participants WHERE competition_id = $1", [competition_id]);
     if (getParticipants.rows.length >= competition.rows[0].max_participants) {
       return res.status(400).json({
         message: "Cannot join. Competition is full."
@@ -347,6 +347,30 @@ export const saveSettings = async (req,res) => {
 
   } catch (error) {
     console.log('Error at getLeaderboard:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const kickUser = async (req,res) => {
+  try {
+
+    const {id, user_id} = req.params;
+
+    const participants = await db.query("SELECT * FROM participants WHERE competition_id = $1 AND user_id = $2", [id, user_id]);
+
+    if (participants.rows.length <= 0) {
+      return res.status(400).json({
+        message: "User is not a participant"
+      })
+    }
+
+    await db.query("DELETE FROM participants WHERE competition_id = $1 AND user_id = $2", [id, user_id]);
+    res.json({
+      message: "Kicked out succesfully"
+    })
+    
+  } catch (error) {
+    console.log('Error at kickUser:', error);
     res.status(500).send(error)
   }
 }

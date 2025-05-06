@@ -13,12 +13,14 @@ import {
 } from "../controllers/submissionController.js";
 import { uploadImage } from "../middleware/uploadImage.js";
 import { submissionIsValid } from "../middleware/filterIsValid.js";
+import { validateParticipant } from "../middleware/validateParticipant.js";
 
 export const submissionRoute = Router();
 
 submissionRoute.post(
   "/submissions",
   checkAuth,
+  validateParticipant,
   uploadImage.single("image"),
   submissionIsValid,
   sendSubmission
@@ -32,11 +34,13 @@ submissionRoute.get(
 submissionRoute.put(
   "/submissions/:submission_id/explanation",
   checkAuth,
+  validateParticipant,
   editSubmissionText
 );
 submissionRoute.put(
   "/submissions/:submission_id/image",
   checkAuth,
+  validateParticipant,
   uploadImage.single("image"),
   editSubmissionImage
 );
@@ -46,10 +50,10 @@ submissionRoute.delete(
   deleteSubmission
 );
 
-submissionRoute.post("/submissions/vote", checkAuth, vote);
+submissionRoute.post("/submissions/vote", checkAuth, validateParticipant, vote);
 submissionRoute.get("/submissions/:submissionId/votes", checkAuth, getVotes);
 submissionRoute.delete(
-  "/submissions/:submissionId/:userId",
+  "/submissions/vote/:submissionId",
   checkAuth,
   cancelVote
 );

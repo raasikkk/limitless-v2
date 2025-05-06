@@ -6,8 +6,9 @@ import Editor from "@/components/editor/Editor";
 import { useEffect, useState } from "react";
 import Vote from "@/components/Vote";
 import axios from "axios";
-import { ISubmission, IVote } from "@/types";
+import { IParticipant, ISubmission, IVote } from "@/types";
 import { useAppSelector } from "@/hooks/hooks";
+import { formatDistanceToNow } from "date-fns";
 
 const Submission = () => {
   const {t} = useTranslation();
@@ -18,6 +19,7 @@ const Submission = () => {
   const [isExplanationEdit, setIsExplanationEdit] = useState(false);
   const [voteType, setVoteType] = useState<null|boolean>(null);
   const [votes,setVotes] = useState<IVote[]|null>(null);
+  const [participants, setParticipants] = useState<IParticipant[]>([]);
 
   const getSubmission = async () => {
     try {
@@ -40,8 +42,17 @@ const Submission = () => {
 
   const handleCancelVote =async () => {
     try {
-      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/${submissionId}/${user?.id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/vote/${submissionId}`);
       getVotes()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getParticipants = async () => {
+    try {
+      const participants = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/participants`)).data;
+      setParticipants(participants)
     } catch (error) {
       console.log(error);
     }
@@ -52,6 +63,7 @@ const Submission = () => {
   useEffect(()=>{ 
     getSubmission()
     getVotes();
+    getParticipants();
   }, [submissionId])
   
 
@@ -62,7 +74,7 @@ const Submission = () => {
           <Link to={`/profile/${submission?.participant_id}`}>
             <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission?.avatar} />
           </Link>
-          <span className="text-zinc-600 text-sm ">Submitted 8 month ago</span>
+          <span className="text-zinc-600 text-sm ">Submitted {submission?.submited_date ? formatDistanceToNow(new Date(submission.submited_date), { addSuffix: true }) : ''}</span>
         </div>
         <EllipsisVertical className="xs:hidden"/>
         {
@@ -72,7 +84,9 @@ const Submission = () => {
         :
         <div className="flex items-center justify-between w-full md:w-fit gap-10">
           {
-            votes?.some(vote => vote.user_id == user?.id)
+            participants.some(item => item.user_id == user?.id)
+            ?
+            (votes?.some(vote => vote.user_id == user?.id)
             ?
             <button onClick={()=>handleCancelVote()} className="py-2 px-6 bg-red-500 text-white rounded-3xl font-medium hover:opacity-75">
               Cancel my vote
@@ -92,7 +106,9 @@ const Submission = () => {
               <button onClick={()=>setVoteType(false)} className="p-2 px-4 border border-zinc-500 rounded-3xl font-medium flex justify-center items-center gap-2">
                 <ChevronDown/> {t("competition.downvote")}
               </button>
-            </div>
+            </div>)
+            :
+            ''
           }
           
           <EllipsisVertical className="hidden xs:block"/>

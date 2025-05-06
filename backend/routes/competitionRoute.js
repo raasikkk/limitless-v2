@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCompetition, editDescription, editRules, editTitle, getCategories, getCompetitionById, getCompetitions, getCompetitionsByCategory, getLeaderboard, getParticipants, joinCompetition, quitCompetition, saveSettings, uploadCoverForCompetition } from "../controllers/competitionController.js";
+import { createCompetition, editDescription, editRules, editTitle, getCategories, getCompetitionById, getCompetitions, getCompetitionsByCategory, getLeaderboard, getParticipants, joinCompetition, kickUser, quitCompetition, saveSettings, uploadCoverForCompetition } from "../controllers/competitionController.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 import { uploadImage } from "../middleware/uploadImage.js";
 import { validateCompetition } from "../middleware/validateCompetition.js";
@@ -16,6 +16,7 @@ competitionRoute.patch('/competitions/:id/title', checkAuth, validateCompetition
 competitionRoute.get('/competitions', getCompetitions);
 competitionRoute.get('/competitions/:id', getCompetitionById);
 competitionRoute.get('/competitions/category/:category', getCompetitionsByCategory)
+competitionRoute.delete('/competitions/:id/kick/:user_id', checkAuth, validateCompetition, kickUser)
 
 competitionRoute.post('/competitions/join', checkAuth, joinCompetition);
 competitionRoute.delete('/competitions/quit/:competition_id', checkAuth, quitCompetition);

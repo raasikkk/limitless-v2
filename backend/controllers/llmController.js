@@ -129,7 +129,7 @@ export const llmGradingParticipants = async (req, res) => {
 
 export const llmAdvice = async (req, res) => {
   try {
-    const { user_id } = req.params;
+    const user_id = req.user.id;
 
     if (!user_id) {
       return res.status(403).send({

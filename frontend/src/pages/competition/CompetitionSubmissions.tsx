@@ -61,7 +61,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
         ''
       }
       
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-wrap items-center justify-between">
       
         <h2 className="font-semibold text-2xl">
           {t("competition.submissions")} ({submissions?.length})
