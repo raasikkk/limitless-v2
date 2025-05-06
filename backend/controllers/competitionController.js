@@ -200,6 +200,7 @@ export const joinCompetition = async (req,res) => {
     const {competition_id, code} = req.body;
 
     const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competition_id]);
+    
     const isPrivate = competition.rows[0].private;
     if (isPrivate) {
       if (competition.rows[0].code != code || !code) {
@@ -207,6 +208,12 @@ export const joinCompetition = async (req,res) => {
           message: "Incorrect code."
         })
       }
+    }
+    const getParticipants = await db.query("SELECT * FROM participants WHERE id = $1", [competition_id]);
+    if (getParticipants.rows.length >= competition.rows[0].max_participants) {
+      return res.status(400).json({
+        message: "Cannot join. Competition is full."
+      })
     }
 
     const checkUser = await db.query("SELECT participants.user_id FROM participants WHERE user_id = $1 AND competition_id = $2", [user_id, competition_id]);
