@@ -136,7 +136,7 @@ const ProfilePage = () => {
       try {
         console.log(bio);
         
-        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${user?.id}`, { bio });
+        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users`, { bio });
         hanldeUserData();
         setIsBioEdit(false)
       } catch (error) {
