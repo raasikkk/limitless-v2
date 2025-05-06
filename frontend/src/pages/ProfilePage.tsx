@@ -100,7 +100,7 @@ const ProfilePage = () => {
       }
       formData.append('avatar', avatar);
       try {
-        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${user?.id}/avatar`, formData, {
+        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/avatar`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
