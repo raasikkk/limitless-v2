@@ -67,7 +67,7 @@ export const editUserById = async (req,res) => {
 
 export const editUserAvatar = async (req,res) => {
   try {
-    const {id} = req.params;
+    const {id, avatar} = req.user;
     const file = req.file;
 
     if (!file) {
@@ -75,16 +75,10 @@ export const editUserAvatar = async (req,res) => {
         message: "No image provided"
       })
     }
-    const user = await db.query("SELECT id, email, username, avatar, bio, created_at FROM users WHERE id = $1", [id]);
-    if (user.rows.length <= 0) {
-      return res.status(400).json({
-        message: "Incorrect id or user doesn't exist"
-      })
-    }
 
-    const publicId = `user_${user.rows[0].id}_avatar`;
+    const publicId = `user_${id}_avatar`;
 
-    if (user.rows[0].avatar !== null) {
+    if (avatar !== null) {
       await cloudinary.uploader.destroy(publicId);
     }
 

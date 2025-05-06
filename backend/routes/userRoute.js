@@ -5,7 +5,7 @@ import { uploadImage } from "../middleware/uploadImage.js";
 
 export const userRoute = Router();
 
-userRoute.patch('/users/:id/avatar', uploadImage.single('avatar'), editUserAvatar);
+userRoute.patch('/users/avatar', checkAuth, uploadImage.single('avatar'), editUserAvatar);
 // userRoute.get('/users/:username', checkAuth, getUserByUsername);
 userRoute.get('/users/:id', checkAuth, getUserByUserId);
 userRoute.get('/search', search);

@@ -5,6 +5,12 @@ export const followUser = async (req,res) => {
 
     const {follower_id, user_id} = req.body;
 
+    if (follower_id !== req.body.id) {
+      return res.status(403).json({
+        message: "Forbidden"
+      })
+    }
+
     const user = await db.query("SELECT * FROM users WHERE id = $1", [user_id]);
     if (user.rows.length <= 0) {
       return res.status(400).json({
