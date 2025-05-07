@@ -42,9 +42,11 @@ const Card = ({ item }: CardType) => {
             <span>Author - {item.username}</span>
         </div>
 
-        <div className="text-sm truncate">
-            {/* {item.description} */}
-            <TextOnlyDescription className={"truncate"} html={item.description}/>
+        <div className="text-sm max-w-full">
+            <TextOnlyDescription 
+                className="line-clamp-2 text-ellipsis break-words" 
+                html={item.description}
+            />
         </div>
         
         <div className="flex items-center text-sm text-blue-600 dark:text-blue-400">
