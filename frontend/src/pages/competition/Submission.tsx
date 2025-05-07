@@ -1,7 +1,7 @@
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
-import { EllipsisVertical, ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import Editor from "@/components/editor/Editor";
 import { useEffect, useState } from "react";
 import Vote from "@/components/Vote";
@@ -9,6 +9,8 @@ import axios from "axios";
 import { IParticipant, ISubmission, IVote } from "@/types";
 import { useAppSelector } from "@/hooks/hooks";
 import { formatDistanceToNow } from "date-fns";
+import { AlertDialog,AlertDialogTrigger, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+
 
 const Submission = () => {
   const {t} = useTranslation();
@@ -20,6 +22,8 @@ const Submission = () => {
   const [voteType, setVoteType] = useState<null|boolean>(null);
   const [votes,setVotes] = useState<IVote[]|null>(null);
   const [participants, setParticipants] = useState<IParticipant[]>([]);
+
+  const navigate = useNavigate();
 
   const getSubmission = async () => {
     try {
@@ -58,6 +62,15 @@ const Submission = () => {
     }
   }
 
+  const handleDeleteSubmission =async () => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions/${submission?.competition_id}`);
+      return navigate(-1);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   
 
   useEffect(()=>{ 
@@ -76,11 +89,31 @@ const Submission = () => {
           </Link>
           <span className="text-zinc-600 text-sm ">Submitted {submission?.submited_date ? formatDistanceToNow(new Date(submission.submited_date), { addSuffix: true }) : ''}</span>
         </div>
-        <EllipsisVertical className="xs:hidden"/>
         {
         submission?.participant_id == user?.id 
         ?
-        ''
+        <>
+          <AlertDialog>
+              <AlertDialogTrigger className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg
+                      transition-colors duration-200 font-medium shadow-sm">
+                      Delete my submission
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                  <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete your submission
+                      and remove your data from our servers.
+                  </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteSubmission}>Delete</AlertDialogAction>
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+          </AlertDialog>
+        </>
+        
         :
         <div className="flex items-center justify-between w-full md:w-fit gap-10">
           {
@@ -110,8 +143,6 @@ const Submission = () => {
             :
             ''
           }
-          
-          <EllipsisVertical className="hidden xs:block"/>
         </div>
         }
       </div>

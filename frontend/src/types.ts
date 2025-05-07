@@ -43,6 +43,7 @@ export interface ISubmission {
   username: string,
   avatar: string,
   participant_id: string | number,
+  competition_id: string | number,
   submited_date: Date,
   explanation: string,
   image: string

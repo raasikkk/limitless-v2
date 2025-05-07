@@ -7,6 +7,7 @@ import { ISubmission } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Bot, Loader2 } from "lucide-react";
+import { useAppSelector } from "@/hooks/hooks";
 
 type Props = {
   isParticipant: boolean,
@@ -16,7 +17,8 @@ type Props = {
 }
 
 const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBased}: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
+  const {user} = useAppSelector((state)=>state.user);
   const [isSubmit, setIsSubmit] = useState(false);
   const [submissions, setSubmissions] = useState<ISubmission[]>([]);
   const [isLoading, setIsLoading] = useState(false)
@@ -88,9 +90,15 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
           {
             isParticipant
             ?
-            <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
-              {t("competition.submit")}
-            </button>
+            (
+              submissions.some(item => item.participant_id == user?.id)
+              ?
+              ''
+              :
+              <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
+                {t("competition.submit")}
+              </button>
+            )
             :
             ''
           }
