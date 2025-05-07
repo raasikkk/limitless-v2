@@ -337,7 +337,7 @@ const Competition = () => {
         {
           competition?.private && competition?.user_id != user?.id && participants.some(mate => mate.user_id != user?.id)
           ?
-          <div className="absolute left-0 top-0 inset-0 bg-white dark:bg-darkColor opacity-95 backdrop-blur-3xl">
+          <div className="absolute z-20 w-full left-0 top-0 inset-0 bg-white dark:bg-darkColor opacity-95 backdrop-blur-3xl">
             {/* Blur */}
           </div>
           :
