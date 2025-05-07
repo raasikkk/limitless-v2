@@ -57,7 +57,7 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
   };
 
   return (
-    <div className="fixed w-full h-full left-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-20">
+    <div className="fixed overflow-y-auto w-full h-full left-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-20">
       <form onSubmit={handleSubmit} className="bg-white dark:bg-darkColor max-w-1/2 py-10 px-4 md:px-8 rounded-lg">
         <p className="text-center pb-4 text-zinc-500 font-medium">
           Make sure that your explanation/file fits the rules.
