@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { editUserById, getUserByUsername, editUserAvatar, getUserByUserId, search, getUserCompetitions } from "../controllers/userController.js";
+import { editUserById, getUserByUsername, editUserAvatar, getUserByUserId, search, getUserCompetitions, editUsername } from "../controllers/userController.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 import { uploadImage } from "../middleware/uploadImage.js";
 
@@ -11,3 +11,4 @@ userRoute.get('/users/:id', checkAuth, getUserByUserId);
 userRoute.get('/search', search);
 userRoute.get('/users/:id/competitions', checkAuth, getUserCompetitions)
 userRoute.patch('/users/', checkAuth, editUserById)
+userRoute.patch('/users/username', checkAuth, editUsername)

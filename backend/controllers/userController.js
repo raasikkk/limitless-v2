@@ -146,3 +146,26 @@ export const getUserCompetitions = async (req,res) => {
     res.status(500).send(error)
   }
 }
+
+export const editUsername = async (req,res) => {
+  try {
+    const {id} = req.user;
+    const {username} = req.body;
+
+    const checkUsername = await db.query("SELECT 1 FROM users WHERE username = $1", [username]);
+    if (checkUsername.rows.length > 0) {
+      return res.status(400).json({
+        message: "Username is not available"
+      })
+    }
+
+    await db.query("UPDATE users SET username = $1 WHERE id = $2", [username, id]);
+    res.json({
+      message: "Succesfully changed"
+    })
+    
+  } catch (error) {
+    console.log('Error at editUsername:', error);
+    res.status(500).send(error)
+  }
+}
