@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import Editor from "./editor/Editor";
 import { LoaderCircle, RotateCcw } from "lucide-react";
 import axios from "axios";
-import { useAppSelector } from "@/hooks/hooks";
 
 interface Props {
   setIsSubmit: (value: boolean) => void;
@@ -13,7 +12,6 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
   const [image, setImage] = useState<string | Blob | File>('');
   const [explanation, setExplanation] = useState('');
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const {user} = useAppSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false)
   
 
@@ -42,7 +40,6 @@ const SubmitPopUp = ({ setIsSubmit, competitionId }: Props) => {
     formData.append('image', image)
     formData.append('explanation', explanation);
     formData.append('competition_id', competitionId.toString())
-    formData.append('user_id', user?.id + '')
     setIsLoading(true)
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/submissions`, formData, {

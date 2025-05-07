@@ -160,12 +160,12 @@ const Competition = () => {
                 }
             }}
             maxLength={4} 
-            inputMode="numeric" className="p-2 outline-none border border-zinc-400 rounded-md"/>
+            inputMode="numeric" className="p-2 outline-none border dark:bg-black border-zinc-400 rounded-md"/>
 
           <DialogFooter>
             <button onClick={()=>joinCompetition()} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
               {buttonLoading ? (
-                <LoaderCircle className="block mx-auto animate-spin" />
+                <LoaderCircle className="block mx-auto animate-spin " />
               ) : (
                 t("competition.join")
               )}
@@ -327,7 +327,16 @@ const Competition = () => {
 
         </div>
       </div>
-      <Tabs defaultValue="main">
+      <Tabs className="relative" defaultValue="main">
+        {
+          competition?.private && competition?.user_id != user?.id && participants.some(mate => mate.user_id != user?.id)
+          ?
+          <div className="absolute left-0 top-0 inset-0 bg-white dark:bg-darkColor opacity-95 backdrop-blur-3xl">
+            {/* Blur */}
+          </div>
+          :
+          ''
+        }
         <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-5">
           <TabsTrigger value="main" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
             {t("competition.main")}
