@@ -45,7 +45,7 @@ submissionRoute.put(
   editSubmissionImage
 );
 submissionRoute.delete(
-  "/submissions/:submission_id",
+  "/submissions/:competitionId",
   checkAuth,
   deleteSubmission
 );
