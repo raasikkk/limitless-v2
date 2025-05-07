@@ -22,6 +22,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import { parseISO } from "date-fns";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -38,6 +40,7 @@ const Competition = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [buttonLoading, setButtonLoading] = useState(false)
   const [code, setCode] = useState('');
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
 
   const fetchCompetition = async () => {
     try {
@@ -47,6 +50,7 @@ const Competition = () => {
       setRules(competition.rules);
       setTitle(competition?.title);
       setCover(competition.cover);
+      setEndDate(parseISO(competition?.end_date))
     } catch (error) {
       console.log(error);
     }
@@ -130,6 +134,8 @@ const Competition = () => {
     }
     loadData();
   }, [id])
+
+  console.log(competition)
 
   const handlePrivateJoin =() => {
     try {
@@ -244,7 +250,7 @@ const Competition = () => {
                 )}
               </button>
               :
-              (participants.length < competition?.max_participants!
+              (participants.length < (competition?.max_participants ?? Infinity)
               ?
                 handlePrivateJoin()
               :
@@ -367,7 +373,7 @@ const Competition = () => {
           )}
           
 
-          <ul className="w-full md:w-1/4 flex flex-col gap-4">
+          <ul className="w-full md:w-1/4 mx-2 flex flex-col gap-4">
             <li className="flex items-center gap-4 justify-between">
               {isLoading ? (
                 <>
@@ -412,6 +418,18 @@ const Competition = () => {
                 </>
               )}
             </li>
+            
+            {/* Calendar */}
+            <p className="font-semibold">End Date</p>
+            <div className="w-full flex justify-center lg:justify-normal items-center">
+              <Calendar 
+                mode="single"
+                selected={endDate}
+                onSelect={setEndDate}
+                className="rounded-md border p-2 text-sm"
+                disableNavigation
+              />
+            </div>
             
           </ul>
           
