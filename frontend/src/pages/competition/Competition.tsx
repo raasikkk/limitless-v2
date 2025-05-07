@@ -40,7 +40,8 @@ const Competition = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [buttonLoading, setButtonLoading] = useState(false)
   const [code, setCode] = useState('');
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
 
   const fetchCompetition = async () => {
     try {
@@ -50,6 +51,7 @@ const Competition = () => {
       setRules(competition.rules);
       setTitle(competition?.title);
       setCover(competition.cover);
+      setStartDate(competition?.start_date)
       setEndDate(parseISO(competition?.end_date))
     } catch (error) {
       console.log(error);
@@ -429,12 +431,15 @@ const Competition = () => {
             </li>
             
             {/* Calendar */}
-            <p className="font-semibold">End Date</p>
             <div className="w-full flex justify-center lg:justify-normal items-center">
               <Calendar 
-                mode="single"
-                selected={endDate}
-                onSelect={setEndDate}
+                mode="multiple"
+                fromDate={startDate!}
+                toDate={endDate!}
+                selected={[startDate!, new Date(), endDate!]}
+                disabled={[{ before: startDate! }, { after: endDate! }]}
+                modifiers={{today: new Date()}}
+                modifiersClassNames={{today: 'bg-primaryColor text-white'}}
                 className="rounded-md border p-2 text-sm"
                 disableNavigation
               />
