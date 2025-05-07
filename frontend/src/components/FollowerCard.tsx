@@ -29,7 +29,7 @@ const FollowerCard = ({ item, competition_id, user_id, creatorId, targetUserId }
         className="flex items-center justify-between gap-3 p-3 rounded-lg hover:bg-accent transition-colors min-w-0 border"
         >
         <Link
-          to={`/profile/${item.id}`} 
+          to={!location.pathname.startsWith("/profile") && !location.pathname.startsWith("/search") ? `/profile/${targetUserId}` : `/profile/${item.id}`} 
           className="flex items-center gap-3 rounded-lg hover:bg-accent transition-colors min-w-0"
         >
           <img 

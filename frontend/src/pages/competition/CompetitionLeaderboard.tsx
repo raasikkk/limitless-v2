@@ -17,7 +17,6 @@ const CompetitionLeaderboard = ({id}:Props) => {
     const data = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/competitions/${id}/leaderboard`)).data;
     setLeaderboard(data)
   }
-  console.log(leaderboard);
   
   useEffect(()=> {
     getLeaderboard();

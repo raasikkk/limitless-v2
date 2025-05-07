@@ -136,8 +136,6 @@ const Competition = () => {
     loadData();
   }, [id])
 
-  console.log(competition)
-
   const handlePrivateJoin =() => {
     try {
       if (competition?.private) {
@@ -469,14 +467,14 @@ const Competition = () => {
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {participants.map((item) => (
-                        <FollowerCard 
-                            key={item.id}
-                            item={item}
-                            competition_id={competition?.id}
-                            creatorId={competition?.user_id}
-                            targetUserId={item?.user_id}
-                            user_id={user?.id}
-                        />
+                          <FollowerCard 
+                              key={item.id}
+                              item={item}
+                              competition_id={competition?.id}
+                              creatorId={competition?.user_id}
+                              targetUserId={item?.user_id}
+                              user_id={user?.id}
+                          />
                     ))}
                 </div>
                 
