@@ -23,10 +23,10 @@ const Card = ({ item }: CardType) => {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         
-        <div className="absolute bottom-2 left-2 bg-white rounded-full p-1 shadow-sm z-10">
+        <div className="absolute bottom-2 left-2 bg-white rounded-full shadow-sm z-10">
             <img 
-            className="size-8" 
-            src="/logo.svg" 
+            className="size-10 object-cover rounded-full" 
+            src={item.avatar}
             alt="logo" 
             />
         </div>
@@ -39,7 +39,7 @@ const Card = ({ item }: CardType) => {
         
         <div className="flex truncate items-center text-sm text-gray-600 dark:text-gray-300">
             <UsersIcon className="h-4 w-4 mr-1" />
-            <span>Author - {item.username}</span>
+            <span>{item.username}</span>
         </div>
 
         <div className="text-sm max-w-full">
