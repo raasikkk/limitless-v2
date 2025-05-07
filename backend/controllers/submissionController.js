@@ -69,6 +69,12 @@ export const getSubmissions = async (req,res) => {
         message: "Competition doesn't exist"
       })
     }
+    const checkParticipant = await db.query("SELECT 1 FROM participants WHERE competition_id = $1 AND user_id = $2", [competition.rows[0].id, req.user.id]);
+    if (competition.rows[0].private && checkParticipant.rows.length <= 0) {
+      return res.status(403).json({
+        message: "Private competition"
+      })
+    }
 
     const submissions = await db.query(`
       SELECT 

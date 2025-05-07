@@ -263,9 +263,14 @@ export const quitCompetition = async (req, res) => {
 export const getParticipants = async (req,res) => {
   try {
     const { competition_id } = req.params;
-
+    const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competition_id]);
+    if (competition.rows.length <= 0) {
+      return res.status(400).json({
+        message: "Competition doesn't exist"
+      })
+    }
     const participants = await db.query(`SELECT participants.*, users.avatar, users.username FROM participants JOIN users ON users.id = participants.user_id WHERE participants.competition_id = $1`, [competition_id]);
-
+    
     res.json(participants.rows);
   } catch (error) {
     console.log('Error at getParticipants:', error);
@@ -280,6 +285,12 @@ export const getLeaderboard = async (req,res) => {
     if (competition.rows.length <= 0) {
       return res.status(400).json({
         message: "Competition doesn't exist"
+      })
+    }
+    const checkParticipant = await db.query("SELECT 1 FROM participants WHERE competition_id = $1 AND user_id = $2", [competitionId, req.user.id]);
+    if (competition.rows[0].private && checkParticipant.rows.length <= 0) {
+      return res.status(403).json({
+        message: "Private competition"
       })
     }
     

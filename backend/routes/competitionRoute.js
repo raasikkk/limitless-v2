@@ -20,7 +20,7 @@ competitionRoute.delete('/competitions/:id/kick/:user_id', checkAuth, validateCo
 
 competitionRoute.post('/competitions/join', checkAuth, joinCompetition);
 competitionRoute.delete('/competitions/quit/:competition_id', checkAuth, quitCompetition);
-competitionRoute.get('/competitions/:competition_id/participants', getParticipants);
-competitionRoute.get("/competitions/:competitionId/leaderboard", getLeaderboard);
+competitionRoute.get('/competitions/:competition_id/participants',checkAuth, getParticipants);
+competitionRoute.get("/competitions/:competitionId/leaderboard",checkAuth, getLeaderboard);
 
 competitionRoute.get("/categories", getCategories);
