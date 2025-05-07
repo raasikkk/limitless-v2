@@ -32,7 +32,7 @@ const SuggestionPopup = () => {
 
   return (
     <Dialog>
-          <DialogTrigger onClick={handleGetSuggestions} className="flex text-white items-center gap-2 fixed bottom-5 right-5 p-2 px-4 font-semibold bg-primaryColor rounded-md animate-bounce duration-1000 opacity-90">
+          <DialogTrigger onClick={handleGetSuggestions} className="hidden flex text-white items-center gap-2 fixed bottom-5 right-5 p-2 px-4 font-semibold bg-primaryColor rounded-md animate-bounce duration-1000 opacity-90">
             <Bot />
             {
               isLoading

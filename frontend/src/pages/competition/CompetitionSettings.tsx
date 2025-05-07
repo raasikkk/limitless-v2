@@ -3,8 +3,15 @@ import { Slider } from "@/components/ui/slider"
 import { ICompetition } from "@/types"
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog"
 import axios from "axios"
-import { LoaderCircle } from "lucide-react"
+import { LoaderCircle, CalendarIcon } from "lucide-react"
 import { useEffect, useState } from "react"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 interface SettingsProps {
     competition: ICompetition | null,
@@ -17,7 +24,9 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
     const [participantsCount, setParticipantsCount] = useState(competition?.max_participants)
     const [code, setCode] = useState<string | number>(competition?.code || '');
     const [isSave, setIsSave] = useState(false);
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [startDate,setStartDate] = useState<Date|undefined>(competition?.start_date);
+    const [endDate,setEndDate] = useState<Date|undefined>(competition?.end_date);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,7 +37,9 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
               maxParticipants: participantsCount,
               isAiBased,
               isPrivate,
-              code
+              code,
+              startDate,
+              endDate
             });
             fetchCompetition();
             setIsSave(false)
@@ -42,7 +53,9 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
     useEffect(()=> {
       try {
 
-        if (isPrivate !== competition?.private || isAiBased !== competition?.ai_based || competition?.max_participants !== participantsCount || competition?.code !== code) {
+        if (isPrivate !== competition?.private || isAiBased !== competition?.ai_based 
+          || competition?.max_participants !== participantsCount || competition?.code !== code
+          || competition?.start_date !== startDate || competition?.end_date !== endDate) {
           setIsSave(true)
         } else {
           setIsSave(false)
@@ -51,19 +64,76 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
       } catch (error) {
         console.log(error);
       }
-    }, [isAiBased, isPrivate, participantsCount, code])
+    }, [isAiBased, isPrivate, participantsCount, code, startDate, endDate])
     
     return (
-        <div className="space-y-8 p-6 bg-gray-50 dark:bg-darkColor min-h-screen">
+        <div className="space-y-8 bg-gray-50 dark:bg-darkColor min-h-screen">
 
-            <div className="bg-white dark:bg-darkSecondary rounded-xl p-6 shadow-sm">
+            <div className=" bg-white dark:bg-darkSecondary rounded-xl shadow-sm">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-200">
                     Competition Settings
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="">
                     <div className="bg-gray-50 dark:bg-darkColor rounded-lg p-5">
-                        
+                    <div className="flex flex-wrap items-center gap-4">
+                      
+                      <div>
+                      <small className="uppercase text-zinc-500 font-semibold text-xs mt-3">
+                        Starting date:
+                      </small>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            
+                            <button
+                              className={`border border-zinc-400 flex items-center gap-2 p-2 rounded-md w-[240px] justify-start text-left font-normal ${!startDate && 'text-muted-foreground'}`}
+                            >
+                              <CalendarIcon />
+                              {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+                            </button>
+
+                            
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              fromDate={new Date()}
+                              toDate={endDate}
+                              selected={startDate}
+                              onSelect={setStartDate}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      <div>
+                        <small className="uppercase text-zinc-500 font-semibold text-xs mt-3">
+                          ending date:
+                        </small>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            
+                            <button
+                              className={`border border-zinc-400 flex items-center gap-2 p-2 rounded-md w-[240px] justify-start text-left font-normal ${!startDate && 'text-muted-foreground'}`}
+                            >
+                              <CalendarIcon />
+                              {endDate ? format(endDate, "PPP") : <span>Pick a date</span>}
+                            </button>
+                            
+                            
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              fromDate={new Date()}
+                              selected={endDate}
+                              onSelect={setEndDate}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </div>
 
                         <div className="space-y-4">
                             {/* Is AI based */}
@@ -145,7 +215,7 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
                                 </div>
                             ) : null}
 
-                            <div className="mt-5">
+                            <div className="mt-5 md:w-1/2">
                                 <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
                                     Participant number - {participantsCount}
                                 </h3>
@@ -161,7 +231,7 @@ const CompetitionSettings = ({competition, fetchCompetition}: SettingsProps) => 
                         </div>
                     </div>
 
-                    <div className="flex justify-end pt-6">
+                    <div className="flex justify-center pt-6">
                         {
                           !isSave
                           ?

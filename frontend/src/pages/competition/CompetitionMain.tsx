@@ -60,7 +60,7 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
       {canEdit && isAiBased ?
       <div className="flex justify-end items-center">
       <AlertDialog>
-        <AlertDialogTrigger onClick={handleAIChange}
+        <AlertDialogTrigger
             className="p-2 px-4 w-56 truncate font-semibold text-white flex items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-zinc-300 dark:hover:bg-darkSecondary"
           >
             {isLoading ? (
@@ -100,7 +100,6 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
           ''
         }
       </div>
-      
       {
         isDescriptionEdit
         ?

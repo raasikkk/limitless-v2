@@ -21,7 +21,7 @@ export interface ICompetition extends IUser {
   description: string,
   rules: string,
   start_date: Date,
-  end_date: string,
+  end_date: Date,
   winner_id: number | string | null,
   created_at: Date,
   private: boolean,

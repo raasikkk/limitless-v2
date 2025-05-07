@@ -23,7 +23,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
-import { parseISO } from "date-fns";
 
 const Competition = () => {
   const {t} = useTranslation();
@@ -52,7 +51,7 @@ const Competition = () => {
       setTitle(competition?.title);
       setCover(competition.cover);
       setStartDate(competition?.start_date)
-      setEndDate(parseISO(competition?.end_date))
+      setEndDate(competition?.end_date)
     } catch (error) {
       console.log(error);
     }
