@@ -194,7 +194,7 @@ export const deleteSubmission = async (req, res) => {
 export const vote = async (req,res) => {
   try {
     const userId = req.user.id;
-    const {submissionId, voteType, comment,competitionId} = req.body;
+    const {submissionId, voteType, comment} = req.body;
     const date = new Date();
 
     const checkSubmission = await db.query("SELECT * FROM submissions WHERE id = $1", [submissionId]);
@@ -265,6 +265,18 @@ export const cancelVote = async (req,res) => {
     if (checkSubmission.rows.length <= 0) {
       return res.status(400).json({
         message: "Submission doesn't exist"
+      })
+    }
+    if (checkSubmission.rows[0].participant_id == userId) {
+      return res.status(400).json({
+        message: "You cannot cancel vote yourself"
+      })
+    }
+
+    const checkParticipant = await db.query("SELECT * FROM participants WHERE user_id = $2 AND competition_id = $1", [checkSubmission.rows[0].competition_id, userId]);
+    if (checkParticipant.rows.length <= 0) {
+      return res.status(403).json({
+        message: "Join the competition!"
       })
     }
 

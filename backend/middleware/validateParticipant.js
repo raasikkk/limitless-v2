@@ -4,7 +4,10 @@ export const validateParticipant = async (req,res,next) => {
   try {
 
     const {id} = req.user;
-    const competitionId = req.body.competition_id || req.body.competitionId || req.params.competition_id || req.params.competitionId;
+    const competitionId = (req.body?.competition_id 
+      ?? req.body?.competitionId 
+      ?? req.params?.competition_id 
+      ?? req.params?.competitionId);
 
     if (!competitionId) return res.status(400).json({
       message: "Provide id"

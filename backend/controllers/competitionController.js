@@ -284,24 +284,26 @@ export const getLeaderboard = async (req,res) => {
     }
     
     const leaderboard = await db.query(`
-    SELECT 
-    ROW_NUMBER() OVER (
-      ORDER BY 
-        COUNT(CASE WHEN v.vote_type = true THEN 1 END) - 
-        COUNT(CASE WHEN v.vote_type = false THEN 1 END) DESC
-    ) AS place,
-    s.id AS submission_id,
-    u.id AS user_id,
-    u.username,
-    u.avatar,
-    COUNT(CASE WHEN v.vote_type = true THEN 1 END) - 
-    COUNT(CASE WHEN v.vote_type = false THEN 1 END) AS score
-    FROM submissions s
-    LEFT JOIN votes v ON s.id = v.submission_id
-    LEFT JOIN users u ON s.participant_id = u.id
+    SELECT
+      ROW_NUMBER() OVER (ORDER BY COALESCE(SUM(v.score), 0) DESC) AS place,
+      u.id AS user_id,
+      u.username,
+      u.avatar,
+      COALESCE(SUM(v.score), 0) AS score
+    FROM users u
+    JOIN submissions s ON s.participant_id = u.id
+    LEFT JOIN (
+      SELECT 
+        submission_id,
+        COUNT(*) FILTER (WHERE vote_type = true) -
+        COUNT(*) FILTER (WHERE vote_type = false) AS score
+      FROM votes
+      GROUP BY submission_id
+    ) v ON s.id = v.submission_id
     WHERE s.competition_id = $1
-    GROUP BY s.id, u.id, u.username, u.avatar
-    ORDER BY score DESC
+    GROUP BY u.id, u.username, u.avatar
+    ORDER BY score DESC;
+
     `, [competitionId])
     res.json(leaderboard.rows)
  

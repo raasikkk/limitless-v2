@@ -20,8 +20,8 @@ export const submissionRoute = Router();
 submissionRoute.post(
   "/submissions",
   checkAuth,
-  validateParticipant,
   uploadImage.single("image"),
+  validateParticipant,
   submissionIsValid,
   sendSubmission
 );
