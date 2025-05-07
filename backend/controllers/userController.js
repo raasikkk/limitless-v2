@@ -121,6 +121,27 @@ export const search = async (req,res) => {
       users: usersResult.rows
     })
   } catch (error) {
-    console.log(error);
+    console.log('Error at Search:', error);
+    res.status(500).send(error)
+  }
+}
+
+export const getUserCompetitions = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+
+    const competitions = await db.query(`
+    SELECT DISTINCT competitions.* FROM competitions 
+    LEFT JOIN participants ON participants.competition_id = competitions.id
+    WHERE participants.user_id = $1 OR competitions.user_id = $1
+    ORDER BY competitions.created_at DESC LIMIT 5
+    `, [id])
+
+    res.json(competitions.rows)
+    
+  } catch (error) {
+    console.log('Error at getUserCompetitions:', error);
+    res.status(500).send(error)
   }
 }
