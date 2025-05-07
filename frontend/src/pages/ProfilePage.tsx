@@ -25,11 +25,15 @@ const ProfilePage = () => {
     const [followers, setFollowers] = useState<IFollower[]>([]);
     const [following, setFollowing] = useState<IFollower[]>([]);
     const [isEdit, setIsEdit] = useState(false);
+    const [username, setUsername] = useState(userData?.username);
+    const [isUsernameEdit, setIsUsernameEdit] = useState(false)
     const [bio, setBio] = useState<string>(userData?.bio||'');
     const [isBioEdit, setIsBioEdit] = useState(false);
     const [isAvatarEdit, setIsAvatarEdit] = useState(false);
     const [avatar, setAvatar] = useState<File|null|string>(null);
     const [competitions, setCompetitions] = useState<ICompetition[]>([]);
+    
+    const [usernameErr, setUsernameErr] = useState('');
 
     const [isLoading, setIsLoading] = useState(true)
     const [isCompetitionsLoading, setIsCompetitionsLoading] = useState(false);
@@ -48,7 +52,8 @@ const ProfilePage = () => {
         setUserData(user)
         setAvatar(user.avatar)
         setBio(user?.bio ? user?.bio : '')
-        
+        setUsername(user?.username)
+        setUsernameErr('');
       } catch (error) {
         console.log(error);
       }
@@ -159,12 +164,23 @@ const ProfilePage = () => {
       }
     }
 
+    const handleChangeUsername =async () => {
+      try {
+        await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/username`, {username});
+        hanldeUserData();
+        setIsUsernameEdit(false);
+      } catch (error:any) {
+        console.log(error);
+        setUsernameErr(error.response?.data?.message)
+      }
+    }
+
     
   return (
     <>
       <div className="mt-5 w-full flex justify-between items-center">
         {
-          isAvatarEdit
+          isAvatarEdit && user?.id == id
           ?
           <EditImage handleSave={handleAvatarChange} image={avatar} setIsEdit={setIsAvatarEdit} setImage={setAvatar}/>
           :
@@ -206,7 +222,7 @@ const ProfilePage = () => {
                   />
                   )}
                   {
-                    isEdit
+                    isEdit && user?.id == id
                     ?
                     <Pencil onClick={()=>setIsAvatarEdit(true)} size={20} className="absolute top-0 right-0 hover:opacity-50"/>
                     :
@@ -223,7 +239,48 @@ const ProfilePage = () => {
                     ) : (
                       <>
                         <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white">{userData?.email}</p>
-                        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">{userData?.username}</h2>
+                        {
+                          isUsernameEdit
+                          ?
+                          <label className="w-full">
+                            <small className="uppercase text-zinc-500 font-semibold text-xs mt-3">
+                              {t('username')}:
+                            </small>
+                            {usernameErr.length > 0 
+                            ? 
+                            <p className="text-red-500">
+                              {usernameErr}
+                            </p> 
+                            : ''}
+                            <input
+                              onChange={(e) =>setUsername(e.target.value)}
+                              value={username}
+                              type="text"
+                              className="w-full text-sm md:text-xl font-bold mb-3 p-2 outline-none border border-zinc-300 bg-white dark:bg-darkSecondary rounded-md"
+                            />
+                            <div className="flex items-center justify-end gap-2">
+                              <button onClick={()=>setIsUsernameEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+                                {t("cancel")}
+                              </button>
+                              <button onClick={()=>handleChangeUsername()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+                                {t("save_changes")}
+                              </button>
+                            </div>
+                          </label>
+                          :
+                          <div className="flex items-center">
+                            <h2 className="text-center md:text-left w-full text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white">
+                              {userData?.username}
+                              </h2>
+                            {
+                              isEdit && user?.id == id
+                              ?
+                              <Pencil onClick={()=>setIsUsernameEdit(true)} size={20} className="hover:opacity-50"/>
+                              :
+                              <></>
+                            }
+                          </div>
+                        }
                         <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-white flex flex-col sm:flex-row items-center gap-2">
                             <CalendarDays className="hidden sm:inline-block" />
                             {userData?.created_at && (
@@ -297,7 +354,7 @@ const ProfilePage = () => {
                       {t("about")}
                     </h2>
                     {
-                      isEdit
+                      isEdit && user?.id == id
                       ?
                       <Pencil onClick={()=>setIsBioEdit(true)} size={20} className="hover:opacity-50"/>
                       :
@@ -309,7 +366,7 @@ const ProfilePage = () => {
                   ) : (
                     <>
                     {
-                    isBioEdit && isEdit
+                    isBioEdit && isEdit && user?.id == id
                       ?
                       (<>
                         <Editor content={bio} onChange={setBio}/>
