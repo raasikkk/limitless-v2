@@ -132,10 +132,11 @@ export const getUserCompetitions = async (req,res) => {
     const {id} = req.params;
 
     const competitions = await db.query(`
-    SELECT DISTINCT competitions.* FROM competitions 
+    SELECT DISTINCT competitions.*, users.username, users.avatar FROM competitions 
     LEFT JOIN participants ON participants.competition_id = competitions.id
+    JOIN users ON competitions.user_id = users.id
     WHERE participants.user_id = $1 OR competitions.user_id = $1
-    ORDER BY competitions.created_at DESC LIMIT 5
+    ORDER BY competitions.created_at DESC LIMIT 4
     `, [id])
 
     res.json(competitions.rows)
