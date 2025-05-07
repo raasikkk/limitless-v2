@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { IUser } from "@/types"
+import { ICompetition, IUser } from "@/types"
 import axios from "axios"
 import { CalendarDays, Pencil, Settings } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -11,6 +11,7 @@ import Editor from "@/components/editor/Editor"
 import EditImage from "@/components/EditImage"
 import { Skeleton } from "@/components/ui/skeleton"
 import FollowerCard from "@/components/FollowerCard"
+import Card from "@/components/Card"
 
 interface IFollower extends IUser {
   follower_id: string
@@ -28,8 +29,10 @@ const ProfilePage = () => {
     const [isBioEdit, setIsBioEdit] = useState(false);
     const [isAvatarEdit, setIsAvatarEdit] = useState(false);
     const [avatar, setAvatar] = useState<File|null|string>(null);
+    const [competitions, setCompetitions] = useState<ICompetition[]>([]);
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isCompetitionsLoading, setIsCompetitionsLoading] = useState(false);
 
     const navigate = useNavigate()
 
@@ -111,16 +114,30 @@ const ProfilePage = () => {
       }
     }
 
+    const getUserCompetitions =async () => {
+      setIsCompetitionsLoading(true);
+      try {
+
+        const competitions = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}/competitions`)).data;
+        setCompetitions(competitions)
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsCompetitionsLoading(false)
+      }
+    }
+
 
     useEffect(() => {
       const fetchData = async () => {
         setIsLoading(true);
         try {
-          await Promise.all([
+
             hanldeUserData(),
             handleUserFollowers(),
-            handleUserFollowing()
-          ]);
+            handleUserFollowing(),
+            getUserCompetitions()
+      
         } catch (err) {
           console.log(err);
         } finally {
@@ -133,8 +150,7 @@ const ProfilePage = () => {
 
     const handleBioChange = async () => {
       try {
-        console.log(bio);
-        
+
         await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users`, { bio });
         hanldeUserData();
         setIsBioEdit(false)
@@ -269,10 +285,10 @@ const ProfilePage = () => {
                       {t("following")} ({following.length})
                     </TabsTrigger>
                     <TabsTrigger 
-                        value="competition"
+                        value="competitions"
                         className="flex items-center rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold"
                     >
-                      {t("competitions")} ({following.length})
+                      {t("competitions")} ({competitions.length})
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="about">
@@ -375,7 +391,29 @@ const ProfilePage = () => {
                     </div>
                 </TabsContent>
                 <TabsContent value="competitions">
-
+                <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                  {isCompetitionsLoading ? (
+                    [...Array(8)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="relative overflow-hidden rounded-xl shadow-lg"
+                      >
+                        <Skeleton className="w-full aspect-video rounded-t-xl"/>
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <Skeleton className="h-4 w-3/4"/>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    competitions.map((item) => (
+                      <Card
+                        key={item.id}
+                        item={item}
+                      />
+                    ))
+                  )}
+                  
+                  </div>
                 </TabsContent>
             </Tabs>
         </div>
