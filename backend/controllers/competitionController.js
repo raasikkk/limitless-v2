@@ -316,7 +316,26 @@ export const getLeaderboard = async (req,res) => {
 export const saveSettings = async (req,res) => {
   try {
 
-    const {competitionId, maxParticipants, isPrivate, isAiBased, code } = req.body;
+    const {competitionId, maxParticipants, isPrivate, isAiBased, code, startDate, endDate } = req.body;
+    
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const today = new Date();
+    start.setHours(0,0,0,0);
+    end.setHours(0,0,0,0);
+    today.setHours(0,0,0,0);
+
+    if (start < today) {
+      return res.status(400).json({
+        message: "Starting date cannot be less that todays date"
+      })
+    }
+    if (start > end) {
+      return res.status(400).json({
+        message: "Starting date cannot be greater that ending date"
+      })
+    }
+
 
     const competition = await db.query("SELECT * FROM competitions WHERE id = $1", [competitionId]);
     if (competition.rows.length <= 0) {
@@ -343,14 +362,14 @@ export const saveSettings = async (req,res) => {
       })
     }
 
-    await db.query("UPDATE competitions SET max_participants = $1, private = $2, ai_based = $3, code = $4 WHERE id = $5", [maxParticipants, isPrivate, isAiBased, code, competitionId]);
+    await db.query("UPDATE competitions SET max_participants = $1, private = $2, ai_based = $3, code = $4, start_date = $5, end_date = $6 WHERE id = $7", [maxParticipants, isPrivate, isAiBased, code, startDate, endDate, competitionId]);
     
     res.json({
       message: "Succesfully saved settings"
     })
 
   } catch (error) {
-    console.log('Error at getLeaderboard:', error);
+    console.log('Error at saveSettings:', error);
     res.status(500).send(error)
   }
 }
