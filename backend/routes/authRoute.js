@@ -11,7 +11,7 @@ export const authRoute = Router();
 authRoute.post('/api/register', registerLimiter, register);
 authRoute.post('/api/login', loginLimiter, login);
 authRoute.get('/api/logout', logoutLimiter, logout);
-authRoute.get('/api/isLogged', limiter, isLogged);
+authRoute.get('/api/isLogged', isLogged);
 
 
 // google oauth2

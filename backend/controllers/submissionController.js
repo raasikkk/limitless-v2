@@ -13,6 +13,22 @@ export const sendSubmission = async (req,res) => {
       })
     }
 
+    const competitionRes = await db.query(
+      "SELECT start_date FROM competitions WHERE id = $1",
+      [competition_id]
+    );
+
+    if (competitionRes.rows.length === 0) {
+      return res.status(404).json({ message: "Competition not found." });
+    }
+
+    const startDate = new Date(competitionRes.rows[0].start_date);
+    if (date < startDate) {
+      return res.status(403).json({
+        message: "Competition has not started yet. Submissions are not allowed."
+      });
+    }
+
     let image;
     const publicId = `submission_user-${user_id}_competition-${competition_id}_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     if (req.file) {
