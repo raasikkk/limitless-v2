@@ -3,6 +3,7 @@ import { Home, User, Menu, Trophy, Settings, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@/hooks/hooks';
+import FeedbackPopup from './FeedbackPopup';
 
 
 interface SidebarProps {
@@ -54,7 +55,7 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
       </div>
       
       <nav className="p-2">
-        <ul className="space-y-2 pt-3">
+        <ul className="space-y-2 pt-3 relative">
             <Link
                 to="/create"
                 className={`${!isSidebarOpen ? "p-1" : "p-1.5 px-4"} border-2 drop-shadow-md flex items-center max-w-36 gap-2 text-primaryColor rounded-full hover:scale-105 transition`}
@@ -84,7 +85,9 @@ const Sidebar: FC<SidebarProps> = ({ isMobile, isSidebarOpen, toggleSidebar }) =
                 </Link>
             ))}
         </ul>
+        <FeedbackPopup/>
       </nav>
+      
     </aside>
   );
 };

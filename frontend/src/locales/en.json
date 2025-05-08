@@ -150,5 +150,11 @@
       "passwords_mismatch": "Passwords do not match"
     },
 
+    "feedback": {
+      "title": "Feedback",
+      "subject": "Subject",
+      "message": "Message"
+    },
+
     "rights": "All Rights Reserved."
   }
