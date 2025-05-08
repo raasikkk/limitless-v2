@@ -169,3 +169,25 @@ export const editUsername = async (req,res) => {
     res.status(500).send(error)
   }
 }
+
+export const sendFeedback = async (req,res) => {
+  try {
+
+    const {subject, message} = req.body;
+
+    if (!subject || !message) {
+      return res.status(400).json({
+        message: "Fill all the fields"
+      })
+    }
+
+    await db.query('INSERT INTO feedback (user_id, subject, message) VALUES ($1, $2, $3)', [req.user.id, subject, message]);
+    res.json({
+      message: "Succesfully sent"
+    })
+    
+  } catch (error) {
+    console.log('Error at editUsername:', error);
+    res.status(500).send(error);
+  }
+}

@@ -119,3 +119,13 @@ export const llmLimiter = rateLimit({
     });
   }
 })
+
+export const feedbackLimiter = rateLimit({
+  windowMs: 30 * 60 * 1000,
+  limit: 5,
+  handler: (req,res) => {
+    res.status(429).json({
+      message: 'Too much feedbacks. Please try again later.',
+    });
+  }
+})
