@@ -46,7 +46,6 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchUserIsLogged.fulfilled, (state, action) => {
-        
         state.isLoading = false;
         state.user = action.payload.user || null;
         state.isLogged = action.payload.isLogged;

@@ -1,33 +1,37 @@
+import Card from "@/components/Card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useAppSelector } from "@/hooks/hooks"
+import { ICompetition } from "@/types"
+import axios from "axios"
 import { Plus, Trophy } from "lucide-react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 // import LanguageSwitcher from "../components/LanguageSwitcher"
 
-const visiters = [
-  {
-    id: 1,
-    people: "learners",
-    description: "learners_description",
-    img: "/learners.svg"
-  },
-  {
-    id: 2,
-    people: "developers",
-    description: "developers_description",
-    img: "developers.svg"
-  },
-  {
-    id: 3,
-    people: "researchers",
-    description: "researchers_description",
-    img: "researchers.svg"
-  }
-]
-
 const Home = () => {
   const { t } = useTranslation()
-  const {isLogged, user} = useAppSelector((state)=>state.user)
+  const {isLogged, user} = useAppSelector((state)=>state.user);
+  const [competitions, setCompetitions] = useState<ICompetition[]>([]);
+  const [isCompetitionsLoading, setIsCompetitionsLoading] = useState(false);
+
+  const getUserCompetitions =async () => {
+    setIsCompetitionsLoading(true);
+    try {
+
+      const competitions = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${user?.id}/competitions`)).data;
+      setCompetitions(competitions)
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsCompetitionsLoading(false)
+    }
+  }
+
+  useEffect(()=> {
+    
+    getUserCompetitions();
+  }, [user?.id])
 
   
   return (
@@ -113,20 +117,28 @@ const Home = () => {
       )}
 
       <div className="my-5">
-        <h2 className="font-bold text-2xl">{t("who_is_on")}</h2>
-        <div className="flex flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-3">
-          {visiters.map((item) => (
-            <div key={item.id} className="max-w-96 w-full flex items-center gap-1">
-              <div>
-                <h3 className="font-semibold text-lg">{t(item.people)}</h3>
-                <p className="text-sm">{t(item.description)}</p>
+        {competitions.length > 0 ? <h2 className="font-bold text-2xl">{t("competitions")}</h2> : ''}
+        <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+          {isCompetitionsLoading ? (
+            [...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="relative overflow-hidden rounded-xl shadow-lg"
+              >
+                <Skeleton className="w-full aspect-video rounded-t-xl"/>
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <Skeleton className="h-4 w-3/4"/>
+                </div>
               </div>
-              <img 
-                src={item.img} 
-                alt={item.people} 
+            ))
+          ) : (
+            competitions.map((item) => (
+              <Card
+                key={item.id}
+                item={item}
               />
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>
