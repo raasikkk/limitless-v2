@@ -13,10 +13,12 @@ type Props = {
   isParticipant: boolean,
   competitionId: number | string,
   canEdit: boolean,
-  isAiBased: boolean | undefined
+  isAiBased: boolean | undefined,
+  startDate: Date,
+  endDate: Date
 }
 
-const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBased}: Props) => {
+const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBased, startDate}: Props) => {
   const { t } = useTranslation();
   const {user} = useAppSelector((state)=>state.user);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -48,6 +50,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
       setIsLoading(false)
     }
   }
+
 
   useEffect(()=> {
     fetchSubmissions()
@@ -88,19 +91,20 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
         )}
 
           {
-            isParticipant
-            ?
-            (
-              submissions.some(item => item.participant_id == user?.id)
-              ?
-              ''
-              :
-              <button onClick={()=>setIsSubmit(true)} className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75">
-                {t("competition.submit")}
-              </button>
+            
+            isParticipant && (
+              (submissions.some(item => item.participant_id == user?.id) || new Date() < new Date(startDate)
+                ? null
+                : (
+                  <button
+                    onClick={() => setIsSubmit(true)}
+                    className="p-2 rounded-lg py-2 px-6 bg-primaryColor text-white font-semibold hover:opacity-75"
+                  >
+                    {t("competition.submit")}
+                  </button>
+                )
+              )
             )
-            :
-            ''
           }
           </div>
       </div>

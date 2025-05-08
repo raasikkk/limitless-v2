@@ -433,7 +433,7 @@ const Competition = () => {
                 mode="multiple"
                 fromDate={startDate!}
                 toDate={endDate!}
-                selected={[startDate!, new Date(), endDate!]}
+                selected={[startDate!, endDate!]}
                 disabled={[{ before: startDate! }, { after: endDate! }]}
                 modifiers={{today: new Date()}}
                 modifiersClassNames={{today: 'bg-primaryColor text-white'}}
@@ -446,12 +446,16 @@ const Competition = () => {
           
         </TabsContent>
         <TabsContent value="submissions">
-          <CompetitionSubmissions 
+          {
+            competition && startDate && endDate &&
+            <CompetitionSubmissions 
             competitionId={id!} 
             isParticipant={participants.some(mate => mate.user_id == user?.id) || user?.id == competition?.user_id}
             canEdit={competition?.user_id == user?.id}
             isAiBased={competition?.ai_based}
-          />
+            startDate={competition?.start_date}
+            endDate={endDate}
+          />}
         </TabsContent>
         <TabsContent value="leaderboard">
           <CompetitionLeaderboard id={id}/>
