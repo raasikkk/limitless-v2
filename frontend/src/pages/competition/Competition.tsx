@@ -270,7 +270,7 @@ const Competition = () => {
           {isLoading ? (
             <Skeleton className="h-6 w-32 mb-4" />
           ) : (
-            <Link to={`/categories/${competition?.category}`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">{competition?.category}</Link>
+            !competition?.category ? '' : <Link to={`/categories/${competition?.category}`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">{competition?.category}</Link>
           )}
 
           <div className="flex flex-col-reverse items-start justify-between">
