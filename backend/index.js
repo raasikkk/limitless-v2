@@ -21,6 +21,7 @@ const corsOptions = {
   origin: [`${process.env.FRONTEND_BASE_URL}`],
   credentials: true
 };
+
 app.use(cors(corsOptions));
 app.use(passport.initialize());
 

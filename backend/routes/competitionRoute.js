@@ -3,24 +3,25 @@ import { createCompetition, editDescription, editRules, editTitle, getCategories
 import { checkAuth } from "../middleware/checkAuth.js";
 import { uploadImage } from "../middleware/uploadImage.js";
 import { validateCompetition } from "../middleware/validateCompetition.js";
+import { createCompetitionLimiter, joinQuitLimiter, kickUserLimiter, limiter, updateLimiter } from "../middleware/limiter.js";
 
 export const competitionRoute = Router();
 
 
-competitionRoute.post('/competitions', checkAuth, createCompetition);
-competitionRoute.put('/competitions/:id/settings', checkAuth, validateCompetition, saveSettings);
-competitionRoute.patch('/competitions/:id/cover', checkAuth, validateCompetition, uploadImage.single('cover'), uploadCoverForCompetition);
-competitionRoute.patch('/competitions/:id/description', checkAuth, validateCompetition, editDescription);
-competitionRoute.patch('/competitions/:id/rules', checkAuth, validateCompetition, editRules); 
-competitionRoute.patch('/competitions/:id/title', checkAuth, validateCompetition, editTitle); 
-competitionRoute.get('/competitions', getCompetitions);
-competitionRoute.get('/competitions/:id', getCompetitionById);
-competitionRoute.get('/competitions/category/:category', getCompetitionsByCategory)
-competitionRoute.delete('/competitions/:id/kick/:user_id', checkAuth, validateCompetition, kickUser)
+competitionRoute.post('/competitions', createCompetitionLimiter, checkAuth, createCompetition);
+competitionRoute.put('/competitions/:id/settings', updateLimiter, checkAuth, validateCompetition, saveSettings);
+competitionRoute.patch('/competitions/:id/cover', updateLimiter, checkAuth, validateCompetition, uploadImage.single('cover'), uploadCoverForCompetition);
+competitionRoute.patch('/competitions/:id/description', updateLimiter, checkAuth, validateCompetition, editDescription);
+competitionRoute.patch('/competitions/:id/rules', updateLimiter, checkAuth, validateCompetition, editRules); 
+competitionRoute.patch('/competitions/:id/title', updateLimiter, checkAuth, validateCompetition, editTitle); 
+competitionRoute.get('/competitions', limiter, getCompetitions);
+competitionRoute.get('/competitions/:id', limiter, getCompetitionById);
+competitionRoute.get('/competitions/category/:category', limiter, getCompetitionsByCategory)
+competitionRoute.delete('/competitions/:id/kick/:user_id', kickUserLimiter, checkAuth, validateCompetition, kickUser)
 
-competitionRoute.post('/competitions/join', checkAuth, joinCompetition);
-competitionRoute.delete('/competitions/quit/:competition_id', checkAuth, quitCompetition);
-competitionRoute.get('/competitions/:competition_id/participants',checkAuth, getParticipants);
-competitionRoute.get("/competitions/:competitionId/leaderboard",checkAuth, getLeaderboard);
+competitionRoute.post('/competitions/join', joinQuitLimiter, checkAuth, joinCompetition);
+competitionRoute.delete('/competitions/quit/:competition_id', joinQuitLimiter, checkAuth, quitCompetition);
+competitionRoute.get('/competitions/:competition_id/participants', limiter,checkAuth, getParticipants);
+competitionRoute.get("/competitions/:competitionId/leaderboard", limiter,checkAuth, getLeaderboard);
 
-competitionRoute.get("/categories", getCategories);
+competitionRoute.get("/categories", limiter, getCategories);
