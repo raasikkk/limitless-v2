@@ -11,6 +11,8 @@ import { followerRoute } from "./routes/followerRoute.js";
 import { llmRouter } from "./routes/llmRouter.js";
 import { competitionRoute } from "./routes/competitionRoute.js";
 import { submissionRoute } from "./routes/submissionRoute.js";
+import escapeHTML from "escape-html";
+const html = escapeHTML('foo & bar')
 
 const app = express();
 
