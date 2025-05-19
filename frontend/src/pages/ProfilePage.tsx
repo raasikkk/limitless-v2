@@ -315,7 +315,7 @@ const ProfilePage = () => {
                         :
                         <button onClick={handleFollow} className="p-2 px-4 bg-primaryColor text-white text-sm md:text-base font-medium rounded-full">{t("follow")}</button>}
 
-                        <Link to={`/chats/${id}`} className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</Link>
+                        {/* <Link to={`/chats/${id}`} className="p-2 px-4 border text-black dark:text-white text-sm md:text-base font-medium rounded-full">{t("contact")}</Link> */}
                       </>
                     )}
                 </div>
@@ -380,7 +380,7 @@ const ProfilePage = () => {
                         </div>
                       </>)
                       :
-                      (<div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: bio}}>
+                      (<div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: bio}}>
                         {/* Rich text editor */}
                       </div>)
                     }
