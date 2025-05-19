@@ -251,7 +251,7 @@ const Competition = () => {
               :
               (participants.length < (competition?.max_participants ?? Infinity)
               ?
-                handlePrivateJoin()
+              (user ? handlePrivateJoin() : '')
               :
                 <button disabled className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold opacity-75">
                   {buttonLoading ? (
