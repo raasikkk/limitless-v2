@@ -73,9 +73,7 @@ export const register = async (req,res) => {
 
     const isPasswordStrong = validator.isStrongPassword(password, {
       minLength: 6,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1
+      minNumbers: 1
     })
 
     if (password !== repPassword) {
