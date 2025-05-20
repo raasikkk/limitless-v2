@@ -1,12 +1,13 @@
 import { ArrowLeft, Eye, EyeClosed } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const Signin = () => {
-    const colorTheme = localStorage.getItem("theme")
+    const colorTheme = localStorage.getItem("theme");
+    const navigate = useNavigate();
     
     useEffect(() => {
         if (colorTheme) {
@@ -42,7 +43,7 @@ const Signin = () => {
             userData: formData.email,
             password: formData.password
           });
-          window.location.reload();
+          return navigate(-1)
         } catch (err) {
           let errorMessage
           
