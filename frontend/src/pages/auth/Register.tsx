@@ -2,12 +2,12 @@ import { ArrowLeft, Eye, EyeClosed } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Register = () => {
     const colorTheme = localStorage.getItem("theme")
-    const navigate = useNavigate();
+
     
     useEffect(() => {
         if (colorTheme) {
@@ -42,7 +42,7 @@ const Register = () => {
         }
         try {
           await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/register`, {email: formData.email, username: formData.name, password: formData.password, repPassword: formData.confirmPassword});
-          return navigate(-1)
+          window.location.reload();
         } catch (err) {
             let errorMessage
 
