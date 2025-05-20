@@ -257,7 +257,7 @@ const Competition = () => {
                 ? 
                 handlePrivateJoin() 
                 : 
-                <button onClick={()=>navigate('/auth/login')} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                <button onClick={()=>navigate('/auth/signin')} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
                   {buttonLoading ? (
                     <LoaderCircle className="block mx-auto animate-spin" />
                   ) : (
