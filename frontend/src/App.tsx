@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./pages/Home";
 import { useTranslation } from "react-i18next";
@@ -22,8 +22,6 @@ axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useAppDispatch();
   const { i18n } = useTranslation();
-
-  const location = useLocation();
 
   const { isLogged } = useAppSelector((state) => state.user);
 
@@ -50,8 +48,8 @@ function App() {
           <Route path="/search" element={<SearchPage />}/>
         </Route>
 
-        <Route path="/auth/signin" element={isLogged ? <Navigate to={"/"} state={{ from: location }} replace/> : <Signin />} />
-        <Route path="/auth/register" element={isLogged ? <Navigate to={"/"} state={{ from: location }} replace /> : <Register />} />
+        <Route path="/auth/signin" element={isLogged ? <Navigate to={"/"}/> : <Signin />} />
+        <Route path="/auth/register" element={isLogged ? <Navigate to={"/"} /> : <Register />} />
       </Routes>
     </BrowserRouter>
   );
