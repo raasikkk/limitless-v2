@@ -21,7 +21,7 @@ competitionRoute.delete('/competitions/:id/kick/:user_id', kickUserLimiter, chec
 
 competitionRoute.post('/competitions/join', joinQuitLimiter, checkAuth, joinCompetition);
 competitionRoute.delete('/competitions/quit/:competition_id', joinQuitLimiter, checkAuth, quitCompetition);
-competitionRoute.get('/competitions/:competition_id/participants', limiter,checkAuth, getParticipants);
+competitionRoute.get('/competitions/:competition_id/participants', limiter, getParticipants);
 competitionRoute.get("/competitions/:competitionId/leaderboard", limiter,checkAuth, getLeaderboard);
 
 competitionRoute.get("/categories", limiter, getCategories);
