@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router"
+import { Link, useNavigate, useParams } from "react-router"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompetitionMain from "./CompetitionMain";
 import CompetitionSubmissions from "./CompetitionSubmissions";
@@ -41,6 +41,8 @@ const Competition = () => {
   const [code, setCode] = useState('');
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
+
+  const navigate = useNavigate();
 
   const fetchCompetition = async () => {
     try {
@@ -251,7 +253,18 @@ const Competition = () => {
               :
               (participants.length < (competition?.max_participants ?? Infinity)
               ?
-              (user ? handlePrivateJoin() : '')
+              (user 
+                ? 
+                handlePrivateJoin() 
+                : 
+                <button onClick={()=>navigate('/login')} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                  {buttonLoading ? (
+                    <LoaderCircle className="block mx-auto animate-spin" />
+                  ) : (
+                    t("competition.join")
+                  )}
+                </button>
+              )
               :
                 <button disabled className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold opacity-75">
                   {buttonLoading ? (
