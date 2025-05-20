@@ -108,7 +108,7 @@ export const search = async (req,res) => {
     })
 
     const competitionsResult = await db.query(`
-      SELECT * FROM competitions WHERE LOWER(title) LIKE LOWER($1) OR LOWER(description) LIKE LOWER($1)
+    SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id WHERE LOWER(competitions.title) LIKE LOWER($1) OR LOWER(competitions.description) LIKE LOWER($1)
     `, [`%${q.toLowerCase()}%`])
     
     const usersResult = await db.query(`
