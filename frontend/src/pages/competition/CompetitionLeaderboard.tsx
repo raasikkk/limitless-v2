@@ -58,7 +58,7 @@ const CompetitionLeaderboard = ({id}:Props) => {
               <TableCell>
                 <Link to={`/profile/${user.user_id}`} className="flex items-center gap-2 md:gap-4 hover:underline">
                   
-                  <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={user?.avatar} />
+                  <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={user?.avatar} alt={`Avatar of ${user?.username}`} title={`${user?.username}`} />
                   <h3 className='font-semibold'>
                     {user?.username}
                   </h3>

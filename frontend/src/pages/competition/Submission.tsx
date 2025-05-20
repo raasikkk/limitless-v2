@@ -85,7 +85,7 @@ const Submission = () => {
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
           <Link to={`/profile/${submission?.participant_id}`}>
-            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission?.avatar} />
+            <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission?.avatar} alt={`Avatar of ${submission?.username}`} title={`${submission?.username}`}/>
           </Link>
           <span className="text-zinc-600 text-sm ">Submitted {submission?.submited_date ? formatDistanceToNow(new Date(submission.submited_date), { addSuffix: true }) : ''}</span>
         </div>
@@ -181,7 +181,7 @@ const Submission = () => {
               </div>
             </>
             :
-            <div className="min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_p]:text-base [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: submission?.explanation || ''}}>
+            <div className="min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: submission?.explanation || ''}}>
               {/* Rich text editor */}
             </div>
           }
@@ -202,7 +202,7 @@ const Submission = () => {
                       <img 
                         className="w-12 h-12 p-1 border-2 border-500 rounded-full dark:border-green-400/80" 
                         src={vote?.avatar} 
-                        alt="User avatar"
+                        alt={`Avatar of ${vote?.username}`} title={`${vote?.username}`}
                       />
                     </div>
                     <div className="flex-1">

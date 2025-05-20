@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 
+import { Helmet } from "react-helmet-async";
+
 const Competition = () => {
   const {t} = useTranslation();
   const { id } = useParams();
@@ -196,6 +198,24 @@ const Competition = () => {
   }
 
   return (
+    <>
+    <Helmet>
+      <title>{`${competition?.title} | Sheksiz`} </title>
+      <meta name="description" content={competition?.description.slice(0, 160)}/>
+      <meta name="author" content={competition?.username}/>
+      <link rel="canonical" href={`/competitions/${competition?.id}`} />
+      {/* Open Graph Meta */}
+      <meta property="og:title" content={`${competition?.title} | Sheksiz`} />
+      <meta property="og:description" content={competition?.description.slice(0, 160)} />
+      <meta property="og:url" content={`https://sheksiz.com/competitions/${id}`} />
+      <meta property="og:image" content={competition?.cover} />
+
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={`${competition?.title} | Sheksiz`} />
+      <meta name="twitter:description" content={competition?.description.slice(0, 160)} />
+      <meta name="twitter:image" content={competition?.cover} />
+    </Helmet>
     <div className="mt-5 text-black dark:text-white pt-10">
       
       {
@@ -211,7 +231,7 @@ const Competition = () => {
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : (
             <Link to={`/profile/${competition?.user_id}`}>
-              <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
+              <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} alt={`Avatar of ${competition?.username}`} title={`${competition?.username}`} />
             </Link>
           )}
           <span className="text-zinc-600 text-sm">
@@ -339,7 +359,7 @@ const Competition = () => {
                 :
                 ''
               }
-              <img className=" min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt="Competiton cover"/>
+              <img className=" min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt={`Competition cover`}/>
             </>
           )}
 
@@ -415,7 +435,7 @@ const Competition = () => {
                     </p>
                   </div>
                   <Link to={`/profile/${competition?.user_id}`}>
-                    <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} />
+                    <img className="w-12 h-12 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} alt={`Avatar of ${competition?.username}`} title={`${competition?.username}`} />
                   </Link>
                 </>
               )}
@@ -502,6 +522,7 @@ const Competition = () => {
         </TabsContent>
       </Tabs>
     </div>
+    </>
   )
 }
 

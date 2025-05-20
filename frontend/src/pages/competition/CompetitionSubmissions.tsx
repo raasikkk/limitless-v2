@@ -123,7 +123,7 @@ const CompetitionSubmissions = ({isParticipant, competitionId, canEdit, isAiBase
             <TableRow key={submission.id}>
               <TableCell className="font-medium">
                 <Link to={`/profile/${submission.participant_id}`} className="flex items-center gap-2 md:gap-4 hover:underline">
-                  <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission.avatar} />
+                  <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={submission.avatar} alt={`Avatar of ${submission?.username}`} title={`${submission?.username}`} />
                   <h3 className='font-semibold truncate'>
                     {submission.username}
                   </h3>
