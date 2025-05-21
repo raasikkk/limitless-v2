@@ -7,11 +7,22 @@ import './i18n.ts'
 import { Toaster } from "react-hot-toast"
 import {HelmetProvider } from 'react-helmet-async';
 
+import { PostHogProvider} from 'posthog-js/react';
+
+const options = {
+  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+}
+
 createRoot(document.getElementById('root')!).render(
-    <HelmetProvider>
-      <Provider store={store}>
-        <App />
-        <Toaster position='top-center'/>
-      </Provider>
-    </HelmetProvider>
+    <PostHogProvider
+      apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
+      options={options}
+    >
+      <HelmetProvider>
+        <Provider store={store}>
+          <App />
+          <Toaster position='top-center'/>
+        </Provider>
+      </HelmetProvider>
+    </PostHogProvider>
 )
