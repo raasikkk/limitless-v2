@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import LanguageSwitcher from "../components/LanguageSwitcher"
 import ThemeSwitcher from "../components/ThemeSwitcher"
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+// import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 const Settings = () => {
   const { t } = useTranslation()
@@ -15,7 +15,7 @@ const Settings = () => {
         <h3 className="mt-2 font-medium">{t("settingsPage.your_email")}:</h3>
         <p className="text-sm">zhankeldiulyrasultop1@gmail.com</p>
 
-        <Dialog>
+        {/* <Dialog>
           <DialogTrigger className="p-2 px-4 text-black dark:text-white font-semibold border rounded-full hover:opacity-75">
             {t("settingsPage.change_profile")}
           </DialogTrigger>
@@ -73,7 +73,7 @@ const Settings = () => {
               >{t("save_changes")}</button>
             </div>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </div>
 
       
