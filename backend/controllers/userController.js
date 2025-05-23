@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import { redisClient } from "../redis/client.js";
 import cloudinary from "../utils/cloudinary.js";
 
 export const getUserByUsername = async (req,res) => {
@@ -28,7 +29,7 @@ export const getUserByUserId = async (req,res) => {
         message: "Incorrect id or user doesn't exist"
       })
     }
-
+    await redisClient.setEx(`user:${id}`, 3600, JSON.stringify(user.rows[0]));
     res.json(user.rows[0]);
   } catch (error) {
     console.log('Error at getUserById:', error);
@@ -112,9 +113,13 @@ export const search = async (req,res) => {
     `, [`%${q.toLowerCase()}%`])
     
     const usersResult = await db.query(`
-      SELECT * FROM users WHERE LOWER(username) LIKE LOWER($1) OR LOWER(email) LIKE LOWER($1)
+      SELECT id, email, username, avatar, bio, created_at FROM users WHERE LOWER(username) LIKE LOWER($1) OR LOWER(email) LIKE LOWER($1)
     `, [`%${q.toLowerCase()}%`])
 
+    redisClient.setEx(`user:${q.toLowerCase()}`, 2 * 60, JSON.stringify({
+      competitions: competitionsResult.rows,
+      users: usersResult.rows
+    }));
 
     res.json({
       competitions: competitionsResult.rows,
@@ -139,8 +144,8 @@ export const getUserCompetitions = async (req,res) => {
     ORDER BY competitions.created_at DESC LIMIT 4
     `, [id])
 
+    redisClient.setEx(`user:${id}:competitions`, 60 * 5, JSON.stringify(competitions.rows))
     res.json(competitions.rows)
-    
   } catch (error) {
     console.log('Error at getUserCompetitions:', error);
     res.status(500).send(error)

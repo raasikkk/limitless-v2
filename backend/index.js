@@ -12,7 +12,8 @@ import { llmRouter } from "./routes/llmRouter.js";
 import { competitionRoute } from "./routes/competitionRoute.js";
 import { submissionRoute } from "./routes/submissionRoute.js";
 import escapeHTML from "escape-html";
-const html = escapeHTML('foo & bar')
+const html = escapeHTML('foo & bar');
+import { connectToRedis } from "./redis/client.js";
 
 const app = express();
 
@@ -26,6 +27,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(passport.initialize());
+
+await connectToRedis();
 
 
 app.use('/', authRoute);
