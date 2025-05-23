@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import { redisClient } from "../redis/client.js";
 import cloudinary from "../utils/cloudinary.js";
 
 export const getCompetitions = async (req,res) => {
@@ -6,6 +7,7 @@ export const getCompetitions = async (req,res) => {
     
     const competitions = await db.query("SELECT * FROM competitions WHERE private = FALSE");
 
+    redisClient.setEx(`competitions:all`, 10 * 60, JSON.stringify(competitions.rows));
     res.json(competitions.rows)
 
   } catch (error) {
@@ -21,6 +23,7 @@ export const getCompetitionsByCategory = async (req,res) => {
 
     const competitions = await db.query("SELECT competitions.*, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE LOWER(categories.name) = LOWER($1) AND private = FALSE", [category]);
 
+    redisClient.setEx(`competitons:${category}:category`, 5 * 60, JSON.stringify(competitions.rows));
     res.json(competitions.rows)
     
   } catch (error) {
@@ -35,6 +38,8 @@ export const getCompetitionById = async (req,res) => {
     const {id} = req.params;
 
     const competition = await db.query("SELECT competitions.*, categories.name AS category, users.username, users.avatar FROM competitions JOIN users ON competitions.user_id = users.id LEFT JOIN categories ON categories.id = competitions.category WHERE competitions.id = $1", [id]);
+    
+    redisClient.setEx(`competitions:${id}`, 5 * 60, JSON.stringify(competition.rows[0]));
     res.json(competition.rows[0])
     
   } catch (error) {
@@ -188,6 +193,7 @@ export const getCategories = async (req,res) => {
 
     const categories = await db.query("SELECT id, cover, name FROM categories");
 
+    redisClient.setEx(`categories`, 3600 * 5, JSON.stringify(categories.rows));
     res.json(categories.rows);
 
   } catch (error) {
@@ -271,6 +277,7 @@ export const getParticipants = async (req,res) => {
     }
     const participants = await db.query(`SELECT participants.*, users.avatar, users.username FROM participants JOIN users ON users.id = participants.user_id WHERE participants.competition_id = $1`, [competition_id]);
     
+    redisClient.setEx(`competitions:${competition_id}:participants`, 2 * 60, JSON.stringify(participants.rows));
     res.json(participants.rows);
   } catch (error) {
     console.log('Error at getParticipants:', error);
@@ -316,6 +323,8 @@ export const getLeaderboard = async (req,res) => {
     ORDER BY score DESC;
 
     `, [competitionId])
+
+    redisClient.setEx(`competitions:${competitionId}:leaderboard`, 60, JSON.stringify(leaderboard.rows));
     res.json(leaderboard.rows)
  
   } catch (error) {
