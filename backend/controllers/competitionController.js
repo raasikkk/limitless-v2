@@ -71,6 +71,7 @@ export const createCompetition = async (req,res) => {
     const randomElement = cover[Math.floor(Math.random() * cover.length)];
 
     const competition = await db.query("INSERT INTO competitions (user_id, title, description, category, private, start_date, end_date, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [userId, title, description, categoryId, isPrivate, startDate, endDate, randomElement]);
+    await redisClient.del(`user:${userId}:competitions`);
     res.json({
       message: "Succesfully created.",
       id: competition.rows[0].id
@@ -240,6 +241,7 @@ export const joinCompetition = async (req,res) => {
     `, [user_id, competition_id]);
     
     await redisClient.del(`competitions:${competition_id}:participants`);
+    await redisClient.del(`user:${user_id}:competitions`);
     res.json({
       message: "Succesfully joined."
     })
@@ -269,6 +271,7 @@ export const quitCompetition = async (req, res) => {
     `, [user_id, competition_id]);
 
     await redisClient.del(`competitions:${competition_id}:participants`);
+    await redisClient.del(`user:${user_id}:competitions`);
     res.json({
       message: "Succesfully quit."
     })
