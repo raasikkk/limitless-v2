@@ -243,8 +243,7 @@ export const joinCompetition = async (req,res) => {
       WHERE p.competition_id = (SELECT competition_id FROM inserted_participant)
     `, [user_id, competition_id]);
     
-    
-    redisClient.setEx(`competitions:${competition_id}:participants`, 2 * 60, JSON.stringify(inserted.rows));
+    await redisClient.setEx(`competitions:${competition_id}:participants`, 2 * 60, JSON.stringify(inserted.rows));
     res.json({
       message: "Succesfully joined."
     })
@@ -273,7 +272,7 @@ export const quitCompetition = async (req, res) => {
         WHERE user_id = $1 AND competition_id = $2
     `, [user_id, competition_id]);
 
-    redisClient.del(`competitions:${competition_id}:participants`);
+    await redisClient.del(`competitions:${competition_id}:participants`);
     res.json({
       message: "Succesfully quit."
     })
