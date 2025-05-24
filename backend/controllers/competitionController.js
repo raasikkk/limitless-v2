@@ -231,7 +231,20 @@ export const joinCompetition = async (req,res) => {
       })
     }
 
-    await db.query("INSERT INTO participants (user_id, competition_id) VALUES ($1, $2)", [user_id, competition_id]);
+    const inserted = await db.query(`
+      WITH inserted_participant AS (
+        INSERT INTO participants (user_id, competition_id)
+        VALUES ($1, $2)
+        RETURNING *
+      )
+      SELECT inserted_participant.*, users.avatar, users.username
+      FROM inserted_participant
+      JOIN users ON users.id = inserted_participant.user_id
+    `, [user_id, competition_id]);
+    
+    
+    redisClient.setEx(`competitions:${competition_id}:participants`, 5 * 60, JSON.stringify(inserted.rows[0]));
+    res.json(competition.rows[0])
     res.json({
       message: "Succesfully joined."
     })
@@ -255,7 +268,18 @@ export const quitCompetition = async (req, res) => {
       })
     }
 
-    await db.query("DELETE FROM participants WHERE user_id = $1 AND competition_id = $2", [user_id, competition_id]);
+    const deleted = await db.query(`
+      WITH deleted_participant AS (
+        DELETE FROM participants
+        WHERE user_id = $1 AND competition_id = $2
+        RETURNING *
+      )
+      SELECT deleted_participant.*, users.avatar, users.username
+      FROM deleted_participant
+      JOIN users ON users.id = deleted_participant.user_id
+    `, [user_id, competition_id]);
+
+    redisClient.setEx(`competitions:${competition_id}:participant`, 5 * 60, JSON.stringify(deleted.rows[0]));
     res.json({
       message: "Succesfully quit."
     })
