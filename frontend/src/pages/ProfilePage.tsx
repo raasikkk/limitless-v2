@@ -48,11 +48,11 @@ const ProfilePage = () => {
     
     const hanldeUserData = async () => {
       try {
-        const data:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`)).data;
-        setUserData(data)
-        setAvatar(data.avatar)
-        setBio(data?.bio ? data?.bio : '')
-        setUsername(data?.username)
+        const userData:IUser = (await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/users/${id}`)).data;
+        setUserData(userData)
+        setAvatar(userData.avatar)
+        setBio(userData?.bio ? userData?.bio : '')
+        setUsername(userData?.username)
         setUsernameErr('');
       } catch (error) {
         console.log(error);
