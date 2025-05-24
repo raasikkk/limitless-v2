@@ -244,7 +244,6 @@ export const joinCompetition = async (req,res) => {
     
     
     redisClient.setEx(`competitions:${competition_id}:participants`, 5 * 60, JSON.stringify(inserted.rows[0]));
-    res.json(competition.rows[0])
     res.json({
       message: "Succesfully joined."
     })
