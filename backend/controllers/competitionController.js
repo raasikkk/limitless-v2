@@ -235,11 +235,12 @@ export const joinCompetition = async (req,res) => {
       WITH inserted_participant AS (
         INSERT INTO participants (user_id, competition_id)
         VALUES ($1, $2)
-        RETURNING *
+        RETURNING competition_id
       )
-      SELECT inserted_participant.*, users.avatar, users.username
-      FROM inserted_participant
-      JOIN users ON users.id = inserted_participant.user_id
+      SELECT p.*, u.username, u.avatar
+      FROM participants p
+      JOIN users u ON u.id = p.user_id
+      WHERE p.competition_id = (SELECT competition_id FROM inserted_participant)
     `, [user_id, competition_id]);
     
     
@@ -271,11 +272,12 @@ export const quitCompetition = async (req, res) => {
       WITH deleted_participant AS (
         DELETE FROM participants
         WHERE user_id = $1 AND competition_id = $2
-        RETURNING *
+        RETURNING competition_id
       )
-      SELECT deleted_participant.*, users.avatar, users.username
-      FROM deleted_participant
-      JOIN users ON users.id = deleted_participant.user_id
+      SELECT p.*, u.avatar, u.username
+      FROM participants p
+      JOIN users u ON u.id = p.user_id
+      WHERE p.competition_id = (SELECT competition_id FROM deleted_participant)
     `, [user_id, competition_id]);
 
     redisClient.setEx(`competitions:${competition_id}:participants`, 5 * 60, JSON.stringify(deleted.rows));
