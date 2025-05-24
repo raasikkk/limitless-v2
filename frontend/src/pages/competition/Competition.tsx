@@ -145,7 +145,7 @@ const Competition = () => {
       if (competition?.private) {
         return <Dialog>
         <DialogTrigger asChild>
-          <button className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+          <button className="text-sm bg-black w-28 md:w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
             {buttonLoading ? (
               <LoaderCircle className="block mx-auto animate-spin" />
             ) : (
@@ -183,7 +183,7 @@ const Competition = () => {
         </DialogContent>
       </Dialog>
       } else {
-        return <button onClick={()=>joinCompetition()} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+        return <button onClick={()=>joinCompetition()} className="text-sm bg-black w-28 md:w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
           {buttonLoading ? (
             <LoaderCircle className="block mx-auto animate-spin" />
           ) : (
@@ -225,16 +225,17 @@ const Competition = () => {
         :
         ''
       }
+
       <div className="flex items-center flex-wrap justify-between mb-10 gap-3">
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
         {isLoading ? (
             <Skeleton className="w-10 h-10 rounded-full" />
           ) : (
             <Link to={`/profile/${competition?.user_id}`}>
-              <img className="w-10 h-10 p-1 border-2 border-zinc-500 rounded-full" src={competition?.avatar} alt={`Avatar of ${competition?.username}`} title={`${competition?.username}`} />
+              <img className="w-10 h-10 p-1 border-2 border-primaryColor/30 rounded-full hover:border-primaryColor transition-colors" src={competition?.avatar} alt={`Avatar of ${competition?.username}`} title={`${competition?.username}`} />
             </Link>
           )}
-          <span className="text-zinc-600 text-sm">
+          <span className="text-zinc-500 text-sm">
             {isLoading ? (
               <Skeleton className="h-4 w-[150px]" />
             ) : (
@@ -247,14 +248,13 @@ const Competition = () => {
           competition?.private
             ?
             (
-              <button className="text-sm bg-red-400 border border-red-700 py-2 px-4 rounded-lg text-white font-semibold">
+              <button className="text-sm bg-red-400/10 border border-red-400 py-2 px-4 rounded-lg text-red-500 font-semibold hover:bg-red-400/20 transition-colors">
                 {t("createCompetition.form.privacyOptions.private")}
               </button>
             )
             :
             ''
-        )
-          }
+        )}
         </div>
 
         {isLoading ? (
@@ -263,7 +263,7 @@ const Competition = () => {
             
             participants.some(mate => mate.user_id == user?.id)
               ?
-              <button onClick={()=>quitCompetition()} className="text-sm bg-red-500 w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+              <button onClick={()=>quitCompetition()} className="text-sm bg-red-500/10 w-28 md:w-40 py-2 px-4 rounded-lg text-red-500 font-semibold hover:bg-red-500/20 transition-colors">
                 {buttonLoading ? (
                   <LoaderCircle className="block mx-auto animate-spin" />
                 ) : (
@@ -277,7 +277,7 @@ const Competition = () => {
                 ? 
                 handlePrivateJoin() 
                 : 
-                <button onClick={()=>navigate('/auth/signin')} className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold hover:opacity-75">
+                <button onClick={()=>navigate('/auth/signin')} className="text-sm bg-primaryColor w-28 md:w-40 py-2 px-4 rounded-lg text-white font-semibold hover:bg-primaryColor/90 transition-colors">
                   {buttonLoading ? (
                     <LoaderCircle className="block mx-auto animate-spin" />
                   ) : (
@@ -286,7 +286,7 @@ const Competition = () => {
                 </button>
               )
               :
-                <button disabled className="text-sm bg-black w-40 py-2 px-4 rounded-lg text-white font-semibold opacity-75">
+                <button disabled className="text-sm bg-zinc-200 dark:bg-zinc-800 w-40 py-2 px-4 rounded-lg text-zinc-500 dark:text-zinc-400 font-semibold">
                   {buttonLoading ? (
                     <LoaderCircle className="block mx-auto animate-spin" />
                   ) : (
@@ -294,16 +294,14 @@ const Competition = () => {
                   )}
                 </button>)
               )
-
         }
-        
       </div>
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-8">
         <div className="w-full pb-0 md:pb-10">
           {isLoading ? (
             <Skeleton className="h-6 w-32 mb-4" />
           ) : (
-            !competition?.category ? '' : <Link to={`/categories/${competition?.category}`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor text-white hover:underline">{competition?.category}</Link>
+            !competition?.category ? '' : <Link to={`/categories/${competition?.category}`} className="font-medium text-sm p-1 px-3 rounded-md bg-primaryColor/10 text-primaryColor hover:bg-primaryColor/20 transition-colors">{competition?.category}</Link>
           )}
 
           <div className="flex flex-col-reverse items-start justify-between">
@@ -321,24 +319,24 @@ const Competition = () => {
                   onChange={(e) =>setTitle(e.target.value)}
                   value={title}
                   type="text"
-                  className="w-full text-sm md:text-xl font-bold mb-3 p-4 outline-none border border-zinc-300 bg-white dark:bg-darkSecondary rounded-md"
+                  className="w-full text-sm md:text-xl font-bold mb-3 p-4 outline-none border border-zinc-300 bg-white dark:bg-darkSecondary rounded-md focus:ring-2 focus:ring-primaryColor/50 transition-all"
                 />
                 <div className="flex items-center justify-end mt-4 gap-2">
-                  <button onClick={()=>setIsTitleEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+                  <button onClick={()=>setIsTitleEdit(false)} className="py-2 px-4 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary transition-colors">
                     {t("cancel")}
                   </button>
-                  <button onClick={()=>handleChangeTitle()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+                  <button onClick={()=>handleChangeTitle()} className="py-2 px-8 rounded-3xl bg-primaryColor text-white hover:bg-primaryColor/90 transition-colors">
                     {t("save_changes")}
                   </button>
                 </div>
               </label>
             ) : (
               <>
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3">{competition?.title}</h1>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">{competition?.title}</h1>
                 {
                   competition?.user_id == user?.id
                   ?
-                  <Pencil onClick={()=>setIsTitleEdit(true)} size={20} className="mb-2 hover:opacity-50 self-end"/>
+                  <Pencil onClick={()=>setIsTitleEdit(true)} size={20} className="mb-2 hover:opacity-50 self-end cursor-pointer transition-opacity"/>
                   :
                   ''
                 }
@@ -355,14 +353,13 @@ const Competition = () => {
               {
                 competition?.user_id == user?.id
                 ?
-                <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end"/>
+                <Pencil onClick={()=>setIsCoverEdit(true)} size={20} className="absolute -right-2 -top-6 hover:opacity-50 self-end cursor-pointer transition-opacity"/>
                 :
                 ''
               }
-              <img className=" min-w-72 max-w-72 object-contain h-40 rounded-lg bg-gray-600 mb-4" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt={`Competition cover`}/>
+              <img className="min-w-72 max-w-72 object-cover h-40 rounded-lg bg-gray-600 mb-4 hover:opacity-95 transition-opacity shadow-lg" src={typeof competition?.cover === 'string' ? competition.cover : undefined} alt={`Competition cover`}/>
             </>
           )}
-
         </div>
       </div>
       <Tabs className="relative" defaultValue="main">
@@ -376,25 +373,24 @@ const Competition = () => {
           ''
         }
         <TabsList className="rounded-none bg-transparent justify-start overflow-x-scroll overflow-y-hidden border-b w-full mb-5">
-          <TabsTrigger value="main" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+          <TabsTrigger value="main" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold text-zinc-600 dark:text-zinc-400 data-[state=active]:text-primaryColor">
             {t("competition.main")}
           </TabsTrigger>
-          <TabsTrigger value="submissions" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+          <TabsTrigger value="submissions" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold text-zinc-600 dark:text-zinc-400 data-[state=active]:text-primaryColor">
             {t("competition.submissions")}
           </TabsTrigger>
-          <TabsTrigger value="leaderboard" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+          <TabsTrigger value="leaderboard" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold text-zinc-600 dark:text-zinc-400 data-[state=active]:text-primaryColor">
             {t("competition.leaderboard")}
           </TabsTrigger>
-          <TabsTrigger value="participants" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+          <TabsTrigger value="participants" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold text-zinc-600 dark:text-zinc-400 data-[state=active]:text-primaryColor">
             {t("competition.participants")}
           </TabsTrigger>
 
           {competition?.user_id == user?.id && (
-            <TabsTrigger value="settings" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold">
+            <TabsTrigger value="settings" className="text-md flex items-center shadow-none rounded-none data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:bg-transparent px-4 sm:px-6 font-semibold text-zinc-600 dark:text-zinc-400 data-[state=active]:text-primaryColor">
               {t("settings")}
             </TabsTrigger>
           )}
-          
         </TabsList>
         <TabsContent className="flex flex-wrap-reverse md:flex-nowrap gap-4" value="main">
           {isLoading ? (

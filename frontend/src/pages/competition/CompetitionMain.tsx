@@ -61,24 +61,24 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
       <div className="flex justify-end items-center">
       <AlertDialog>
         <AlertDialogTrigger
-            className="p-2 px-4 w-56 truncate font-semibold text-white flex items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-zinc-300 dark:hover:bg-darkSecondary"
+            className="p-2 px-4 my-3 w-56 truncate font-semibold text-white flex items-center gap-1.5 border rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-90 transition-opacity"
           >
             {isLoading ? (
               <Loader2 className="mx-auto animate-spin"/>
             ) : (
-              <><Bot /> Enhance with AI</>
-            )}+
+              <><Bot className="w-5 h-5" /> Enhance with AI</>
+            )}
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white dark:bg-darkSecondary">
             <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Ai will change your title,description and rules.
+            <AlertDialogTitle className="text-xl font-bold">Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription className="text-zinc-600 dark:text-zinc-400">
+              AI will enhance your competition by improving the title, description and rules.
             </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleAIChange}>Enhance</AlertDialogAction>
+            <AlertDialogCancel className="hover:bg-zinc-100 dark:hover:bg-darkColor transition-colors">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAIChange} className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity">Enhance</AlertDialogAction>
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
@@ -88,14 +88,14 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
         ""
       )}
 
-      <div className=" flex items-center justify-between mb-4">
-        <h2 className="font-semibold text-2xl">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-semibold text-2xl text-gray-800 dark:text-gray-200">
           {t("competition.description")}
         </h2>
         {
           canEdit
           ?
-          <Pencil onClick={()=>setIsDescriptionEdit(true)} size={20} className="hover:opacity-50"/>
+          <Pencil onClick={()=>setIsDescriptionEdit(true)} size={20} className="hover:opacity-50 cursor-pointer transition-opacity"/>
           :
           ''
         }
@@ -106,28 +106,28 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
         <>
           <Editor content={description} onChange={setDescription}/>
           <div className="flex items-center justify-end mt-4 gap-2">
-            <button onClick={()=>setIsDescriptionEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+            <button onClick={()=>setIsDescriptionEdit(false)} className="py-2 px-4 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary transition-colors">
               {t("cancel")}
             </button>
-            <button onClick={()=>handleChangeDescription()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+            <button onClick={()=>handleChangeDescription()} className="py-2 px-8 rounded-3xl bg-primaryColor text-white hover:bg-primaryColor/90 transition-colors">
               {t("save_changes")}
             </button>
           </div>
         </>
         :
-        <div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: description}}>
+        <div className="border-b-2 min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-4 px-6 outline-none space-y-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_a]:text-primaryColor [&_p]:text-base [&_a]:underline hover:bg-slate-100 dark:hover:bg-darkColor/50 transition-colors" dangerouslySetInnerHTML={{__html: description}}>
           {/* Rich text editor */}
         </div>
       }
 
       <div className="flex items-center justify-between mb-4 mt-10">
-        <h2 className="font-semibold text-2xl">
+        <h2 className="font-semibold text-2xl text-gray-800 dark:text-gray-200">
           {t("competition.rules")}
         </h2>
         {
           canEdit
           ?
-          <Pencil onClick={()=>setIsRulesEdit(true)} size={20} className="hover:opacity-50"/>
+          <Pencil onClick={()=>setIsRulesEdit(true)} size={20} className="hover:opacity-50 cursor-pointer transition-opacity"/>
           :
           ''
         }
@@ -139,16 +139,16 @@ const CompetitionMain = ({canEdit, description, setDescription, rules, setRules,
         <>
           <Editor content={rules} onChange={setRules}/>
           <div className="flex items-center justify-end mt-4 gap-2">
-            <button onClick={()=>setIsRulesEdit(false)} className="py-2 px-4 rounded-2 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary">
+            <button onClick={()=>setIsRulesEdit(false)} className="py-2 px-4 rounded-3xl hover:bg-zinc-200 dark:hover:bg-darkSecondary transition-colors">
               {t("cancel")}
             </button>
-            <button onClick={()=>handleChangeRules()} className="py-2 px-8 rounded-2 rounded-3xl bg-black text-white hover:opacity-75">
+            <button onClick={()=>handleChangeRules()} className="py-2 px-8 rounded-3xl bg-primaryColor text-white hover:bg-primaryColor/90 transition-colors">
               {t("save_changes")}
             </button>
           </div>
         </>
         :
-        <div className="min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-2 px-3 outline-none space-y-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_a]:text-blue-500 [&_p]:text-base [&_a]:underline" dangerouslySetInnerHTML={{__html: rules}}>
+        <div className="min-h-[156px] rounded-md bg-slate-50 dark:bg-darkSecondary py-4 px-6 outline-none space-y-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-medium [&_a]:text-primaryColor [&_p]:text-base [&_a]:underline hover:bg-slate-100 dark:hover:bg-darkColor/50 transition-colors" dangerouslySetInnerHTML={{__html: rules}}>
           {/* Rich text editor */}
         </div>
       }
