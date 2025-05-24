@@ -3,15 +3,30 @@ import { useState, useEffect } from 'react';
 import { useWindowSize } from "./hooks/useWindowSize";
 import Sidebar from './components/Sidebar';
 import MobileNavbar from "./components/MobileNavbar";
+import MobileFooter from "./components/MobileFooter";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import SuggestionPopup from "./components/SuggestionPopup";
+import TermsModal from "./components/TermsModal";
 
 const Layout = () => {
   const { isMobile, isTablet } = useWindowSize();
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const colorTheme = localStorage.getItem("theme")
+
+  // Check if user has accepted terms
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  useEffect(() => {
+    const accepted = localStorage.getItem("termsAccepted");
+    setTermsAccepted(accepted === "true");
+  }, [])
+
+  const handleAcceptTerms = () => {
+    localStorage.setItem("termsAccepted", "true");
+    setTermsAccepted(true);
+  };
 
   useEffect(() => {
     if (colorTheme) {
@@ -35,7 +50,7 @@ const Layout = () => {
       setSidebarOpen(!isSidebarOpen);
     }
   };
-
+  
   return (
     <div className="min-h-screen bg-white dark:bg-darkColor"> 
       <MobileNavbar 
@@ -60,13 +75,7 @@ const Layout = () => {
         <div className="p-4 md:p-6">
           <SearchBar />
           <Outlet />
-
           <SuggestionPopup />
-
-          {/* <button className="flex text-white items-center gap-2 fixed bottom-5 right-5 p-2 px-4 font-semibold bg-primaryColor rounded-md animate-bounce duration-1000 opacity-90">
-            <Bot />
-            Suggestions
-          </button> */}
         </div>
       </main>
 
@@ -78,7 +87,19 @@ const Layout = () => {
       )}
 
       {/* Footer */}
-      <Footer />
+      <div className={`${isMobile ? 'mb-16' : ''}`}>
+        <Footer />
+      </div>
+      
+      {/* Mobile Footer Navigation */}
+      {isMobile && <MobileFooter />}
+
+
+      {!termsAccepted && 
+      <TermsModal 
+        isOpen={true}
+        onAccept={handleAcceptTerms}
+      />}
     </div>
   );
 };

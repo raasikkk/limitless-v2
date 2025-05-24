@@ -23,7 +23,7 @@ const Card = ({ item }: CardType) => {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         
-        <div className="absolute bottom-2 left-2 bg-white rounded-full shadow-sm z-10">
+        <div className="absolute bottom-2 left-2 bg-white rounded-full shadow-sm z-5">
             <img 
             className="size-10 object-cover rounded-full" 
             src={item.avatar}

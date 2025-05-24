@@ -16,7 +16,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchUserIsLogged } from "./features/userSlice/userSlice";
 import SearchPage from "./pages/search/SearchPage";
-
+import TermsPage from "./pages/TermsPage";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -48,6 +48,7 @@ function App() {
           <Route path="/search" element={<SearchPage />}/>
         </Route>
 
+        <Route path="/terms" element={<TermsPage />}/>
         <Route path="/auth/signin" element={isLogged ? <Navigate to={"/"}/> : <Signin />} />
         <Route path="/auth/register" element={isLogged ? <Navigate to={"/"} /> : <Register />} />
       </Routes>
