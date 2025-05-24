@@ -78,9 +78,9 @@ const CreatePage = () => {
             <p className="mb-4 text-center">
               {isPrivate
                 ? 
-                t('createCompetition.modal.descriptionVisible')
-                :
                 t('createCompetition.modal.descriptionNotVisible')
+                :
+                t('createCompetition.modal.descriptionVisible')
               }
             </p>
             <div className="flex items-center justify-center gap-4">
