@@ -382,8 +382,27 @@ export const saveSettings = async (req,res) => {
       })
     }
 
-    await db.query("UPDATE competitions SET max_participants = $1, private = $2, ai_based = $3, code = $4, start_date = $5, end_date = $6 WHERE id = $7", [maxParticipants, isPrivate, isAiBased, code, startDate, endDate, competitionId]);
-    
+    const updated = await db.query(`
+      WITH updated_competition AS (
+        UPDATE competitions 
+        SET max_participants = $1, 
+            private = $2, 
+            ai_based = $3, 
+            code = $4, 
+            start_date = $5, 
+            end_date = $6 
+        WHERE id = $7 
+        RETURNING *
+      )
+      SELECT updated_competition.*, 
+            categories.name AS category, 
+            users.username, 
+            users.avatar 
+      FROM updated_competition
+      JOIN users ON updated_competition.user_id = users.id
+      LEFT JOIN categories ON categories.id = updated_competition.category
+    `, [maxParticipants, isPrivate, isAiBased, code, startDate, endDate, competitionId]);
+    redisClient.setEx(`competitions:${competitionId}`, 5 * 60, JSON.stringify(updated.rows[0]));
     res.json({
       message: "Succesfully saved settings"
     })
