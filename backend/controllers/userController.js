@@ -49,7 +49,9 @@ export const editUserById = async (req,res) => {
       })
     }
 
-    await db.query("UPDATE users SET bio = $1 WHERE id = $2", [bio, id])
+    const user = await db.query("UPDATE users SET bio = $1 WHERE id = $2 RETURNING id, email, username, avatar, bio, created_at", [bio, id])
+
+    await redisClient.setEx(`user:${id}`, 3600, JSON.stringify(user.rows[0]));
     res.json({
       message: "Succesfully changed."
     }) 
@@ -86,7 +88,8 @@ export const editUserAvatar = async (req,res) => {
       async (err, res) => {
         if (err) return res?.status(500).json({ error: 'Cloudinary upload failed' });
 
-        await db.query("UPDATE users SET avatar = $1 WHERE id = $2", [res?.secure_url, id])
+        const user = await db.query("UPDATE users SET avatar = $1 WHERE id = $2 RETURNING id, email, username, avatar, bio, created_at", [res?.secure_url, id])
+        await redisClient.setEx(`user:${id}`, 3600, JSON.stringify(user.rows[0]));
       }
     )
 
@@ -164,7 +167,8 @@ export const editUsername = async (req,res) => {
       })
     }
 
-    await db.query("UPDATE users SET username = $1 WHERE id = $2", [username, id]);
+    const user = await db.query("UPDATE users SET username = $1 WHERE id = $2 RETURNING id, email, username, avatar, bio, created_at", [username, id]);
+    await redisClient.setEx(`user:${id}`, 3600, JSON.stringify(user.rows[0]));
     res.json({
       message: "Succesfully changed"
     })
