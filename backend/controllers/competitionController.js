@@ -93,6 +93,7 @@ export const editTitle = async (req,res) => {
     });
 
     await db.query("UPDATE competitions SET title = $1 WHERE id = $2", [title, id]);
+    await redisClient.del(`competitions:${id}`);
     res.json({
       message: "Succesfully changed title"
     })
@@ -114,6 +115,7 @@ export const editDescription = async (req,res) => {
     });
 
     await db.query("UPDATE competitions SET description = $1 WHERE id = $2", [description, id]);
+    await redisClient.del(`competitions:${id}`);
     res.json({
       message: "Succesfully changed description"
     })
@@ -135,6 +137,7 @@ export const editRules = async (req,res) => {
     });
 
     await db.query("UPDATE competitions SET rules = $1 WHERE id = $2", [rules, id]);
+    await redisClient.del(`competitions:${id}`);
     res.json({
       message: "Succesfully changed rules"
     })
@@ -177,7 +180,7 @@ export const uploadCoverForCompetition = async (req,res) => {
         await db.query("UPDATE competitions SET cover = $1 WHERE id = $2", [res?.secure_url, id])
       }
     )
-
+    await redisClient.del(`competitions:${id}`)
     res.json({
       message: 'Succesfully updated.'
     })
