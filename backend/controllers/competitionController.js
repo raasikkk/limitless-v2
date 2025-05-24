@@ -279,7 +279,7 @@ export const quitCompetition = async (req, res) => {
       JOIN users ON users.id = deleted_participant.user_id
     `, [user_id, competition_id]);
 
-    redisClient.setEx(`competitions:${competition_id}:participant`, 5 * 60, JSON.stringify(deleted.rows[0]));
+    redisClient.setEx(`competitions:${competition_id}:participants`, 5 * 60, JSON.stringify(deleted.rows[0]));
     res.json({
       message: "Succesfully quit."
     })
