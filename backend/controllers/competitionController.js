@@ -231,19 +231,12 @@ export const joinCompetition = async (req,res) => {
       })
     }
 
-    const inserted = await db.query(`
-      WITH inserted_participant AS (
+    await db.query(`
         INSERT INTO participants (user_id, competition_id)
         VALUES ($1, $2)
-        RETURNING competition_id
-      )
-      SELECT p.*, u.username, u.avatar
-      FROM participants p
-      JOIN users u ON u.id = p.user_id
-      WHERE p.competition_id = (SELECT competition_id FROM inserted_participant)
     `, [user_id, competition_id]);
     
-    await redisClient.setEx(`competitions:${competition_id}:participants`, 2 * 60, JSON.stringify(inserted.rows));
+    await redisClient.del(`competitions:${competition_id}:participants`);
     res.json({
       message: "Succesfully joined."
     })
